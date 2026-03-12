@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 9%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 222 47% 9%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 270 80% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 222 47% 14%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 222 30% 16%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 330 80% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 270 80% 60%;
+
+    --radius: 0.75rem;
+
+    /* Custom anime theme tokens */
+    --neon-purple: 270 80% 60%;
+    --neon-pink: 330 80% 60%;
+    --neon-blue: 210 100% 60%;
+    --neon-cyan: 180 100% 50%;
+    
+    --glow-purple: 0 0 20px hsl(270 80% 60% / 0.4), 0 0 40px hsl(270 80% 60% / 0.2);
+    --glow-pink: 0 0 20px hsl(330 80% 60% / 0.4), 0 0 40px hsl(330 80% 60% / 0.2);
+    --glow-blue: 0 0 20px hsl(210 100% 60% / 0.4), 0 0 40px hsl(210 100% 60% / 0.2);
+    
+    --gradient-hero: linear-gradient(135deg, hsl(270 80% 60% / 0.3), hsl(330 80% 60% / 0.2), hsl(210 100% 60% / 0.1));
+    --gradient-card: linear-gradient(145deg, hsl(222 47% 12%), hsl(222 47% 8%));
+    --gradient-neon: linear-gradient(135deg, hsl(270 80% 60%), hsl(330 80% 60%));
+    --gradient-neon-blue: linear-gradient(135deg, hsl(210 100% 60%), hsl(180 100% 50%));
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 270 80% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 47% 14%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 30% 18%;
+    --sidebar-ring: 270 80% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .text-glow-purple {
+    text-shadow: 0 0 10px hsl(270 80% 60% / 0.6), 0 0 30px hsl(270 80% 60% / 0.3);
+  }
+  .text-glow-pink {
+    text-shadow: 0 0 10px hsl(330 80% 60% / 0.6), 0 0 30px hsl(330 80% 60% / 0.3);
+  }
+  .text-glow-blue {
+    text-shadow: 0 0 10px hsl(210 100% 60% / 0.6), 0 0 30px hsl(210 100% 60% / 0.3);
+  }
+  .box-glow-purple {
+    box-shadow: var(--glow-purple);
+  }
+  .box-glow-pink {
+    box-shadow: var(--glow-pink);
+  }
+  .box-glow-blue {
+    box-shadow: var(--glow-blue);
+  }
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  .bg-gradient-neon {
+    background: var(--gradient-neon);
+  }
+  .bg-gradient-neon-blue {
+    background: var(--gradient-neon-blue);
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px hsl(270 80% 60% / 0.3), 0 0 20px hsl(270 80% 60% / 0.1); }
+  50% { box-shadow: 0 0 20px hsl(270 80% 60% / 0.6), 0 0 40px hsl(270 80% 60% / 0.3); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(222 47% 6%);
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(270 80% 60% / 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(270 80% 60% / 0.6);
+}
