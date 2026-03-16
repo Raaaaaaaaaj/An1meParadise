@@ -26,7 +26,10 @@ const AccountPage = () => {
               </div>
               <p className="mt-4 text-center text-xs text-muted-foreground">
                 Don't have an account?{" "}
-                <button className="text-primary hover:underline">Create one</button>
+                {/* <button className="text-primary hover:underline">Create one</button> */}
+                <Link to="/signup" className="text-primary hover:underline">
+                  Create one
+                </Link>
               </p>
             </div>
 

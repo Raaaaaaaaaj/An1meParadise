@@ -85,7 +85,7 @@ const Index = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="flex items-center gap-3"
+              className="flex items-center gap-3 justify-center"
             >
               <div className="rounded-lg bg-primary/10 p-2">
                 <f.icon className="h-5 w-5 text-primary" />
