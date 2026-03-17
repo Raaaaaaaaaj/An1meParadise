@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Truck, Shield, RotateCcw } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import heroVdo from "@/assets/herovdo.mp4";
 import { products, categories, testimonials } from "@/data/mockData";
 import ProductCard from "@/components/ProductCard";
 import CategoryCard from "@/components/CategoryCard";
@@ -19,7 +20,15 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative flex min-h-[90vh] items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBanner} alt="AN1ME PARADISE" className="h-full w-full object-cover" />
+          {/* <img src={heroBanner} alt="AN1ME PARADISE" className="h-full w-full object-cover" /> */}
+          <video
+            src={heroVdo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover"
+          ></video>
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/40" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
         </div>
@@ -42,7 +51,13 @@ const Index = () => {
             <h1 className="mb-6 font-display text-4xl font-black leading-tight tracking-wider text-glow-purple sm:text-5xl lg:text-7xl">
               UNLEASH YOUR
               <br />
-              <span className="bg-gradient-neon bg-clip-text text-transparent">INNER OTAKU</span>
+              {/* <span className=" bg-clip-text text-transparent">INNER OTAKU</span> */}
+              <span
+                className="text-white font-bold tracking-wider"
+                style={{ textShadow: "5px 5px 5px rgba(0, 0, 0, 0.84)" }}
+              >
+                INNER OTAKU
+              </span>
             </h1>
             <p className="mb-8 max-w-lg font-body text-base text-muted-foreground lg:text-lg">
               Discover India's most exclusive anime merch collection. From premium hoodies to limited edition collectibles — gear up like a true weeb.
