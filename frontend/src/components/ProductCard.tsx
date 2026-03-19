@@ -57,7 +57,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           {product.animeSeries}
         </p>
         <Link to={`/product/${product.slug}`}>
-          <h3 className="mb-2 font-heading text-sm font-semibold text-foreground transition-colors hover:text-primary line-clamp-2">
+          <h3 className="mb-2 font-heading text-sm font-semibold text-primary transition-colors hover:text-primary line-clamp-2">
             {product.name}
           </h3>
         </Link>
@@ -71,7 +71,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-2">
-            <span className="font-heading text-lg font-bold text-foreground">₹{product.price}</span>
+            <span className="font-heading text-lg font-bold text-primary">₹{product.price}</span>
             {product.originalPrice && (
               <span className="text-xs text-muted-foreground line-through">₹{product.originalPrice}</span>
             )}

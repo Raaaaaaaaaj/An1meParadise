@@ -13,7 +13,7 @@ const AboutPage = () => {
     <div className="min-h-screen pt-20 lg:pt-24">
       <div className="container mx-auto px-4 py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl text-center">
-          <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-primary">✦ Our Story</p>
+          <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-foreground">✦ Our Story</p>
           <h1 className="mb-6 font-display text-3xl font-bold tracking-wider lg:text-5xl">
             ABOUT <span className="text-glow-purple">AN1ME PARADISE</span>
           </h1>

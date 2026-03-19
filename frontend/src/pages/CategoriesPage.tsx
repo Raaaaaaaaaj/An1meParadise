@@ -7,7 +7,7 @@ const CategoriesPage = () => {
     <div className="min-h-screen pt-20 lg:pt-24">
       <div className="container mx-auto px-4 py-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12 text-center">
-          <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-primary">✦ Browse by Universe</p>
+          <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-foreground">✦ Browse by Universe</p>
           <h1 className="font-display text-3xl font-bold tracking-wider lg:text-5xl">ANIME CATEGORIES</h1>
           <p className="mt-4 text-sm text-muted-foreground">Choose your favorite anime and explore exclusive merchandise</p>
         </motion.div>

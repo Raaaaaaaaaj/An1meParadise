@@ -18,7 +18,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen pt-20 lg:pt-24">
+    <div className="min-h-screen pt-20 lg:pt-24 bg-foreground">
       <div className="container mx-auto px-4 py-8">
         <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8 font-display text-3xl font-bold tracking-wider">
           YOUR CART
@@ -39,16 +39,16 @@ const CartPage = () => {
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-primary">{item.product.animeSeries}</p>
-                    <h3 className="font-heading text-sm font-semibold lg:text-base">{item.product.name}</h3>
+                    <h3 className="font-heading text-sm font-semibold lg:text-base text-primary">{item.product.name}</h3>
                     {item.size && <p className="text-xs text-muted-foreground">Size: {item.size}</p>}
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="rounded border border-border p-1.5 hover:bg-secondary">
+                      <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="rounded border border-border p-1.5 hover:bg-secondary text-primary">
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="min-w-[30px] text-center text-sm font-medium">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="rounded border border-border p-1.5 hover:bg-secondary">
+                      <span className="min-w-[30px] text-center text-sm font-medium text-primary">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="rounded border border-border p-1.5 hover:bg-secondary text-primary">
                         <Plus className="h-3 w-3" />
                       </button>
                     </div>
@@ -64,7 +64,7 @@ const CartPage = () => {
 
           {/* Summary */}
           <div className="h-fit rounded-xl border border-border bg-card p-6">
-            <h3 className="mb-6 font-display text-lg font-bold tracking-wider">ORDER SUMMARY</h3>
+            <h3 className="mb-6 font-display text-lg font-bold tracking-wider text-primary">ORDER SUMMARY</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between text-muted-foreground">
                 <span>Subtotal</span><span>₹{totalPrice}</span>

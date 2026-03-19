@@ -22,10 +22,10 @@ const CartDrawer = () => {
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-background"
+        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-black"
       >
         <div className="flex items-center justify-between border-b border-border p-4">
-          <h2 className="font-display text-lg font-bold tracking-wider">YOUR CART</h2>
+          <h2 className="font-display text-lg font-bold tracking-wider text-primary">YOUR CART</h2>
           <button onClick={() => setIsOpen(false)} className="rounded-lg p-2 text-muted-foreground hover:text-foreground">
             <X className="h-5 w-5" />
           </button>
@@ -46,7 +46,7 @@ const CartDrawer = () => {
           <>
             <div className="flex-1 overflow-y-auto p-4">
               {items.map((item) => (
-                <div key={item.product.id} className="mb-4 flex gap-4 rounded-lg border border-border bg-card p-3">
+                <div key={item.product.id} className="mb-4 flex gap-4 rounded-lg border border-border bg-card p-3 bg-primary">
                   <img src={item.product.image} alt={item.product.name} className="h-20 w-20 rounded-md object-cover" />
                   <div className="flex flex-1 flex-col justify-between">
                     <div>
@@ -63,7 +63,7 @@ const CartDrawer = () => {
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
-                      <p className="font-heading text-sm font-bold text-primary">₹{item.product.price * item.quantity}</p>
+                      <p className="font-heading text-sm font-bold text-black">₹{item.product.price * item.quantity}</p>
                     </div>
                   </div>
                   <button onClick={() => removeItem(item.product.id)} className="self-start text-muted-foreground hover:text-destructive">

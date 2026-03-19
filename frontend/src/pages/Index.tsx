@@ -103,7 +103,7 @@ const Index = () => {
               className="flex items-center gap-3 justify-center"
             >
               <div className="rounded-lg bg-primary/10 p-2">
-                <f.icon className="h-5 w-5 text-primary" />
+                <f.icon className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
                 <p className="font-heading text-xs font-semibold text-foreground">{f.title}</p>
@@ -123,7 +123,7 @@ const Index = () => {
             viewport={{ once: true }}
             className="mb-12 text-center"
           >
-            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-primary">
+            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-foreground">
               ✦ Trending Now
             </p>
             <h2 className="font-display text-3xl font-bold tracking-wider lg:text-4xl">
@@ -140,7 +140,7 @@ const Index = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="rounded-xl border border-primary px-8 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-primary transition-all hover:bg-primary hover:text-primary-foreground"
+                className="rounded-xl border border-primary-foreground px-8 py-3 font-heading text-sm font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:bg-primary hover:text-primary-foreground hover:border-primary"
               >
                 View All Products
               </motion.button>
@@ -158,7 +158,7 @@ const Index = () => {
             viewport={{ once: true }}
             className="mb-12 text-center"
           >
-            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-accent">
+            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-foreground">
               ✦ Shop By Anime
             </p>
             <h2 className="font-display text-3xl font-bold tracking-wider lg:text-4xl">
@@ -182,7 +182,7 @@ const Index = () => {
             viewport={{ once: true }}
             className="mb-12 text-center"
           >
-            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-primary">
+            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-foreground">
               ✦ Don't Miss Out
             </p>
             <h2 className="font-display text-3xl font-bold tracking-wider lg:text-4xl">
@@ -206,7 +206,7 @@ const Index = () => {
             viewport={{ once: true }}
             className="mb-12 text-center"
           >
-            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-accent">
+            <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-foreground">
               ✦ What Our Fans Say
             </p>
             <h2 className="font-display text-3xl font-bold tracking-wider lg:text-4xl">

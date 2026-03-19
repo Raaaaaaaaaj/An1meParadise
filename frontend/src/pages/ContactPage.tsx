@@ -38,10 +38,10 @@ const ContactPage = () => {
 
           {/* Form */}
           <motion.form initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
-            <input placeholder="Your Name" className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-            <input placeholder="Your Email" className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-            <input placeholder="Subject" className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-            <textarea placeholder="Your Message" rows={5} className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+            <input placeholder="Your Name" className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+            <input placeholder="Your Email" className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+            <input placeholder="Subject" className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+            <textarea placeholder="Your Message" rows={5} className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

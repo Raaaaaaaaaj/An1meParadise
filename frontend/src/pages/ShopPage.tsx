@@ -57,11 +57,11 @@ const ShopPage = () => {
               className="w-full rounded-xl border border-border bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
             />
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-5">
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none"
+              className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-white focus:border-primary focus:outline-none"
             >
               <option value="popular">Most Popular</option>
               <option value="low">Price: Low to High</option>
