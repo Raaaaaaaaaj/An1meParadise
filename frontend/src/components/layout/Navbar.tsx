@@ -53,7 +53,7 @@ const Navbar = () => {
           <Link to="/wishlist" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
             <Heart className="h-5 w-5" />
           </Link>
-          <Link to="/account" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
+          <Link to="/signup" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
             <User className="h-5 w-5" />
           </Link>
           <button
