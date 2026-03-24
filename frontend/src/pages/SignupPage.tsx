@@ -15,7 +15,7 @@ const SignupPage = () => {
           </h1>
 
           <div className="rounded-xl border border-border bg-card p-6">
-            <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-wider">
+            <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-wider text-primary">
               Sign Up
             </h2>
 
@@ -23,37 +23,37 @@ const SignupPage = () => {
               <input
                 placeholder="Full Name"
                 type="text"
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
 
               <input
                 placeholder="Email"
                 type="email"
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
 
               <input
                 placeholder="Phone"
                 type="tel"
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
 
               <input
                 placeholder="City"
                 type="text"
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
 
               <input
                 placeholder="Password"
                 type="password"
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
 
               <input
                 placeholder="Confirm Password"
                 type="password"
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none"
               />
 
               <motion.button
@@ -67,7 +67,7 @@ const SignupPage = () => {
 
             <p className="mt-4 text-center text-xs text-muted-foreground">
               Already have an account?{" "}
-              <Link to="/account" className="text-primary hover:underline">
+              <Link to="/login" className="text-primary hover:underline">
                 Sign In
               </Link>
             </p>

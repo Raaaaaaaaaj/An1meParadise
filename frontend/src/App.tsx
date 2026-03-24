@@ -15,7 +15,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
-import AccountPage from "./pages/AccountPage";
+import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
 import SignupPage from "./pages/SignupPage";
 
@@ -39,7 +39,7 @@ const App = () => (
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/account" element={<AccountPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

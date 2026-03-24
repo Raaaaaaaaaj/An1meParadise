@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { User, Package, MapPin, LogOut } from "lucide-react";
 
-const AccountPage = () => {
+const LoginPage = () => {
   return (
     <div className="min-h-screen pt-20 lg:pt-24">
       <div className="container mx-auto px-4 py-16">
@@ -12,10 +12,10 @@ const AccountPage = () => {
           {/* Login Form - shown when not authenticated */}
           <div className="space-y-6">
             <div className="rounded-xl border border-border bg-card p-6">
-              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-wider">Sign In</h2>
+              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-wider text-primary">Sign In</h2>
               <div className="space-y-4">
-                <input placeholder="Email" type="email" className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-                <input placeholder="Password" type="password" className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                <input placeholder="Email" type="email" className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                <input placeholder="Password" type="password" className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -48,7 +48,7 @@ const AccountPage = () => {
                     <item.icon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-heading text-sm font-semibold">{item.label}</p>
+                    <p className="font-heading text-sm font-semibold text-primary">{item.label}</p>
                     <p className="text-xs text-muted-foreground">{item.desc}</p>
                   </div>
                 </div>
@@ -61,4 +61,4 @@ const AccountPage = () => {
   );
 };
 
-export default AccountPage;
+export default LoginPage;
