@@ -16,7 +16,10 @@ app.use(helmet());
 
 // ✅ 3. CORS config
 app.use(cors({
-  origin: ["https://an1meparadise.com"],
+  origin: [
+    "https://an1meparadise.com",
+    "https://www.an1meparadise.com"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
