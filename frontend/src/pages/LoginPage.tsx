@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { User, Package, MapPin, Eye, EyeOff } from "lucide-react";
-
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const LoginPage = () => {
   const [form, setForm] = useState({
@@ -55,7 +56,8 @@ const LoginPage = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`,{
+      // const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
