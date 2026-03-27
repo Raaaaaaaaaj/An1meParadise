@@ -1,23 +1,9 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
 
-const authController = require("../controllers/auth.controller");
+import {signup, login} from "../controllers/auth.controller.js"
 
-// router.post("/signup", async (req, res) => {
-//   console.log("Signup API hit");
+router.post("/signup", signup);
+router.post("/login", login);
 
-//   try {
-//     return res.status(200).json({
-//       message: "Signup working"
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: "Error" });
-//   }
-// });
-
-router.post("/signup", authController.signup);
-
-router.post("/login", authController.login);
-
-module.exports = router;
+export default router;
