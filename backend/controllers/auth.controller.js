@@ -7,32 +7,38 @@ exports.signup = async (req, res) => {
   try {
     const { userName, userMail, userMobile, userCity, userPass } = req.body;
 
-    // 1️⃣ validation
+    // ✅ validation
     if (!userName || !userMail || !userMobile || !userPass) {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    // 2️⃣ check existing user
+    // ✅ check existing email
     db.query(
       "SELECT * FROM users WHERE userMail = ?",
       [userMail],
       async (err, result) => {
-        if (result.length > 0) {
-          return res.status(400).json({ message: "User already exists" });
+
+        if (err) {
+          return res.status(500).json({ message: err.message });
         }
 
-        // 3️⃣ password hash
+        if (result.length > 0) {
+          return res.status(400).json({
+            message: "Email already registered ❌",
+          });
+        }
+
+        // ✅ hash password
         const hashedPass = await bcrypt.hash(userPass, 10);
 
-        // 4️⃣ insert user
+        // ✅ generate userCode
+        const userCode = uuidv4();
+
         const sql = `
           INSERT INTO users 
           (userName, userMail, userMobile, userCity, userPass, userCode) 
           VALUES (?, ?, ?, ?, ?, ?)
         `;
-
-        // const userCode = "USR_" + Date.now();
-        const userCode = uuidv4();
 
         db.query(
           sql,
@@ -42,11 +48,7 @@ exports.signup = async (req, res) => {
               return res.status(500).json({ message: err.message });
             }
 
-            if (result.length > 0) {
-              return res.status(400).json({ message: "User already exists" });
-            }
-
-            res.json({
+            res.status(201).json({
               message: "User registered successfully ✅",
             });
           }
