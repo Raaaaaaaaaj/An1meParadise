@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 26, 2026 at 09:40 AM
+-- Generation Time: Mar 28, 2026 at 10:19 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -20,6 +20,59 @@ SET time_zone = "+00:00";
 --
 -- Database: `an1meparadise`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productcategories`
+--
+
+DROP TABLE IF EXISTS `productcategories`;
+CREATE TABLE IF NOT EXISTS `productcategories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `productcategories`
+--
+
+INSERT INTO `productcategories` (`id`, `category_name`, `created_at`) VALUES
+(2, 'Figures', '2026-03-28 08:51:39'),
+(3, 'Key Chains', '2026-03-28 08:51:48'),
+(4, 'Posters', '2026-03-28 08:51:59'),
+(5, 'Accessories', '2026-03-28 08:52:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `prod_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prod_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prod_minPrice` decimal(10,2) DEFAULT NULL,
+  `prod_actualPrice` decimal(10,2) DEFAULT NULL,
+  `prod_maxPrice` decimal(10,2) DEFAULT NULL,
+  `prod_qty` int DEFAULT NULL,
+  `prod_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prod_createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `prod_category_ID` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_category` (`prod_category_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `prod_title`, `prod_description`, `prod_minPrice`, `prod_actualPrice`, `prod_maxPrice`, `prod_qty`, `prod_image`, `prod_createdAt`, `prod_category_ID`) VALUES
+(5, 'Anime Poster', 'This is a poster', 299.00, 588.00, 799.00, 10, NULL, '2026-03-28 08:58:27', 3);
 
 -- --------------------------------------------------------
 
@@ -46,7 +99,17 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `userName`, `userMail`, `userMobile`, `userCity`, `userPass`, `userCode`, `userCreatedAt`, `userStatus`) VALUES
-(1, 'Avijit Ghosh', 'raj2222ghosh@gmail.com', '7439612732', 'Kolkata', '$2b$10$9.Kd0z/tEXrKI0rWOkvnkub9xORyI2PJ04PRCW9wc0szEjZKvLx2a', '88a2c94b-35d7-41c4-a160-86f171e3fa3f', '2026-03-24 16:01:14.628852', 'active');
+(1, 'Avijit Ghosh', 'raj2222ghosh@gmail.com', '7439612732', 'NORTH 24 PARGANAS', '$2b$10$vzTHQpsXDV2yiPRLnYhFNuhDmbAlDjrYCat11Bnk4VgMlsygErE4C', '00719322-d8a5-4323-b507-90dc2a1ad6e0', '2026-03-27 04:55:01.972516', 'active');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `fk_category` FOREIGN KEY (`prod_category_ID`) REFERENCES `productcategories` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
