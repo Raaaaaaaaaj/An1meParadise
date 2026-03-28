@@ -2,7 +2,7 @@ import { db } from "../config/db.js";
 
 export const createProduct = (data, callback) => {
     const sql = `
-        INSERT INTO products (productTitle, productDescription, productMinPrice, productActualPrice, productMaxPrice, produdtcCategory, productQty, productImage)
+        INSERT INTO products (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_image)
         Values (?, ?, ?, ?, ?, ?, ?, ?)
     `;
     db.query(sql, data, callback);

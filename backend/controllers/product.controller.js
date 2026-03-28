@@ -8,14 +8,25 @@ import {
 
 // Add product
 export const addProduct = (req, res) => {
-    const {title, description, minprice, actualprice, maxprice, category, quantity} = req.body;
+    const {
+      title, 
+      description, 
+      minprice, 
+      actualprice, 
+      maxprice, 
+      category_id,
+      quantity
+    } = req.body;
     const image = req.file?.filename;
     
     createProduct(
-        [title, description, minprice, actualprice, maxprice, category, quantity, image],
+        [title, description, minprice, actualprice, maxprice, category_id, quantity, image],
         (err, result) => {
             if(err) return res.status(500).json(err);
-            res.json({message: "Product Created", result});
+            res.json({
+              message: "Product Created", 
+              id: result.insertId
+            });
         }
     );
 };
