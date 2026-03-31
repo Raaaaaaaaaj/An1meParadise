@@ -40,3 +40,19 @@ export const getCategoriesWithCount = (req, res) => {
         res.json(result);
     });
 };
+
+// Remove category
+export const removeCategory = (req, res) => {
+  const categoryId = req.params.id;
+
+  const sql = "DELETE FROM productcategories WHERE id = ?";
+
+  db.query(sql, [categoryId], (err, result) => {
+    if (err) return res.status(500).json(err);
+
+    res.json({
+      message: "Category deleted",
+    });
+  });
+};
+

@@ -3,7 +3,7 @@ import {
     addProduct,
     fetchProducts,
     fetchProduct,
-    removeProduct ,
+    removeProduct,
 } from "../controllers/product.controller.js"
 import multer from "multer"
 
