@@ -56,8 +56,8 @@ const LoginPage = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${API_URL}/api/auth/login`,{
-      // const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        // const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +72,15 @@ const LoginPage = () => {
       // ✅ save auth
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+
+
+      console.log("✅ USER LOGGED IN");
+      console.log("Token:", data.token);
+      console.log("User:", data.user);
+      console.log("LocalStorage:", {
+        token: localStorage.getItem("token"),
+        user: JSON.parse(localStorage.getItem("user"))
+      });
 
       setAlert({ type: "success", message: "Login successful ✅" });
 
@@ -103,11 +112,10 @@ const LoginPage = () => {
           {alert && (
             <div className="fixed top-5 right-5 z-50 w-[90%] max-w-sm">
               <Alert
-                className={`shadow-lg pr-10 ${
-                  alert.type === "error"
+                className={`shadow-lg pr-10 ${alert.type === "error"
                     ? "bg-red-50 border-red-300 text-red-700"
                     : "bg-green-50 border-green-300 text-green-700"
-                }`}
+                  }`}
               >
                 <button
                   onClick={() => setAlert(null)}

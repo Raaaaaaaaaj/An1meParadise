@@ -1,5 +1,6 @@
 import { db } from "../config/db.js"
 
+// Get single category
 export const addCategory = (req, res) => {
   const { category_name } = req.body;
 
@@ -15,6 +16,7 @@ export const addCategory = (req, res) => {
   });
 };
 
+// Get all categories
 export const getCategories = (req, res) => {
   db.query("SELECT * FROM productcategories", (err, result) => {
     if (err) return res.status(500).json(err);
@@ -23,6 +25,7 @@ export const getCategories = (req, res) => {
   });
 };
 
+// Get Categories with product count
 export const getCategoriesWithCount = (req, res) => {
     const sql = `
         SELECT 
