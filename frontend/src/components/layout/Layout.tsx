@@ -6,6 +6,8 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const name = localStorage.getItem("user.name");
+    
 
     console.log(token ? "🟢 LOGGED IN" : "🔴 LOGGED OUT");
   }, [location]);

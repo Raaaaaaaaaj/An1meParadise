@@ -94,6 +94,19 @@ const SignupPage = () => {
 
       if (!res.ok) throw new Error(data.message);
 
+      if (res.ok) {
+        // ✅ SAVE HERE (MAIN PART)
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.user.name);
+    
+        console.log("Saved Name:", data.user.name);
+    
+        // redirect
+        // navigate("/");
+      } else {
+        console.log(data.message);
+      }
+
       setAlert({ type: "success", message: "Account created successfully ✅" });
 
       setForm({

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Search, User, Menu, X, Heart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
@@ -16,6 +16,55 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
   const location = useLocation();
+
+  const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [initials, setInitials] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    // const name = localStorage.getItem("name"); 
+    const name = localStorage.getItem("user.userName");
+
+    
+
+    if (token) {
+      setIsLoggedIn(true);
+
+      if (name) {
+        const words = name.split(" ");
+        const initials = words.map(w => w[0]).join("").toUpperCase();
+        setInitials(initials);
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    const name = localStorage.getItem("name");
+    // const name = "John Walker";
+
+    console.log("name :" , name);
+  
+    if (name) {
+      const words = name.split(" ");
+      console.log("Words:", words);
+  
+      const initials = words.map(w => w[0]).join("").toUpperCase();
+      console.log("Generated Initials:", initials);
+    }
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -53,9 +102,70 @@ const Navbar = () => {
           <Link to="/wishlist" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
             <Heart className="h-5 w-5" />
           </Link>
-          <Link to="/signup" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
+
+          {/* user */}
+
+          {/* <Link to="/signup" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
             <User className="h-5 w-5" />
-          </Link>
+          </Link> */}
+
+
+        <div className="relative">
+          
+          {/* ICON / INITIALS */}
+          
+
+          <button
+            onClick={() => setOpen(!open)}
+            className="hidden sm:flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground"
+          >
+            {isLoggedIn ? (
+              <div className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 text-sm font-semibold">
+                {initials}
+              </div>
+            ) : (
+              <User className="h-5 w-5" />
+            )}
+          </button>
+
+          {/* DROPDOWN */}
+          {open && (
+            <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg bg-white border z-50">
+              
+              {!isLoggedIn ? (
+                <Link
+                  to="/signup"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                  onClick={() => setOpen(false)}
+                >
+                  Sign-up / Log-in
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Profile
+                  </Link>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                  >
+                    Log-out
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+
+
+
+
+
           <button
             onClick={() => setIsOpen(true)}
             className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground"
