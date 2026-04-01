@@ -4,8 +4,6 @@ import {
     getProductById,
     deleteProduct
 } from "../models/product.model.js"
-
-
 // Add product
 export const addProduct = (req, res) => {
     const {
@@ -30,8 +28,6 @@ export const addProduct = (req, res) => {
         }
     );
 };
-
-
 // Fecth all products
 export const fetchProducts = (req, res) => {
   getAllProducts((err, data) => {
@@ -39,8 +35,6 @@ export const fetchProducts = (req, res) => {
     res.json(data);
   });
 };
-
-
 // Fetch one pruduct
 export const fetchProduct = (req, res) => {
   getProductById(req.params.id, (err, data) => {
@@ -48,8 +42,6 @@ export const fetchProduct = (req, res) => {
     res.json(data[0]);
   });
 };
-
-
 // Remove product
 export const removeProduct = (req, res) => {
   deleteProduct(req.params.id, (err) => {

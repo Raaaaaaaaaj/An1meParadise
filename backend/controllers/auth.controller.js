@@ -2,6 +2,7 @@ import { db } from "../config/db.js";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+
 // ✅ SIGNUP
 export const signup = async (req, res) => {
   try {
@@ -50,6 +51,7 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 // ✅ LOGIN
 export const login = (req, res) => {
   try {
@@ -91,6 +93,19 @@ export const login = (req, res) => {
         });
       }
     );
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ Logout
+export const logout = (req, res) => {
+  try {
+    console.log("🚪 USER LOGGED OUT");
+
+    res.status(200).json({
+      message: "Logout successful ✅",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
