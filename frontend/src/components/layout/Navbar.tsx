@@ -25,10 +25,10 @@ const Navbar = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // const name = localStorage.getItem("name"); 
-    const name = localStorage.getItem("user.userName");
+    const name = localStorage.getItem("name");
+    // const name = localStorage.getItem("user.userName");
 
-    
+
 
     if (token) {
       setIsLoggedIn(true);
@@ -45,24 +45,41 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("name");
+    localStorage.removeItem("user.name");
 
     setIsLoggedIn(false);
     navigate("/");
   };
 
-  useEffect(() => {
-    const name = localStorage.getItem("name");
-    // const name = "John Walker";
+  // useEffect(() => {
+  //   const name = localStorage.getItem("name");
+  //   // const name = "John Walker";
 
-    console.log("name :" , name);
-  
-    if (name) {
-      const words = name.split(" ");
-      console.log("Words:", words);
-  
-      const initials = words.map(w => w[0]).join("").toUpperCase();
-      console.log("Generated Initials:", initials);
+  //   console.log("name :" , name);
+
+  //   if (name) {
+  //     const words = name.split(" ");
+  //     console.log("Words:", words);
+
+  //     const initials = words.map(w => w[0]).join("").toUpperCase();
+  //     console.log("Generated Initials:", initials);
+  //   }
+  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (token && user) {
+      setIsLoggedIn(true);
+
+      if (user.name) {
+        console.log(`Logges in and as ${user.name}`);
+        const words = user.name.split(" ");
+        const initials = words.map(w => w[0]).join("").toUpperCase();
+        setInitials(initials);
+      }
+    } else {
+      setIsLoggedIn(false);
     }
   }, []);
 
@@ -85,9 +102,8 @@ const Navbar = () => {
             <Link
               key={link.href}
               to={link.href}
-              className={`font-heading text-sm font-medium uppercase tracking-wider transition-colors hover:text-primary ${
-                location.pathname === link.href ? "text-primary" : "text-muted-foreground"
-              }`}
+              className={`font-heading text-sm font-medium uppercase tracking-wider transition-colors hover:text-primary ${location.pathname === link.href ? "text-primary" : "text-muted-foreground"
+                }`}
             >
               {link.label}
             </Link>
@@ -110,57 +126,57 @@ const Navbar = () => {
           </Link> */}
 
 
-        <div className="relative">
-          
-          {/* ICON / INITIALS */}
-          
+          <div className="relative">
 
-          <button
-            onClick={() => setOpen(!open)}
-            className="hidden sm:flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground"
-          >
-            {isLoggedIn ? (
-              <div className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 text-sm font-semibold">
-                {initials}
-              </div>
-            ) : (
-              <User className="h-5 w-5" />
-            )}
-          </button>
+            {/* ICON / INITIALS */}
 
-          {/* DROPDOWN */}
-          {open && (
-            <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg bg-white border z-50">
-              
-              {!isLoggedIn ? (
-                <Link
-                  to="/signup"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                  onClick={() => setOpen(false)}
-                >
-                  Sign-up / Log-in
-                </Link>
+
+            <button
+              onClick={() => setOpen(!open)}
+              className="hidden sm:flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground"
+            >
+              {isLoggedIn ? (
+                <div className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 text-sm font-semibold">
+                  {initials}
+                </div>
               ) : (
-                <>
+                <User className="h-5 w-5" />
+              )}
+            </button>
+
+            {/* DROPDOWN */}
+            {open && (
+              <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg bg-white border z-50">
+
+                {!isLoggedIn ? (
                   <Link
-                    to="/profile"
+                    to="/signup"
                     className="block px-4 py-2 text-sm hover:bg-gray-100"
                     onClick={() => setOpen(false)}
                   >
-                    Profile
+                    Sign-up / Log-in
                   </Link>
+                ) : (
+                  <>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
+                      onClick={() => setOpen(false)}
+                    >
+                      Profile
+                    </Link>
 
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-                  >
-                    Log-out
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-        </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      Log-out
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
 
 
 
