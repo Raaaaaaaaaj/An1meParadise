@@ -1,6 +1,6 @@
 import { db } from "../config/db.js";
 
-// ✅ ADD CATEGORY
+// ADD CATEGORY
 export const addCategory = async (req, res) => {
   try {
     const { category_name } = req.body;
@@ -18,7 +18,7 @@ export const addCategory = async (req, res) => {
   }
 };
 
-// ✅ GET ALL CATEGORIES
+// GET ALL CATEGORIES
 export const getCategories = async (req, res) => {
   try {
     const [result] = await db.query("SELECT * FROM productcategories");
@@ -29,7 +29,7 @@ export const getCategories = async (req, res) => {
   }
 };
 
-// ✅ GET CATEGORIES WITH PRODUCT COUNT
+
 export const getCategoriesWithCount = async (req, res) => {
   try {
     const sql = `
@@ -51,7 +51,7 @@ export const getCategoriesWithCount = async (req, res) => {
   }
 };
 
-// ✅ REMOVE CATEGORY
+// REMOVE CATEGORY
 export const removeCategory = async (req, res) => {
   try {
     const categoryId = req.params.id;

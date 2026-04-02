@@ -6,6 +6,7 @@ import morgan from "morgan";
 import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js"
+import productImageRoutes from "./routes/productimages.routes.js";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api", productRoutes);
 app.use("/api/categories", categoriesRoutes)
+app.use("/api", productImageRoutes);
 
 // ✅ Static folder
 app.use("/uploads", express.static("uploads"));
