@@ -1,60 +1,69 @@
-import { db } from "../config/db.js"
+import { db } from "../config/db.js";
 
-// Get single category
-export const addCategory = (req, res) => {
-  const { category_name } = req.body;
+// ✅ ADD CATEGORY
+export const addCategory = async (req, res) => {
+  try {
+    const { category_name } = req.body;
 
-  const sql = "INSERT INTO productcategories (category_name) VALUES (?)";
+    const sql = "INSERT INTO productcategories (category_name) VALUES (?)";
 
-  db.query(sql, [category_name], (err, result) => {
-    if (err) return res.status(500).json(err);
+    const [result] = await db.query(sql, [category_name]);
 
     res.json({
       message: "Category added",
       id: result.insertId,
     });
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-// Get all categories
-export const getCategories = (req, res) => {
-  db.query("SELECT * FROM productcategories", (err, result) => {
-    if (err) return res.status(500).json(err);
+// ✅ GET ALL CATEGORIES
+export const getCategories = async (req, res) => {
+  try {
+    const [result] = await db.query("SELECT * FROM productcategories");
 
     res.json(result);
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-// Get Categories with product count
-export const getCategoriesWithCount = (req, res) => {
+// ✅ GET CATEGORIES WITH PRODUCT COUNT
+export const getCategoriesWithCount = async (req, res) => {
+  try {
     const sql = `
-        SELECT 
+      SELECT 
         c.id,
         c.category_name,
-        count(p.id) AS total_products
-        FROM productcategories c 
-        LEFT JOIN products p
-        ON c.id = p.prod_category_id
-        GROUP BY c.id
+        COUNT(p.id) AS total_products
+      FROM productcategories c 
+      LEFT JOIN products p
+      ON c.id = p.prod_category_id
+      GROUP BY c.id
     `;
 
-    db.query(sql, (err, result)=>{
-        if(err) return res.status(500).json(err);
-        res.json(result);
-    });
+    const [result] = await db.query(sql);
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
-// Remove category
-export const removeCategory = (req, res) => {
-  const categoryId = req.params.id;
+// ✅ REMOVE CATEGORY
+export const removeCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.id;
 
-  const sql = "DELETE FROM productcategories WHERE id = ?";
+    const sql = "DELETE FROM productcategories WHERE id = ?";
 
-  db.query(sql, [categoryId], (err, result) => {
-    if (err) return res.status(500).json(err);
+    await db.query(sql, [categoryId]);
 
     res.json({
       message: "Category deleted",
     });
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

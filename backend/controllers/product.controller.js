@@ -1,51 +1,79 @@
 import {
-    createProduct,
-    getAllProducts,
-    getProductById,
-    deleteProduct
-} from "../models/product.model.js"
-// Add product
-export const addProduct = (req, res) => {
+  createProduct,
+  getAllProducts,
+  getProductById,
+  deleteProduct,
+} from "../models/product.model.js";
+
+// ✅ ADD PRODUCT
+export const addProduct = async (req, res) => {
+  try {
     const {
-      title, 
-      description, 
-      minprice, 
-      actualprice, 
-      maxprice, 
+      title,
+      description,
+      minprice,
+      actualprice,
+      maxprice,
       category_id,
-      quantity
+      quantity,
     } = req.body;
+
     const image = req.file?.filename;
-    
-    createProduct(
-        [title, description, minprice, actualprice, maxprice, category_id, quantity, image],
-        (err, result) => {
-            if(err) return res.status(500).json(err);
-            res.json({
-              message: "Product Created", 
-              id: result.insertId
-            });
-        }
-    );
+
+    const result = await createProduct([
+      title,
+      description,
+      minprice,
+      actualprice,
+      maxprice,
+      category_id,
+      quantity,
+      image,
+    ]);
+
+    res.json({
+      message: "Product Created",
+      id: result.insertId,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
-// Fecth all products
-export const fetchProducts = (req, res) => {
-  getAllProducts((err, data) => {
-    if (err) return res.status(500).json(err);
+
+// ✅ FETCH ALL PRODUCTS
+export const fetchProducts = async (req, res) => {
+  try {
+    const data = await getAllProducts();
     res.json(data);
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
-// Fetch one pruduct
-export const fetchProduct = (req, res) => {
-  getProductById(req.params.id, (err, data) => {
-    if (err) return res.status(500).json(err);
+
+// ✅ FETCH SINGLE PRODUCT
+export const fetchProduct = async (req, res) => {
+  try {
+    const data = await getProductById(req.params.id);
+
+    if (data.length === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     res.json(data[0]);
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
-// Remove product
-export const removeProduct = (req, res) => {
-  deleteProduct(req.params.id, (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: "Product deleted" });
-  });
+
+// ✅ REMOVE PRODUCT
+export const removeProduct = async (req, res) => {
+  try {
+    await deleteProduct(req.params.id);
+
+    res.json({
+      message: "Product deleted",
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
