@@ -94,7 +94,7 @@ export const getAllProductImages = async (req, res) => {
 };
 
 
-// ✅ UPDATE
+// UPDATE
 export const updateProductImage = async (req, res) => {
   try {
     const { productId } = req.params;
