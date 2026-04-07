@@ -43,7 +43,7 @@ export const addProduct = async (req, res) => {
 // ✅ FETCH ALL PRODUCTS
 export const fetchProducts = async (req, res) => {
   try {
-    const data = await getAllProducts();
+    const data = await getAllProducts(req.query);
     res.json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -37,7 +37,7 @@ const AboutPage = () => {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                 <v.icon className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mb-2 font-heading text-sm font-bold">{v.title}</h3>
+              <h3 className="mb-2 font-heading text-sm font-bold text-primary">{v.title}</h3>
               <p className="text-xs leading-relaxed text-muted-foreground">{v.desc}</p>
             </motion.div>
           ))}

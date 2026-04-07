@@ -150,7 +150,7 @@ const Navbar = () => {
 
                 {!isLoggedIn ? (
                   <Link
-                    to="/signup"
+                    to="/login"
                     className="block px-4 py-2 text-sm hover:bg-gray-100"
                     onClick={() => setOpen(false)}
                   >
@@ -179,9 +179,6 @@ const Navbar = () => {
           </div>
 
 
-
-
-
           <button
             onClick={() => setIsOpen(true)}
             className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground"
@@ -206,7 +203,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {/* Mobile Menu */}
 <AnimatePresence>
   {mobileOpen && (
@@ -260,7 +256,7 @@ const Navbar = () => {
             </>
           ) : (
             <Link
-              to="/signup"  
+              to="/login"  
               onClick={() => setMobileOpen(false)}
               className="flex items-center gap-2 text-muted-foreground hover:text-primary"
             >

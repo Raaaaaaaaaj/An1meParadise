@@ -9,7 +9,4 @@ router.get("/with-count", getCategoriesWithCount);
 // router.get("/remove", removeCategory);
 router.delete("/remove/:id", removeCategory);
 
-
-
-
 export default router;

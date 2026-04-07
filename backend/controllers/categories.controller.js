@@ -29,7 +29,6 @@ export const getCategories = async (req, res) => {
   }
 };
 
-
 export const getCategoriesWithCount = async (req, res) => {
   try {
     const sql = `
