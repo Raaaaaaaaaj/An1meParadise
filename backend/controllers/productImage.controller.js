@@ -9,25 +9,28 @@ export const addProductImage = async (req, res) => {
 
     // validation
     if (
-      !files.thumbnail ||
-      !files.image_2 ||
-      !files.image_3 ||
-      !files.image_4 ||
-      !files.image_5
+      !files?.thumbnail // For one image only
+      // !files.thumbnail ||
+      // !files.image_2 ||
+      // !files.image_3 ||
+      // !files.image_4 ||
+      // !files.image_5
     ) {
       return res.status(400).json({
         success: false,
-        message: "All 5 images are required",
+        // message: "All 5 images are required",
+        message: "Thumbnail image is required",
       });
     }
 
     const data = {
       product_id: req.body.product_id,
       thumbnail_image: files.thumbnail[0].filename,
-      image_2: files.image_2[0].filename,
-      image_3: files.image_3[0].filename,
-      image_4: files.image_4[0].filename,
-      image_5: files.image_5[0].filename,
+      // ✅ optional images (safe)
+      image_2: files.image_2?.[0]?.filename || null,
+      image_3: files.image_3?.[0]?.filename || null,
+      image_4: files.image_4?.[0]?.filename || null,
+      image_5: files.image_5?.[0]?.filename || null,
     };
 
     const result = await ProductImage.insertProductImage(data);

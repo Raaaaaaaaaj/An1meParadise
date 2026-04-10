@@ -16,6 +16,7 @@ export const addProduct = async (req, res) => {
       maxprice,
       category_id,
       quantity,
+      prod_badgeName,
     } = req.body;
 
     const image = req.file?.filename;
@@ -29,6 +30,7 @@ export const addProduct = async (req, res) => {
       category_id,
       quantity,
       image,
+      prod_badgeName
     ]);
 
     res.json({
