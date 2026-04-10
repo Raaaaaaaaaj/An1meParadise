@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
-import { connectDB } from "./db.js"; // 👈 top pe import karo
+
 import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js"
@@ -67,17 +67,9 @@ app.use((err, req, res, next) => {
 
 // ✅ 10. Server start
 const PORT = process.env.PORT || 5000;
-const startServer = async () => {
-  console.log("🔥 Starting server...");
+console.log("🔥 BEFORE LISTEN");
 
-  await connectDB(); // 👈 yaha DB connect hoga safely
-
-  const PORT = process.env.PORT || 5000;
-
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-};
-
-startServer();
-// console.log("Server listening...");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+console.log("Server listening...");
