@@ -9,6 +9,7 @@ import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js"
 import productImageRoutes from "./routes/productimages.routes.js";
+import { initDB } from "./config/db.js";
 
 const app = express();
 
@@ -65,11 +66,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error" });
 });
 
-// ✅ 10. Server start
+// ✅ 10. Server start (initialize DB first)
 const PORT = process.env.PORT || 5000;
-console.log("🔥 BEFORE LISTEN");
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-console.log("Server listening...");
+initDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to initialize DB. Exiting.", err);
+    process.exit(1);
+  });
