@@ -11,6 +11,7 @@ import productImageRoutes from "./routes/productimages.routes.js";
 
 const app = express();
 
+console.log("App starting...");
 // ✅ 1. Trust proxy
 app.set("trust proxy", 1);
 
@@ -35,7 +36,7 @@ app.use(cors({
 // ✅ 4. Logger
 app.use(morgan("dev"));
 
-// ✅ 5. Body parser
+// ✅ 5. Body parser  
 app.use(express.json());
 
 // ✅ 6. Routes
@@ -69,3 +70,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+console.log("Server listening...");
