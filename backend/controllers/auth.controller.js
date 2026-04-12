@@ -101,10 +101,9 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    // res.status(500).json(
-    //   { message: error.message }
-    console.log(errs)
-    // );
+    res.status(500).json(
+      { message: error.message }
+    );
   }
 };
 
