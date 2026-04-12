@@ -66,7 +66,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
           <motion.button
             whileTap={{ scale: 0.9 }}
-            onClick={() => addItem(product)}
+            // onClick={() => addItem(product)}
+            onClick={() => {
+              console.log("Button Clicked", product);
+              addItem(product);
+            }}
             className="rounded-lg bg-primary text-background p-2 text-white"
           >
             <ShoppingCart className="h-4 w-4" />

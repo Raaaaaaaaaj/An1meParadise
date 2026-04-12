@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPrice } = useCart();
+  console.log("CART ITEMS:", items);
 
   if (!isOpen) return null;
 
@@ -47,10 +48,13 @@ const CartDrawer = () => {
             <div className="flex-1 overflow-y-auto p-4">
               {items.map((item) => (
                 <div key={item.product.id} className="mb-4 flex gap-4 rounded-lg border border-border bg-card p-3 bg-primary">
-                  <img src={item.product.image} alt={item.product.name} className="h-20 w-20 rounded-md object-cover" />
+                  <img src={item.product.image} alt={item.product.prod_title} className="h-20 w-20 rounded-md object-cover" />
                   <div className="flex flex-1 flex-col justify-between">
                     <div>
-                      <p className="font-heading text-sm font-semibold">{item.product.name}</p>
+                      {/* <p className="font-heading text-sm font-semibold">{item.product.name}</p> */}
+                      <p className="font-heading text-sm font-semibold">
+                       {item.product.prod_title}
+                      </p>
                       <p className="text-xs text-muted-foreground">{item.size && `Size: ${item.size}`}</p>
                     </div>
                     <div className="flex items-center justify-between">
@@ -63,7 +67,10 @@ const CartDrawer = () => {
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
-                      <p className="font-heading text-sm font-bold text-black">₹{item.product.price * item.quantity}</p>
+                      {/* <p className="font-heading text-sm font-bold text-black">₹{item.product.price * item.quantity}</p> */}
+                      <p className="font-heading text-sm font-bold text-black">
+                        ₹{Number(item.product.prod_actualPrice) * item.quantity}
+                      </p>
                     </div>
                   </div>
                   <button onClick={() => removeItem(item.product.id)} className="self-start text-muted-foreground hover:text-destructive">

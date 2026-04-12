@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect , ReactNode } from "react";
 import { Product } from "@/data/mockData";
 
 export interface CartItem {
@@ -24,6 +24,19 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
+    // 🔽 LOAD from localStorage (page load pe)
+    useEffect(() => {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        setItems(JSON.parse(savedCart));
+      }
+    }, []);
+  
+    // 🔽 SAVE to localStorage (jab items change ho)
+    useEffect(() => {
+      localStorage.setItem("cart", JSON.stringify(items));
+    }, [items]);
 
   const addItem = useCallback((product: Product, size?: string) => {
     setItems((prev) => {
@@ -55,7 +68,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const clearCart = useCallback(() => setItems([]), []);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+  const totalPrice = items.reduce((sum, i) => sum + i.product.prod_actualPrice * i.quantity, 0);
+  // const totalPrice = items.reduce(
+  //   (sum, i) => sum + i.product.prod_actualPrice * i.quantity,
+  //   0
+  // );
 
   return (
     <CartContext.Provider

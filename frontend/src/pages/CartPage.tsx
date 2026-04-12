@@ -35,11 +35,11 @@ const CartPage = () => {
                 exit={{ opacity: 0, x: -100 }}
                 className="flex gap-4 rounded-xl border border-border bg-card p-4"
               >
-                <img src={item.product.image} alt={item.product.name} className="h-24 w-24 rounded-lg object-cover lg:h-32 lg:w-32" />
+                <img src={item.product.image} alt={item.product.prod_title} className="h-24 w-24 rounded-lg object-cover lg:h-32 lg:w-32" />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-primary">{item.product.animeSeries}</p>
-                    <h3 className="font-heading text-sm font-semibold lg:text-base text-primary">{item.product.name}</h3>
+                    <h3 className="font-heading text-sm font-semibold lg:text-base text-primary">{item.product.prod_title}</h3>
                     {item.size && <p className="text-xs text-muted-foreground">Size: {item.size}</p>}
                   </div>
                   <div className="flex items-center justify-between">
@@ -52,7 +52,7 @@ const CartPage = () => {
                         <Plus className="h-3 w-3" />
                       </button>
                     </div>
-                    <span className="font-heading text-lg font-bold text-primary">₹{item.product.price * item.quantity}</span>
+                    <span className="font-heading text-lg font-bold text-primary">₹{item.product.prod_actualPrice * item.quantity}</span>
                   </div>
                 </div>
                 <button onClick={() => removeItem(item.product.id)} className="self-start text-muted-foreground hover:text-destructive">
