@@ -164,8 +164,8 @@ const ShopPage = () => {
                   <ProductCard
                     key={product.id}
                     product={{
-                      ...product,
-                      image: `${API_URL}/uploads/${product.image}`,
+                      ...product
+                      // image: `${API_URL}/uploads/${product.image}`,
                     }}
                     index={i}
                   />

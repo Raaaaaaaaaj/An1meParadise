@@ -1,20 +1,14 @@
 import { motion } from "framer-motion";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Product } from "@/data/mockData";
 import { useCart } from "@/contexts/CartContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface ProductCardProps {
-  product: Product;
+  product: any;
   index?: number;
 }
-
-const badgeColors: Record<string, string> = {
-  new: "bg-neon-blue",
-  hot: "bg-accent",
-  limited: "bg-primary",
-  sale: "bg-destructive",
-};
 
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const { addItem } = useCart();
@@ -25,62 +19,55 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="group relative overflow-hidden rounded-xl border border-border/50 bg-card transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10"
+      className="group relative overflow-hidden rounded-xl border border-border/50 bg-card transition-all duration-300 hover:shadow-lg"
     >
       {/* Badge */}
-      {product.badge && (
-        <span className={`absolute left-3 top-3 z-10 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground ${badgeColors[product.badge]}`}>
-          {product.badge}
+      {product.prod_badgeName && (
+        <span className="absolute right-3 top-3 z-10 rounded-full bg-black px-3 py-1 text-[10px] font-bold uppercase text-white">
+          {product.prod_badgeName}
         </span>
       )}
 
-      {/* Wishlist */}
-      <button className="absolute right-3 top-3 z-10 rounded-full bg-background/60 p-2 text-muted-foreground backdrop-blur-sm transition-all hover:bg-background hover:text-accent">
-        <Heart className="h-4 w-4" />
-      </button>
-
       {/* Image */}
-      <Link to={`/product/${product.slug}`}>
+      <Link to={`/product/${product.id}`}>
         <div className="relative aspect-square overflow-hidden">
           <img
-            src={product.image}
-            alt={product.name}
+            src={`${API_URL}/uploads/${product.image}`}   // ✅ FIXED
+            alt={product.prod_title}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
       </Link>
 
       {/* Info */}
       <div className="p-4">
-        <p className="mb-1 text-[10px] font-medium uppercase tracking-wider text-primary">
-          {product.animeSeries}
+        {/* Category */}
+        <p className="mb-1 text-[10px] font-medium uppercase text-primary">
+          {product.category_name}
         </p>
-        <Link to={`/product/${product.slug}`}>
-          <h3 className="mb-2 font-heading text-sm font-semibold text-primary transition-colors hover:text-primary line-clamp-2">
-            {product.name}
+
+        {/* Title */}
+        <Link to={`/product/${product.id}`}>
+          <h3 className="mb-2 text-sm text-primary font-semibold line-clamp-2">
+            {product.prod_title}
           </h3>
         </Link>
 
-        <div className="mb-3 flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <span key={i} className={`text-xs ${i < Math.floor(product.rating) ? "text-accent" : "text-muted"}`}>★</span>
-          ))}
-          <span className="ml-1 text-[10px] text-muted-foreground">({product.reviews})</span>
-        </div>
+        {/* Description */}
+        <p className="mb-2 text-xs text-muted-foreground line-clamp-2">
+          {product.prod_description}
+        </p>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="font-heading text-lg font-bold text-primary">₹{product.price}</span>
-            {product.originalPrice && (
-              <span className="text-xs text-muted-foreground line-through">₹{product.originalPrice}</span>
-            )}
-          </div>
+        {/* Price + Cart */}
+        <div className="flex items-center justify-between mt-3">
+          <span className="text-lg font-bold text-primary">
+            ₹{Number(product.prod_actualPrice)}
+          </span>
+
           <motion.button
-            whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => addItem(product)}
-            className="rounded-lg bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90"
+            className="rounded-lg bg-primary text-background p-2 text-white"
           >
             <ShoppingCart className="h-4 w-4" />
           </motion.button>
