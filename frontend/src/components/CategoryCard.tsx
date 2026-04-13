@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Category } from "@/data/mockData";
+import axios from "axios";
 
 interface CategoryCardProps {
   category: Category;

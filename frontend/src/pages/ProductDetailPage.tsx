@@ -1,32 +1,58 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Heart, Star, Minus, Plus, Zap } from "lucide-react";
-import { products } from "@/data/mockData";
 import { useCart } from "@/contexts/CartContext";
 import ProductCard from "@/components/ProductCard";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ProductDetailPage = () => {
-  const { slug } = useParams();
-  const product = products.find((p) => p.slug === slug);
+  const { id } = useParams(); // ✅ slug → id
   const { addItem } = useCart();
+
+  const [product, setProduct] = useState<any>(null);
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
 
+  // ✅ PRODUCT FETCH
+  useEffect(() => {
+    fetch(`${API_URL}/product/${id}`)
+      .then(res => res.json())
+      .then(data => setProduct(data));
+  }, [id]);
+
+  // ✅ RELATED PRODUCTS FETCH (same category)
+  useEffect(() => {
+    if (!product) return;
+
+    fetch(`${API_URL}/products`)
+      .then(res => res.json())
+      .then(data => {
+        const filtered = data.filter(
+          (p: any) =>
+            p.category_name === product.category_name &&
+            p.id !== product.id
+        );
+        setRelatedProducts(filtered);
+      });
+  }, [product]);
+
+  // ✅ LOADING
   if (!product) {
     return (
       <div className="flex min-h-screen items-center justify-center pt-20">
-        <p className="text-muted-foreground">Product not found</p>
+        <p className="text-muted-foreground">Loading...</p>
       </div>
     );
   }
-
-  const relatedProducts = products.filter((p) => p.animeSeries === product.animeSeries && p.id !== product.id);
 
   return (
     <div className="min-h-screen pt-20 lg:pt-24">
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
+          
           {/* Image */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -34,13 +60,13 @@ const ProductDetailPage = () => {
             className="group relative aspect-square overflow-hidden rounded-2xl border border-border/50"
           >
             <img
-              src={product.image}
-              alt={product.name}
+              src={`${API_URL}/uploads/${product.image}`} // ✅ FIXED
+              alt={product.prod_title} // ✅ FIXED
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
-            {product.badge && (
+            {product.prod_badgeName && (
               <span className="absolute left-4 top-4 rounded-full bg-primary px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-primary-foreground">
-                {product.badge}
+                {product.prod_badgeName}
               </span>
             )}
           </motion.div>
@@ -48,41 +74,38 @@ const ProductDetailPage = () => {
           {/* Details */}
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col">
             <p className="mb-2 font-heading text-xs font-semibold uppercase tracking-widest text-primary">
-              {product.animeSeries}
+              {product.category_name} {/* ✅ FIXED */}
             </p>
+
             <h1 className="mb-4 font-display text-2xl font-bold tracking-wider lg:text-3xl">
-              {product.name}
+              {product.prod_title} {/* ✅ FIXED */}
             </h1>
 
             <div className="mb-4 flex items-center gap-2">
               <div className="flex gap-0.5">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < Math.floor(product.rating) ? "fill-accent text-accent" : "text-muted"}`} />
+                  <Star key={i} className="h-4 w-4 fill-accent text-accent" />
                 ))}
               </div>
-              <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>
+              <span className="text-sm text-muted-foreground">(100 reviews)</span>
             </div>
 
             <div className="mb-6 flex items-baseline gap-3">
-              <span className="font-display text-3xl font-bold text-foreground">₹{product.price}</span>
-              {product.originalPrice && (
-                <>
-                  <span className="text-lg text-muted-foreground line-through">₹{product.originalPrice}</span>
-                  <span className="rounded-full bg-destructive/20 px-2 py-0.5 text-xs font-semibold text-destructive">
-                    {Math.round((1 - product.price / product.originalPrice) * 100)}% OFF
-                  </span>
-                </>
-              )}
+              <span className="font-display text-3xl font-bold text-foreground">
+                ₹{product.prod_actualPrice} {/* ✅ FIXED */}
+              </span>
             </div>
 
-            <p className="mb-6 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
+            <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
+              {product.prod_description} {/* ✅ FIXED */}
+            </p>
 
-            {/* Size */}
+            {/* Size (optional if backend me ho) */}
             {product.sizes && product.sizes.length > 0 && (
               <div className="mb-6">
                 <p className="mb-3 font-heading text-xs font-semibold uppercase tracking-wider">Size</p>
                 <div className="flex flex-wrap gap-2">
-                  {product.sizes.map((size) => (
+                  {product.sizes.map((size: string) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
@@ -118,7 +141,7 @@ const ProductDetailPage = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => { for (let i = 0; i < quantity; i++) addItem(product, selectedSize); }}
+                onClick={() => { for (let i = 0; i < quantity; i++) addItem(product); }}
                 className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-neon py-4 font-heading text-sm font-bold uppercase tracking-wider text-primary-foreground shadow-lg shadow-primary/30"
               >
                 <ShoppingCart className="h-4 w-4" /> Add to Cart
@@ -140,7 +163,9 @@ const ProductDetailPage = () => {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-16 lg:mt-24">
-            <h2 className="mb-8 font-display text-2xl font-bold tracking-wider">MORE FROM {product.animeSeries.toUpperCase()}</h2>
+            <h2 className="mb-8 font-display text-2xl font-bold tracking-wider">
+              MORE FROM {product.category_name.toUpperCase()}
+            </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {relatedProducts.map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />
