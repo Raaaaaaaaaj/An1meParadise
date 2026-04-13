@@ -9,6 +9,8 @@ import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import categoriesRoutes from "./routes/categories.routes.js"
 import productImageRoutes from "./routes/productimages.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
+import addressRoutes from "./routes/address.routes.js";
 import { initDB } from "./config/db.js";
 
 const app = express();
@@ -46,6 +48,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api", productRoutes);
 app.use("/api/categories", categoriesRoutes)
 app.use("/api", productImageRoutes);
+app.use("/api", cartRoutes);
+app.use("/api", addressRoutes);
 
 // ✅ Static folder
 app.use("/uploads", express.static("uploads"));
