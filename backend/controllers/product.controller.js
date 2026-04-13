@@ -6,6 +6,42 @@ import {
 } from "../models/product.model.js";
 
 // ✅ ADD PRODUCT
+// export const addProduct = async (req, res) => {
+//   try {
+//     const {
+//       title,
+//       description,
+//       minprice,
+//       actualprice,
+//       maxprice,
+//       category_id,
+//       quantity,
+//       prod_badgeName,
+//     } = req.body;
+
+//     const image = req.file?.filename;
+
+//     const result = await createProduct([
+//       title,
+//       description,
+//       minprice,
+//       actualprice,
+//       maxprice,
+//       category_id,
+//       quantity,
+//       image,
+//       prod_badgeName
+//     ]);
+
+//     res.json({
+//       message: "Product Created",
+//       id: result.insertId,
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
 export const addProduct = async (req, res) => {
   try {
     const {
@@ -21,6 +57,7 @@ export const addProduct = async (req, res) => {
 
     const image = req.file?.filename;
 
+    // 1. Product insert karein (Note: image array se hata diya hai)
     const result = await createProduct([
       title,
       description,
@@ -29,15 +66,22 @@ export const addProduct = async (req, res) => {
       maxprice,
       category_id,
       quantity,
-      image,
       prod_badgeName
     ]);
 
-    res.json({
-      message: "Product Created",
-      id: result.insertId,
+    const newProductId = result.insertId;
+
+    // 2. Agar image upload hui hai, toh usse separate table mein save karein
+    if (image) {
+      await addProductImage(newProductId, image);
+    }
+
+    res.status(201).json({
+      message: "Product and Image Created Successfully",
+      id: newProductId,
     });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: err.message });
   }
 };

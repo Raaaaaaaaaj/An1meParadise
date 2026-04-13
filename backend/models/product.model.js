@@ -1,14 +1,31 @@
 import { db } from "../config/db.js";
 
 // CREATE PRODUCT
+// export const createProduct = async (data) => {
+//   const sql = `
+//     INSERT INTO products 
+//     (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_image, prod_badgeName)
+//     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+//   `;
+//   const [result] = await db.query(sql, data);
+//   return result;
+// };
+
+// CREATE PRODUCT (Updated)
 export const createProduct = async (data) => {
   const sql = `
     INSERT INTO products 
-    (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_image, prod_badgeName)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_badgeName)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
   const [result] = await db.query(sql, data);
-  return result;
+  return result; // Isme insertId hota hai
+};
+
+// NAYA: Image insert karne ke liye function
+export const addProductImage = async (productId, filename) => {
+  const sql = `INSERT INTO productimage (product_id, thumbnail_image) VALUES (?, ?)`;
+  await db.query(sql, [productId, filename]);
 };
 
 // GET ALL PRODUCTS (JOIN + FILTER + SORT)
