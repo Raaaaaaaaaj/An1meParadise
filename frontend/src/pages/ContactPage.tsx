@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 
 const ContactPage = () => {
@@ -23,8 +24,8 @@ const ContactPage = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post("http://localhost:5000/api/contact", formData);
+      // const res = await axios.post(`${API_URL}/api/contact`, formData);
       alert(res.data.message);
-  
       // reset form
       setFormData({
         name: "",
