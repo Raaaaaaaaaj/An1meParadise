@@ -71,7 +71,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
               console.log("Button Clicked", product);
               addItem(product);
             }}
-            className="rounded-lg bg-primary text-background p-2 text-white"
+            className="rounded-lg bg-black text-background p-2 text-white"
           >
             <ShoppingCart className="h-4 w-4" />
           </motion.button>
