@@ -1,22 +1,22 @@
-
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import path from "path";
 
 import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
-import categoriesRoutes from "./routes/categories.routes.js"
+import categoriesRoutes from "./routes/categories.routes.js";
 import productImageRoutes from "./routes/productimages.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import addressRoutes from "./routes/address.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
-import { initDB } from "./config/db.js";
+
+import { db } from "./config/db.js";
 
 const app = express();
 
 console.log("App starting...");
+
 // ✅ 1. Trust proxy
 app.set("trust proxy", 1);
 
@@ -28,26 +28,28 @@ app.use(
 );
 
 // ✅ 3. CORS
-app.use(cors({
-  origin: [
-    "https://an1meparadise.com",
-    "https://www.an1meparadise.com",
-    "http://localhost:8080"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "https://an1meparadise.com",
+      "https://www.an1meparadise.com",
+      "http://localhost:8080",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // ✅ 4. Logger
 app.use(morgan("dev"));
 
-// ✅ 5. Body parser  
+// ✅ 5. Body parser
 app.use(express.json());
 
 // ✅ 6. Routes
 app.use("/api/auth", authRoutes);
 app.use("/api", productRoutes);
-app.use("/api/categories", categoriesRoutes)
+app.use("/api/categories", categoriesRoutes);
 app.use("/api", productImageRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", addressRoutes);
@@ -72,16 +74,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error" });
 });
 
-// ✅ 10. Server start (initialize DB first)
+// ✅ 10. Start Server (NO initDB needed)
 const PORT = process.env.PORT || 5000;
 
-initDB()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("Failed to initialize DB. Exiting.", err);
-    process.exit(1);
-  });
+app.listen(PORT, async () => {
+  try {
+    // optional: test DB connection once
+    await db.query("SELECT 1");
+    console.log("✅ DB Pool Connected");
+    console.log(`🚀 Server running on port ${PORT}`);
+  } catch (err) {
+    console.error("❌ DB connection failed:", err.message);
+  }
+});
