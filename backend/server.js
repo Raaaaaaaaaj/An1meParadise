@@ -11,6 +11,7 @@ import categoriesRoutes from "./routes/categories.routes.js"
 import productImageRoutes from "./routes/productimages.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import addressRoutes from "./routes/address.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 import { initDB } from "./config/db.js";
 
 const app = express();
@@ -50,6 +51,7 @@ app.use("/api/categories", categoriesRoutes)
 app.use("/api", productImageRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", addressRoutes);
+app.use("/api", contactRoutes);
 
 // ✅ Static folder
 app.use("/uploads", express.static("uploads"));
