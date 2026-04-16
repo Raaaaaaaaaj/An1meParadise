@@ -18,6 +18,7 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
 import SignupPage from "./pages/SignupPage";
+import TermsPage from "./pages/TermsPage";
 import Layout from "@/components/layout/Layout";
 
 
@@ -47,6 +48,7 @@ const App = () => {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
+              <Route path="/termsConditions" element={<TermsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
