@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Truck, Shield, RotateCcw } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 import heroVdo from "@/assets/herovdo.mp4";
-import { products, categories, testimonials } from "@/data/mockData";
+import { products, testimonials } from "@/data/mockData";
 import ProductCard from "@/components/ProductCard";
 import CategoryCard from "@/components/CategoryCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const features = [
   { icon: Truck, title: "Free Shipping", desc: "On orders over ₹999" },
@@ -15,6 +17,57 @@ const features = [
 ];
 
 const Index = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // 🔥 attach product count
+  const fetchProductCounts = async (categories) => {
+    return Promise.all(
+      categories.map(async (cat) => {
+        try {
+          const res = await axios.get(
+            `http://localhost:5000/api/products?category=${cat.category_name}`
+          );
+
+          const products = res.data.data || res.data || [];
+
+          return {
+            ...cat,
+            productCount: products.length,
+          };
+        } catch (err) {
+          console.error(err);
+          return {
+            ...cat,
+            productCount: 0,
+          };
+        }
+      })
+    );
+  };
+
+  // 🔥 Fetch categories + count
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+
+      const res = await axios.get("http://localhost:5000/api/categories");
+      const data = res.data;
+
+      const updated = await fetchProductCounts(data);
+
+      setCategories(updated);
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -165,11 +218,16 @@ const Index = () => {
               CHOOSE YOUR UNIVERSE
             </h2>
           </motion.div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((cat, i) => (
-              <CategoryCard key={cat.id} category={cat} index={i} />
-            ))}
-          </div>
+
+          {loading ? (
+            <p className="text-center">Loading categories...</p>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {categories.map((cat, i) => (
+                <CategoryCard key={cat.id} category={cat} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

@@ -5,43 +5,6 @@ import {
   deleteProduct,
 } from "../models/product.model.js";
 
-// ✅ ADD PRODUCT
-// export const addProduct = async (req, res) => {
-//   try {
-//     const {
-//       title,
-//       description,
-//       minprice,
-//       actualprice,
-//       maxprice,
-//       category_id,
-//       quantity,
-//       prod_badgeName,
-//     } = req.body;
-
-//     const image = req.file?.filename;
-
-//     const result = await createProduct([
-//       title,
-//       description,
-//       minprice,
-//       actualprice,
-//       maxprice,
-//       category_id,
-//       quantity,
-//       image,
-//       prod_badgeName
-//     ]);
-
-//     res.json({
-//       message: "Product Created",
-//       id: result.insertId,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
-
 export const addProduct = async (req, res) => {
   try {
     const {
