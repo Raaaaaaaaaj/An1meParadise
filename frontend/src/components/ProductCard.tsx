@@ -9,6 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 interface ProductCardProps {
   product: any;
   index?: number;
+  onRemove?: (id: number) => void; 
 }
 
 /* ================== Wishlist Helpers ================== */
@@ -40,7 +41,7 @@ const saveWishlist = (items: any[]) => {
 
 /* ================== Component ================== */
 
-const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
+const ProductCard = ({ product, index = 0, onRemove }: ProductCardProps) => {
   const { addItem } = useCart();
 
   // ✅ initial state from localStorage
@@ -50,22 +51,49 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   });
 
   // ✅ MAIN LOGIC
+  // const handleWishlist = () => {
+  //   let wishlist = getWishlist();
+
+  //   const exists = wishlist.some((item: any) => item.id === product.id);
+
+  //   if (exists) {
+  //     // ❌ remove
+  //     wishlist = wishlist.filter((item: any) => item.id !== product.id);
+  //   } else {
+  //     // ✅ add
+  //     wishlist.push(product);
+  //   }
+
+  //   saveWishlist(wishlist);
+  //   setLiked(!exists);
+  // };
+
   const handleWishlist = () => {
-    let wishlist = getWishlist();
+  let wishlist = getWishlist();
 
-    const exists = wishlist.some((item: any) => item.id === product.id);
+  const exists = wishlist.some((item: any) => item.id === product.id);
 
-    if (exists) {
-      // ❌ remove
-      wishlist = wishlist.filter((item: any) => item.id !== product.id);
-    } else {
-      // ✅ add
-      wishlist.push(product);
+  if (exists) {
+    // ❌ remove
+    wishlist = wishlist.filter((item: any) => item.id !== product.id);
+    saveWishlist(wishlist);
+
+    setLiked(false);
+
+    // 🔥 IMPORTANT (parent update)
+    if (onRemove) {
+      onRemove(product.id);
     }
 
+  } else {
+    // ✅ add
+    wishlist.push(product);
     saveWishlist(wishlist);
-    setLiked(!exists);
-  };
+
+    setLiked(true);
+  }
+};
+
 
   return (
     <motion.div

@@ -22,6 +22,26 @@ const WishListPage = () => {
     return parsed.items || [];
   };
 
+  const handleRemoveFromWishlist = (id: number) => {
+  const data = localStorage.getItem("wishlist");
+  if (!data) return;
+
+  const parsed = JSON.parse(data);
+
+  const updatedItems = (parsed.items || []).filter(
+    (item: any) => item.id !== id
+  );
+
+  const newData = {
+    ...parsed,
+    items: updatedItems,
+  };
+
+  localStorage.setItem("wishlist", JSON.stringify(newData));
+
+  // ✅ UI update instantly
+  setProducts(updatedItems);
+};
   // ✅ mount pe load
   useEffect(() => {
     const wishlistItems = getWishlist();
@@ -65,13 +85,20 @@ const WishListPage = () => {
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                 {products.map((product, i) => (
-                  <ProductCard
-                    key={product.id}
-                    product={{
-                      ...product
-                    }}
-                    index={i}
-                  />
+                //   <ProductCard
+                //     key={product.id}
+                //     product={{
+                //       ...product
+                //     }}
+                //     index={i}
+                //     onRemove={handleRemoveFromWishlist}
+                //   />
+                <ProductCard
+  key={product.id}
+  product={{ ...product }}
+  index={i}
+  onRemove={handleRemoveFromWishlist} // ✅ add this
+/>
                 ))}
               </div>
             )}
