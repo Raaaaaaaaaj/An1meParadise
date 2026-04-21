@@ -18,6 +18,7 @@ const ShopPage = () => {
 
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  
 
   // ✅ FETCH CATEGORIES
   useEffect(() => {

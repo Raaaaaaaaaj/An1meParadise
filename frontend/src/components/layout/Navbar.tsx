@@ -20,17 +20,34 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [initials, setInitials] = useState("");
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   const name = localStorage.getItem("name");
+  //   // const name = localStorage.getItem("user.userName");
+
+
+
+  //   if (token) {
+  //     setIsLoggedIn(true);
+
+  //     if (name) {
+  //       const words = name.split(" ");
+  //       const initials = words.map(w => w[0]).join("").toUpperCase();
+  //       setInitials(initials);
+  //     }
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  // }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const name = localStorage.getItem("name");
-    // const name = localStorage.getItem("user.userName");
 
-
-
-    if (token) {
+    if (token && token !== "null" && token !== "undefined") {
       setIsLoggedIn(true);
 
       if (name) {
@@ -40,31 +57,20 @@ const Navbar = () => {
       }
     } else {
       setIsLoggedIn(false);
+      setInitials(""); // reset bhi karo
     }
   }, []);
-
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user.name");
+    localStorage.removeItem("name");  
+    localStorage.removeItem("user"); 
 
     setIsLoggedIn(false);
-    navigate("/");
+    setInitials("");
+
+    window.location.href = "/login";
   };
 
-  // useEffect(() => {
-  //   const name = localStorage.getItem("name");
-  //   // const name = "John Walker";
-
-  //   console.log("name :" , name);
-
-  //   if (name) {
-  //     const words = name.split(" ");
-  //     console.log("Words:", words);
-
-  //     const initials = words.map(w => w[0]).join("").toUpperCase();
-  //     console.log("Generated Initials:", initials);
-  //   }
-  // }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
@@ -204,81 +210,81 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-<AnimatePresence>
-  {mobileOpen && (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      className="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden"
-    >
-      <div className="container mx-auto flex flex-col gap-4 px-4 py-6">
-        {/* Navigation Links */}
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            to={link.href}
-            onClick={() => setMobileOpen(false)}
-            className="font-heading text-lg font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden"
           >
-            {link.label}
-          </Link>
-        ))}
+            <div className="container mx-auto flex flex-col gap-4 px-4 py-6">
+              {/* Navigation Links */}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="font-heading text-lg font-medium uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              ))}
 
-        <hr className="border-border/50 my-2" />
+              <hr className="border-border/50 my-2" />
 
-        {/* Mobile User Actions */}
-        <div className="flex flex-col gap-4">
-          {isLoggedIn ? (
-            <>
-              <div className="flex items-center gap-3 px-1">
-                <div className="h-10 w-10 flex items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
-                  {initials}
-                </div>
-                <span className="font-medium text-foreground">My Account</span>
+              {/* Mobile User Actions */}
+              <div className="flex flex-col gap-4">
+                {isLoggedIn ? (
+                  <>
+                    <div className="flex items-center gap-3 px-1">
+                      <div className="h-10 w-10 flex items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
+                        {initials}
+                      </div>
+                      <span className="font-medium text-foreground">My Account</span>
+                    </div>
+                    <Link
+                      to="/profile"
+                      onClick={() => setMobileOpen(false)}
+                      className="text-muted-foreground hover:text-primary"
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setMobileOpen(false);
+                      }}
+                      className="text-left text-red-500 hover:text-red-600"
+                    >
+                      Log-out
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 text-muted-foreground hover:text-primary"
+                  >
+                    <User className="h-5 w-5" />
+                    <span>Sign-up / Log-in</span>
+                  </Link>
+                )}
+
+                {/* Wishlist for Mobile */}
+                <Link
+                  to="/wishlist"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary"
+                >
+                  <Heart className="h-5 w-5" />
+                  <span>Wishlist</span>
+                </Link>
               </div>
-              <Link 
-                to="/profile" 
-                onClick={() => setMobileOpen(false)}
-                className="text-muted-foreground hover:text-primary"
-              >
-                Profile
-              </Link>
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setMobileOpen(false);
-                }}
-                className="text-left text-red-500 hover:text-red-600"
-              >
-                Log-out
-              </button>
-            </>
-          ) : (
-            <Link
-              to="/login"  
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2 text-muted-foreground hover:text-primary"
-            >
-              <User className="h-5 w-5" />
-              <span>Sign-up / Log-in</span>
-            </Link>
-          )}
-          
-          {/* Wishlist for Mobile */}
-          <Link
-            to="/wishlist"
-            onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-2 text-muted-foreground hover:text-primary"
-          >
-            <Heart className="h-5 w-5" />
-            <span>Wishlist</span>
-          </Link>
-        </div>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
