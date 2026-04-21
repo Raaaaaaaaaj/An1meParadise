@@ -4,9 +4,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/contexts/CartContext";
+// Layout components
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/layout/CartDrawer";
+import Layout from "@/components/layout/Layout";
+// Page components
 import Index from "./pages/Index";
 import ShopPage from "./pages/ShopPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -16,16 +19,10 @@ import CategoriesPage from "./pages/CategoriesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
-import NotFound from "./pages/NotFound";
 import SignupPage from "./pages/SignupPage";
 import TermsPage from "./pages/TermsPage";
-import Layout from "@/components/layout/Layout";
-
-
-
-
+import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
-
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,25 +30,37 @@ const App = () => {
         <CartProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-          <Layout>
-            <Navbar />
-            <CartDrawer />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/shop" element={<ShopPage />} />
-              <Route path="/product/:slug" element={<ProductDetailPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/categories" element={<CategoriesPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/termsConditions" element={<TermsPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <Footer />
+          
+          <BrowserRouter 
+            future={{ 
+              v7_startTransition: true, 
+              v7_relativeSplatPath: true 
+            }}
+          >
+            <Layout>
+              <Navbar />
+              <CartDrawer />
+              <Routes>
+                {/* Main Routes */}
+                <Route path="/" element={<Index />} />
+                <Route path="/shop" element={<ShopPage />} />
+                <Route path="/product/:slug" element={<ProductDetailPage />} />
+                <Route path="/categories" element={<CategoriesPage />} />
+                {/* User Flow */}
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                {/* Information Pages */}
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/termsConditions" element={<TermsPage />} />
+                <Route path="/privacyPolicy" element={<TermsPage />} />
+                <Route path="/returnPolicy" element={<TermsPage />} />
+                {/* 404 Catch-all */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <Footer />
             </Layout>
           </BrowserRouter>
         </CartProvider>

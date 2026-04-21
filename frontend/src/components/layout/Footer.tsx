@@ -9,10 +9,10 @@ const footerlinks = [
 ];
 const footermorelinks = [
   { href: "/termsConditions", label: "Terms & Conditions" },
-  { href: "/termsConditions", label: "Privacy Policy" },
-  { href: "/termsConditions", label: "Return Policy" },
-  { href: "/faqs", label: "FAQs" },
-  { href: "/faqs", label: "Shipping Info" },
+  { href: "/privacyPolicy", label: "Privacy Policy" },
+  { href: "/returnPolicy", label: "Return Policy" },
+  // { href: "/faqs", label: "FAQs" },
+  // { href: "/faqs", label: "Shipping Info" },
 ];
 
 const Footer = () => {
