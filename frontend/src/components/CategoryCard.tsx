@@ -11,6 +11,7 @@ interface CategoryCardProps {
   index?: number;
 }
 
+
 const CategoryCard = ({ category, index = 0 }: CategoryCardProps) => {
   const slug = category.category_name.toLowerCase().replace(/\s+/g, "-");
 
