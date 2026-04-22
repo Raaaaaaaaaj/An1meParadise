@@ -24,7 +24,10 @@ import SignupPage from "./pages/SignupPage";
 import TermsPage from "./pages/TermsPage";
 import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 const queryClient = new QueryClient();
 const App = () => {
   return (
