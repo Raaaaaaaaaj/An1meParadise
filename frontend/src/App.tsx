@@ -23,6 +23,8 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import TermsPage from "./pages/TermsPage";
 import NotFound from "./pages/NotFound";
+import ProfilePage from "./pages/ProfilePage";
+
 const queryClient = new QueryClient();
 const App = () => {
   return (
@@ -45,7 +47,7 @@ const App = () => {
                 {/* Main Routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/shop" element={<ShopPage />} />
-                <Route path="/product/:slug" element={<ProductDetailPage />} />
+                <Route path="/product/:id" element={<ProductDetailPage />} />
                 <Route path="/categories" element={<CategoriesPage />} />
                 <Route path="/wishlist" element={<WishListPage />} />
                 {/* User Flow */}
@@ -53,6 +55,7 @@ const App = () => {
                 <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
                 {/* Information Pages */}
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />

@@ -15,13 +15,37 @@ const ProductDetailPage = () => {
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
+  const images = product.images?.filter(Boolean) || [];
 
   // ✅ PRODUCT FETCH
   useEffect(() => {
-    fetch(`${API_URL}/product/${id}`)
-      .then(res => res.json())
-      .then(data => setProduct(data));
-  }, [id]);
+    console.log("Entyered ProductDetailPage with ID:", id);
+
+  if (!id) return;
+
+  const getProduct = async () => {
+    console.log("Fetching product with ID:", id);
+    try {
+      const response = await fetch(`${API_URL}/api/product/${id}`);
+      
+      if (!response.ok) {
+        // If 404 or 500, set product to null to stop loading state
+        setProduct(null);
+        console.error("Failed to fetch product");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Fetched Product:", data);
+      setProduct(data);
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      setProduct(null); // Stop loading on network error
+    }
+  };
+
+  getProduct();
+}, [id]);
 
   // ✅ RELATED PRODUCTS FETCH (same category)
   useEffect(() => {
@@ -60,7 +84,7 @@ const ProductDetailPage = () => {
             className="group relative aspect-square overflow-hidden rounded-2xl border border-border/50"
           >
             <img
-              src={`${API_URL}/uploads/${product.image}`} // ✅ FIXED
+              src={`${API_URL}/uploads/${images[0]}`} // ✅ FIXED
               alt={product.prod_title} // ✅ FIXED
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
             />

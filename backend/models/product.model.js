@@ -3,7 +3,7 @@ import { db } from "../config/db.js";
 // CREATE PRODUCT
 // export const createProduct = async (data) => {
 //   const sql = `
-//     INSERT INTO products 
+//     INSERT INTO products
 //     (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_image, prod_badgeName)
 //     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 //   `;
@@ -82,27 +82,28 @@ export const getAllProducts = async (query) => {
 export const getProductById = async (id) => {
   const sql = `
     SELECT 
-      p.*,
-      c.category_name,
-      JSON_ARRAYAGG(pi.image_url) AS images
-    FROM products p
-    LEFT JOIN product_categories c 
-      ON p.prod_category_ID = c.id
-    LEFT JOIN product_images pi 
-      ON p.id = pi.product_id
-    WHERE p.id = ?
-    GROUP BY p.id
+  p.*,
+  c.category_name,
+  JSON_ARRAY(
+    pi.thumbnail_image,
+    pi.image_2,
+    pi.image_3,
+    pi.image_4,
+    pi.image_5
+  ) AS images
+FROM products p
+LEFT JOIN productcategories c 
+  ON p.prod_category_ID = c.id
+LEFT JOIN productimage pi 
+  ON p.id = pi.product_id
+WHERE p.id = ?
   `;
-
   const [rows] = await db.query(sql, [id]);
   return rows;
 };
 
 // DELETE PRODUCT
 export const deleteProduct = async (id) => {
-  const [result] = await db.query(
-    "DELETE FROM products WHERE id = ?",
-    [id]
-  );
+  const [result] = await db.query("DELETE FROM products WHERE id = ?", [id]);
   return result;
 };
