@@ -60,19 +60,58 @@ export const fetchProducts = async (req, res) => {
 };
 
 // ✅ FETCH SINGLE PRODUCT
+// export const fetchProduct = async (req, res) => {
+//   try {
+//     const data = await getProductById(req.params.id);
+
+//     if (data.length === 0) {
+//       return res.status(404).json({ message: "Product not found" });
+//     }
+
+//     res.json(data[0]);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
 export const fetchProduct = async (req, res) => {
   try {
     const data = await getProductById(req.params.id);
 
-    if (data.length === 0) {
+    if (!data || data.length === 0) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.json(data[0]);
+    const product = data[0];
+
+    // ✅ images ko ALWAYS array bana do
+    try {
+      if (product.images) {
+        // agar string hai → parse karo
+        if (typeof product.images === "string") {
+          product.images = JSON.parse(product.images);
+        }
+      } else {
+        product.images = [];
+      }
+    } catch (error) {
+      product.images = [];
+    }
+
+    // ✅ null values hatao (important)
+    if (Array.isArray(product.images)) {
+      product.images = product.images.filter(Boolean);
+    } else {
+      product.images = [];
+    }
+
+    res.status(200).json(product);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Fetch Product Error:", err);
+    res.status(500).json({ message: "Server Error" });
   }
 };
+
 
 // ✅ REMOVE PRODUCT
 export const removeProduct = async (req, res) => {
