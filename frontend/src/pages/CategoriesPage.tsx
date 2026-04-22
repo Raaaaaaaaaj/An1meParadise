@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import CategoryCard from "@/components/CategoryCard";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState<any[]>([]);
@@ -37,7 +39,9 @@ const CategoriesPage = () => {
     try {
       setLoading(true);
 
-      const res = await axios.get("http://localhost:5000/api/categories");
+      // const res = await axios.get("http://localhost:5000/api/categories");
+      const res = await axios.get(`${API_URL}/api/categories`);
+
       const data = res.data;
 
       const updated = await fetchProductCounts(data);

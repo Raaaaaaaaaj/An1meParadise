@@ -8,6 +8,8 @@ import ProductCard from "@/components/ProductCard";
 import CategoryCard from "@/components/CategoryCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const features = [
   { icon: Truck, title: "Free Shipping", desc: "On orders over ₹999" },
@@ -26,7 +28,8 @@ const Index = () => {
       categories.map(async (cat) => {
         try {
           const res = await axios.get(
-            `http://localhost:5000/api/products?category=${cat.category_name}`
+            // `http://localhost:5000/api/products?category=${cat.category_name}`
+            `${API_URL}/api/products?category=${cat.category_name}`
           );
 
           const products = res.data.data || res.data || [];
@@ -51,7 +54,8 @@ const Index = () => {
     try {
       setLoading(true);
 
-      const res = await axios.get("http://localhost:5000/api/categories");
+      // const res = await axios.get("http://localhost:5000/api/categories");
+      const res = await axios.get(`${API_URL}/api/categories`);
       const data = res.data;
 
       const updated = await fetchProductCounts(data);
