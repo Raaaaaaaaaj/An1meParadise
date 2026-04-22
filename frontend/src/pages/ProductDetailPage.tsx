@@ -20,31 +20,31 @@ const ProductDetailPage = () => {
   useEffect(() => {
     console.log("Entyered ProductDetailPage with ID:", id);
 
-  if (!id) return;
+    if (!id) return;
 
-  const getProduct = async () => {
-    console.log("Fetching product with ID:", id);
-    try {
-      const response = await fetch(`${API_URL}/api/product/${id}`);
-      
-      if (!response.ok) {
-        // If 404 or 500, set product to null to stop loading state
-        setProduct(null);
-        console.error("Failed to fetch product");
-        return;
+    const getProduct = async () => {
+      console.log("Fetching product with ID:", id);
+      try {
+        const response = await fetch(`${API_URL}/api/product/${id}`);
+
+        if (!response.ok) {
+          // If 404 or 500, set product to null to stop loading state
+          setProduct(null);
+          console.error("Failed to fetch product");
+          return;
+        }
+
+        const data = await response.json();
+        console.log("Fetched Product:", data);
+        setProduct(data);
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        setProduct(null); // Stop loading on network error
       }
+    };
 
-      const data = await response.json();
-      console.log("Fetched Product:", data);
-      setProduct(data);
-    } catch (error) {
-      console.error("Fetch Error:", error);
-      setProduct(null); // Stop loading on network error
-    }
-  };
-
-  getProduct();
-}, [id]);
+    getProduct();
+  }, [id]);
 
   // ✅ RELATED PRODUCTS FETCH (same category)
   useEffect(() => {
@@ -77,7 +77,7 @@ const ProductDetailPage = () => {
     <div className="min-h-screen pt-20 lg:pt-24">
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-          
+
           {/* Image */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -134,11 +134,10 @@ const ProductDetailPage = () => {
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all ${
-                        selectedSize === size
+                      className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all ${selectedSize === size
                           ? "border-primary bg-primary/20 text-primary"
                           : "border-border text-muted-foreground hover:border-primary/50"
-                      }`}
+                        }`}
                     >
                       {size}
                     </button>
@@ -186,7 +185,7 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Related Products */}
-        {relatedProducts.length > 0 && (
+        {/* {relatedProducts.length > 0 && (
           <section className="mt-16 lg:mt-24">
             <h2 className="mb-8 font-display text-2xl font-bold tracking-wider">
               MORE FROM {product.category_name.toUpperCase()}
@@ -197,7 +196,7 @@ const ProductDetailPage = () => {
               ))}
             </div>
           </section>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -68,7 +68,7 @@ const Navbar = () => {
     setIsLoggedIn(false);
     setInitials("");
 
-    window.location.href = "/login";
+    // window.location.href = "/login";
   };
 
   useEffect(() => {
@@ -172,12 +172,13 @@ const Navbar = () => {
                       Profile
                     </Link>
 
-                    <button
+                    <Link
+                      to="/login"
                       onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
                     >
                       Log-out
-                    </button>
+                    </Link>
                   </>
                 )}
               </div>
