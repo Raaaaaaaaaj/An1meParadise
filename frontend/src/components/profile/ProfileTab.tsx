@@ -38,6 +38,15 @@ const ProfileTab: React.FC = () => {
           />
         </div>
 
+        <div>
+          <label className="text-sm text-muted-foreground">City</label>
+          <input
+            type="text"
+            placeholder="Enter your city"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
+
         <div className="md:col-span-2">
           <button
             type="submit"

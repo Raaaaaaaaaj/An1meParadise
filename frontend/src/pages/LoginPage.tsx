@@ -75,6 +75,7 @@ const LoginPage = () => {
 
 
       console.log("✅ USER LOGGED IN");
+      console.log("LOGIN RESPONSE:", data);
       console.log("Token:", data.token);
       console.log("User:", data.user);
       console.log("LocalStorage:", {

@@ -109,6 +109,8 @@ const SignupPage = () => {
 
       setAlert({ type: "success", message: "Account created successfully ✅" });
 
+      console.log(data);
+
       setForm({
         userName: "",
         userMail: "",

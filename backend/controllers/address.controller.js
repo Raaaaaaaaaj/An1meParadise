@@ -9,6 +9,9 @@ import {
 
 // ✅ ADD ADDRESS (AUTO ACTIVE + OLD INACTIVE)
 export const createAddress = async (req, res) => {
+
+  console.log("API HIT"); 
+  
   try {
     const {
       user_id,
@@ -47,7 +50,9 @@ export const createAddress = async (req, res) => {
       id: result.insertId,
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log("ERROR:", err);   // 👈 YAHAN add kar
+    console.log("ERROR: NOT intserted");   // 👈 YAHAN add kar
+  res.status(500).json({ message: err.message });
   }
 };
 

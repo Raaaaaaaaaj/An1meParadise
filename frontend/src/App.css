@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.input {
+  @apply w-full p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring;
+}
