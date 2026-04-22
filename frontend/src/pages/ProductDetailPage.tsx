@@ -15,7 +15,6 @@ const ProductDetailPage = () => {
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [selectedSize, setSelectedSize] = useState<string | undefined>();
   const [quantity, setQuantity] = useState(1);
-  const images = product.images?.filter(Boolean) || [];
 
   // ✅ PRODUCT FETCH
   useEffect(() => {
@@ -71,6 +70,8 @@ const ProductDetailPage = () => {
       </div>
     );
   }
+  const images = product.images?.filter(Boolean) || [];
+
 
   return (
     <div className="min-h-screen pt-20 lg:pt-24">
