@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface CategoryCardProps {
   category: {
@@ -27,7 +28,8 @@ const CategoryCard = ({ category, index = 0 }: CategoryCardProps) => {
         className="group relative block aspect-square overflow-hidden rounded-2xl border border-border/50 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10"
       >
         <img
-          src={category.category_image}
+          // src={category.category_image}
+          src={`${API_URL}/uploads/${category.category_image}`}
           alt={category.category_name}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
@@ -35,7 +37,7 @@ const CategoryCard = ({ category, index = 0 }: CategoryCardProps) => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
 
         <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-6">
-          <h3 className="font-display text-lg font-bold tracking-wider text-foreground lg:text-xl">
+          <h3 className="font-display text-lg font-bold tracking-wider text-primary lg:text-xl">
             {category.category_name}
           </h3>
 
