@@ -22,10 +22,13 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <Link to="/" className="inline-block">
-              <span className="font-display text-xl font-bold tracking-wider text-glow-purple">AN1ME</span>
-              <span className="font-display text-xl font-bold tracking-wider text-foreground"> PARADISE</span>
-            </Link>
+            <Link to="/" className="flex items-center gap-2">
+          <img
+            src="/logo2.png" 
+            alt="AN1ME PARADISE"
+            className="h-20 w-auto lg:h-24 object-contain"
+          />
+        </Link>
             <p className="text-sm text-black">
               India's premium destination for anime merchandise. Authentic, high-quality apparel and collectibles.
             </p>

@@ -116,7 +116,7 @@ const Index = () => {
                 INNER OTAKU
               </span>
             </h1>
-            <p className="mb-8 max-w-lg font-body text-base text-muted-foreground lg:text-lg">
+            <p className="mb-8 max-w-lg font-body text-primary lg:text-lg">
               Discover India's most exclusive anime merch collection. From premium hoodies to limited edition collectibles — gear up like a true weeb.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -236,7 +236,7 @@ const Index = () => {
       </section>
 
       {/* Limited Edition */}
-      <section className="py-16 lg:py-24">
+      {/* <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -257,7 +257,7 @@ const Index = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials */}
       <section className="bg-secondary/10 py-16 lg:py-24">
@@ -272,7 +272,7 @@ const Index = () => {
               ✦ What Our Fans Say
             </p>
             <h2 className="font-display text-3xl font-bold tracking-wider lg:text-4xl">
-              OTAKU REVIEWS
+              MOTIVATING REVIEWS
             </h2>
           </motion.div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

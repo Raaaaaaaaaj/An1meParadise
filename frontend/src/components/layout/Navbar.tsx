@@ -62,8 +62,8 @@ const Navbar = () => {
   }, []);
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("name");  
-    localStorage.removeItem("user"); 
+    localStorage.removeItem("name");
+    localStorage.removeItem("user");
 
     setIsLoggedIn(false);
     setInitials("");
@@ -94,12 +94,11 @@ const Navbar = () => {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:h-20">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <span className="font-display text-xl font-bold tracking-wider text-glow-purple lg:text-2xl">
-            AN1ME
-          </span>
-          <span className="font-display text-xl font-bold tracking-wider text-foreground lg:text-2xl">
-            PARADISE
-          </span>
+          <img
+            src="/logo2.png"
+            alt="AN1ME PARADISE"
+            className="h-20 w-auto lg:h-24 object-contain"
+          />
         </Link>
 
         {/* Desktop Nav */}
