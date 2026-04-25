@@ -24,6 +24,8 @@ import SignupPage from "./pages/SignupPage";
 import TermsPage from "./pages/TermsPage";
 import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
+import ScrollToTop from "@/components/ScrollToTop";
+
 const queryClient = new QueryClient();
 const App = () => {
   return (
@@ -39,6 +41,7 @@ const App = () => {
               v7_relativeSplatPath: true 
             }}
           >
+            <ScrollToTop />
             <Layout>
               <Navbar />
               <CartDrawer />
