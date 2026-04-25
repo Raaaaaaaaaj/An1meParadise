@@ -103,17 +103,19 @@ const Index = () => {
               transition={{ delay: 0.4 }}
               className="mb-4 inline-block rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 font-heading text-xs font-semibold uppercase tracking-widest text-primary"
             >
-              ✦ Premium Anime Merchandise
+              Unleash Your Anime World ⚡
             </motion.p>
-            <h1 className="mb-6 font-display text-4xl font-black leading-tight tracking-wider text-glow-purple sm:text-5xl lg:text-7xl">
-              UNLEASH YOUR
+            <h1 className="mb-6 font-display text-2xl font-black leading-tight tracking-wider text-glow-purple sm:text-5xl lg:text-5xl">
+              Step into An1me Paradise 🎌
               <br />
-              {/* <span className=" bg-clip-text text-transparent">INNER OTAKU</span> */}
+              <span>Where your favorite anime turns real.</span>
+              <br />
+
               <span
                 className="text-white font-bold tracking-wider"
                 style={{ textShadow: "5px 5px 5px rgba(0, 0, 0, 0.84)" }}
               >
-                INNER OTAKU
+                Premium figures. Clean vibes. Affordable drip.
               </span>
             </h1>
             <p className="mb-8 max-w-lg font-body text-primary lg:text-lg">
