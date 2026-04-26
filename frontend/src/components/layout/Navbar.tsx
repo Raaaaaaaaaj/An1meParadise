@@ -118,7 +118,7 @@ const Navbar = () => {
         {/* Actions */}
         <div className="flex items-center gap-3">
           <Link to="/shop" className="rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground">
-            <Search className="h-5 w-5" />
+            {/* <Search className="h-5 w-5" /> */}
           </Link>
           <Link to="/wishlist" className="hidden rounded-lg p-2 text-muted-foreground transition-colors hover:text-foreground sm:block">
             <Heart className="h-5 w-5" />
