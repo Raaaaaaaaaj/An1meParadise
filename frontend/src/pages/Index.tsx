@@ -12,7 +12,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 
 const features = [
-  { icon: Truck, title: "Free Shipping", desc: "On orders over ₹999" },
+  { icon: Truck, title: "Free Shipping", desc: "On orders over ₹499" },
   { icon: Shield, title: "Authentic Merch", desc: "100% genuine products" },
   { icon: RotateCcw, title: "Easy Returns", desc: "7-day return policy" },
   { icon: Sparkles, title: "Premium Quality", desc: "Handpicked collections" },
@@ -297,7 +297,7 @@ const Index = () => {
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 font-display text-xs font-bold text-primary">
                     {t.avatar}
                   </div>
-                  <span className="font-heading text-sm font-semibold">{t.name}</span>
+                  <span className="font-heading text-sm font-semibold text-primary">{t.name}</span>
                 </div>
               </motion.div>
             ))}

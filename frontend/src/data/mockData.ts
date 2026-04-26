@@ -99,8 +99,9 @@ export const products: Product[] = [
 ];
 
 export const testimonials = [
-  { name: "Riku M.", text: "The quality of the Naruto hoodie blew my mind. The glow effect is insane!", rating: 5, avatar: "R" },
-  { name: "Sakura T.", text: "Best anime merch store I've found. The designs are so unique and premium.", rating: 5, avatar: "S" },
-  { name: "Kai N.", text: "Fast shipping and amazing packaging. The AOT jacket is my favorite piece now.", rating: 5, avatar: "K" },
-  { name: "Yuki H.", text: "Limited edition pieces are always fire. AN1ME PARADISE never disappoints!", rating: 5, avatar: "Y" },
+  { name: "Aditya Choudhary ", text: `Absolute stunning 🔥🔥 Thnx for amazing quality ❤️`, rating: 5, avatar: "A" },
+  { name: "Fateh Singh ", text: `Reached me safely and everything looks good ❤️ I’ll post my review later on facebook`, rating: 5, avatar: "F" },
+  { name: "Danish farooq", text: `The Dragon is awesome 🙌 at this price point .. thanks a lot 🙏💥`, rating: 5, avatar: "D" },
+  { name: "Pradeep Rajendra", text: `Thanks bro good quality I love it ♥️♥️`, rating: 5, avatar: "P" },
+  { name: "Om sharma", text: `Order received bro Superb quality …. Thankx ❤️`, rating: 5, avatar: "O" },
 ];
