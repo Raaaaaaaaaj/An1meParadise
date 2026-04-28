@@ -14,7 +14,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const features = [
   { icon: Truck, title: "Free Shipping", desc: "On orders over ₹499" },
   { icon: Shield, title: "Authentic Merch", desc: "100% genuine products" },
-  { icon: RotateCcw, title: "Easy Returns", desc: "7-day return policy" },
+  // { icon: RotateCcw, title: "Easy Returns", desc: "7-day return policy" },
   { icon: Sparkles, title: "Premium Quality", desc: "Handpicked collections" },
 ];
 
@@ -151,7 +151,7 @@ const Index = () => {
 
       {/* Features Bar */}
       <section className="border-y border-border/50 bg-secondary/20">
-        <div className="container mx-auto grid grid-cols-2 gap-4 px-4 py-6 md:grid-cols-4 lg:py-8">
+        <div className="container mx-auto grid grid-cols-2 gap-4 px-4 py-6 md:grid-cols-3 lg:py-8">
           {features.map((f, i) => (
             <motion.div
               key={f.title}

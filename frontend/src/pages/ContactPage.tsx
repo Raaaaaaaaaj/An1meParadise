@@ -55,21 +55,21 @@ const ContactPage = () => {
               <div className="rounded-lg bg-primary/10 p-3"><Mail className="h-5 w-5 text-primary" /></div>
               <div>
                 <h3 className="font-heading text-sm font-semibold">Email</h3>
-                <p className="text-sm text-muted-foreground">support@an1meparadise.com</p>
+                <p className="text-sm text-muted-foreground">workwithan1me.paradise@gmail.com</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <div className="rounded-lg bg-primary/10 p-3"><Phone className="h-5 w-5 text-primary" /></div>
               <div>
                 <h3 className="font-heading text-sm font-semibold">Phone</h3>
-                <p className="text-sm text-muted-foreground">+91 98765 43210</p>
+                <p className="text-sm text-muted-foreground">+91 6289424388</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
               <div className="rounded-lg bg-primary/10 p-3"><MapPin className="h-5 w-5 text-primary" /></div>
               <div>
                 <h3 className="font-heading text-sm font-semibold">Location</h3>
-                <p className="text-sm text-muted-foreground">Mumbai, Maharashtra, India</p>
+                <p className="text-sm text-muted-foreground">Kolkata, West Bengal</p>
               </div>
             </div>
           </motion.div>
