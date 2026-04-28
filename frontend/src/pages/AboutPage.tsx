@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { Sparkles, Users, Shield, Heart } from "lucide-react";
 
 const values = [
-  { icon: Sparkles, title: "Premium Quality", desc: "Every piece is crafted with top-tier materials and authentic anime artwork." },
-  { icon: Users, title: "Community Driven", desc: "Built by otakus, for otakus. We know what true fans want." },
-  { icon: Shield, title: "100% Authentic", desc: "Licensed and original designs. No knockoffs, ever." },
-  { icon: Heart, title: "Passion First", desc: "We don't just sell merch — we celebrate anime culture." },
+  { icon: Sparkles, title: "Unleash Your Anime World", desc: "Every piece is crafted with top-tier materials and authentic anime artwork." },
+  { icon: Users, title: "From Screen to Shelf", desc: "Built by otakus, for otakus. We know what true fans want." },
+  { icon: Shield, title: "Collect What You Love", desc: "Licensed and original designs. No knockoffs, ever." },
+  { icon: Heart, title: "Powered by Passion, Priced for Fans", desc: "We don't just sell merch — we celebrate anime culture." },
 ];
 
 const AboutPage = () => {
@@ -18,9 +18,7 @@ const AboutPage = () => {
             ABOUT <span className="text-glow-purple">AN1ME PARADISE</span>
           </h1>
           <p className="text-base leading-relaxed text-muted-foreground">
-            Born from a deep love for anime and Japanese culture, AN1ME PARADISE is India's most premium anime merchandise destination.
-            We curate exclusive collections that let you wear your fandom with pride — from limited edition hoodies to collector's items
-            that turn heads.
+           An1me Paradise is your ultimate destination for premium anime figures and collectibles at prices that actually make sense. Built for true anime fans, we bring iconic characters to life with high-quality designs, detailed craftsmanship, and a vibe that matches your passion. Whether you're starting your collection or leveling it up, this is your place to turn anime dreams into reality.
           </p>
         </motion.div>
 
@@ -49,7 +47,7 @@ const AboutPage = () => {
           viewport={{ once: true }}
           className="mt-16 rounded-2xl border border-primary/20 bg-gradient-hero p-8 text-center lg:p-12"
         >
-          <h2 className="mb-4 font-display text-2xl font-bold tracking-wider">OUR MISSION</h2>
+          <h2 className="mb-4 font-display text-2xl font-bold tracking-wider">OUR MOTTOS</h2>
           <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground">
             To make premium anime merchandise accessible to every fan in India. We believe your wardrobe should be as epic as the anime you love —
             and we're here to make that happen with world-class designs and unbeatable quality.
