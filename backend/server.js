@@ -10,6 +10,7 @@ import productImageRoutes from "./routes/productimages.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import addressRoutes from "./routes/address.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
+import userRoutes from "./routes/user.routes.js";
 
 import { db } from "./config/db.js";
 
@@ -54,6 +55,7 @@ app.use("/api", productImageRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", addressRoutes);
 app.use("/api", contactRoutes);
+app.use("/api/user", userRoutes);
 
 // ✅ Static folder
 app.use("/uploads", express.static("uploads"));
