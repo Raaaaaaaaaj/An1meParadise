@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SlidersHorizontal } from "lucide-react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom"; 
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,6 +10,7 @@ import ProductCard from "@/components/ProductCard";
 
 const ShopPage = () => {
   const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("popular");
   const [showFilters, setShowFilters] = useState(false);
@@ -37,6 +39,15 @@ const ShopPage = () => {
 
     fetchCategories();
   }, []);
+
+useEffect(() => {
+  const animeParam = searchParams.get("anime");
+
+  if (animeParam) {
+    const formatted = animeParam.replace(/-/g, " ");
+    setSelectedCategory(formatted);
+  }
+}, [searchParams]);
 
   // ✅ FETCH PRODUCTS (FILTER BASED)
   useEffect(() => {

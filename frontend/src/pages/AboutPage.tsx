@@ -2,10 +2,22 @@ import { motion } from "framer-motion";
 import { Sparkles, Users, Shield, Heart } from "lucide-react";
 
 const values = [
-  { icon: Sparkles, title: "Unleash Your Anime World", desc: "Every piece is crafted with top-tier materials and authentic anime artwork." },
-  { icon: Users, title: "From Screen to Shelf", desc: "Built by otakus, for otakus. We know what true fans want." },
-  { icon: Shield, title: "Collect What You Love", desc: "Licensed and original designs. No knockoffs, ever." },
-  { icon: Heart, title: "Powered by Passion, Priced for Fans", desc: "We don't just sell merch — we celebrate anime culture." },
+  { icon: Sparkles, 
+    title: "Unleash Your Anime World", 
+    // desc: "Every piece is crafted with top-tier materials and authentic anime artwork." 
+  },
+  { icon: Users, 
+    title: "From Screen to Shelf", 
+    // desc: "Built by otakus, for otakus. We know what true fans want." 
+  },
+  { icon: Heart, 
+    title: "Collect What You Love", 
+    // desc: "Licensed and original designs. No knockoffs, ever." 
+  },
+  { icon: Shield, 
+    title: "Powered by Passion, Priced for Fans",
+    // desc: "We don't just sell merch — we celebrate anime culture."
+  },
 ];
 
 const AboutPage = () => {
