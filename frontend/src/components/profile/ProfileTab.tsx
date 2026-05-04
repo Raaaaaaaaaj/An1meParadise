@@ -103,7 +103,7 @@ const ProfileTab = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6 text-glow-purple">
+      <h2 className="text-2xl font-semibold mb-6 text-primary">
         Profile Details
       </h2>
 

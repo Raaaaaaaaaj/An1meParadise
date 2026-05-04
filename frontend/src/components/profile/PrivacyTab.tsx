@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 
@@ -11,6 +12,8 @@ const PrivacyTab = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [showPass, setShowPass] = useState(false);
+
 
   // 🔥 get user from localStorage
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -63,7 +66,7 @@ const PrivacyTab = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6 text-glow-purple">
+      <h2 className="text-2xl font-semibold mb-6 text-primary">
         Privacy Settings
       </h2>
 
@@ -76,14 +79,23 @@ const PrivacyTab = () => {
           <label className="text-sm text-muted-foreground">
             Current Password
           </label>
+          <div className="relative">
           <input
-            type="password"
+            type={showPass ? "text" : "password"}
             name="currentPassword"
             value={form.currentPassword}
             onChange={handleChange}
             placeholder="Enter current password"
-            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
           />
+          <button
+            type="button"
+            onClick={() => setShowPass(!showPass)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+          >
+            {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+          </div>
         </div>
 
         {/* New Password */}
@@ -91,14 +103,23 @@ const PrivacyTab = () => {
           <label className="text-sm text-muted-foreground">
             New Password
           </label>
+          <div className="relative">
           <input
-            type="password"
+            type={showPass ? "text" : "password"}
             name="newPassword"
             value={form.newPassword}
             onChange={handleChange}
             placeholder="Enter new password"
-            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
           />
+          <button
+            type="button"
+            onClick={() => setShowPass(!showPass)}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+          >
+            {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+          </div>
         </div>
 
         {/* Message */}

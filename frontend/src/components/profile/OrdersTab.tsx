@@ -69,7 +69,7 @@ const OrdersTab = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6 text-glow-purple">
+      <h2 className="text-2xl font-semibold mb-6 text-primary">
         Your Orders
       </h2>
 
@@ -85,14 +85,14 @@ const OrdersTab = () => {
               className="w-full flex justify-between items-center p-4 text-left hover:bg-muted transition"
             >
               <div>
-                <p className="font-semibold text-foreground">Order #{order.id}</p>
+                <p className="font-semibold text-primary">Order #{order.id}</p>
                 <p className="text-sm text-muted-foreground">
                   {order.date}
                 </p>
               </div>
 
               <div className="flex items-center gap-4">
-                <span className="font-medium">₹{order.total}</span>
+                <span className="font-medium text-primary">₹{order.total}</span>
 
                 <span
                   className={`px-3 py-1 rounded-full text-xs ${
@@ -108,7 +108,7 @@ const OrdersTab = () => {
 
                 {/* Arrow */}
                 <span
-                  className={`transition-transform ${
+                  className={`transition-transform text-primary ${
                     openId === order.id ? "rotate-180" : ""
                   }`}
                 >
@@ -132,7 +132,7 @@ const OrdersTab = () => {
                     className="flex justify-between text-sm"
                   >
                     <div>
-                      <p className="font-medium">{p.name}</p>
+                      <p className="font-medium text-primary">{p.name}</p>
                       <p className="text-muted-foreground">
                         Qty: {p.qty}
                       </p>
@@ -152,7 +152,7 @@ const OrdersTab = () => {
 
                 {/* Total */}
                 <div className="border-t border-border pt-3 flex justify-between font-semibold">
-                  <span>Total</span>
+                  <span className="text-primary">Total</span>
                   <span>₹{order.total}</span>
                 </div>
               </div>
