@@ -48,7 +48,7 @@ const AboutPage = () => {
                 <v.icon className="h-6 w-6 text-primary" />
               </div>
               <h3 className="mb-2 font-heading text-sm font-bold text-primary">{v.title}</h3>
-              <p className="text-xs leading-relaxed text-muted-foreground">{v.desc}</p>
+              {/* <p className="text-xs leading-relaxed text-muted-foreground">{v.desc}</p> */}
             </motion.div>
           ))}
         </div>
