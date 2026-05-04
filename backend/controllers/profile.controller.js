@@ -93,3 +93,28 @@ export const changePassword = async (req, res) => {
       res.status(500).json({ message: err.message });
     }
   };
+
+
+
+  // ===============================
+// ✅ GET USER PROFILE
+// ===============================
+export const getUserProfile = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+
+    const [result] = await db.query(
+      "SELECT id, userName, userMail, userMobile, userCity FROM users WHERE id = ?",
+      [user_id]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(result[0]);
+  } catch (err) {
+    console.log("GET PROFILE ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
