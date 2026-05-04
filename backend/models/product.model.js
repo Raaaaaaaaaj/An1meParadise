@@ -102,6 +102,17 @@ WHERE p.id = ?
   return rows;
 };
 
+// Get featured products
+export const getFeatured = async () => {
+  const sql = `
+    SELECT * FROM products 
+    WHERE is_featured = 1 
+    ORDER BY id DESC
+  `; 
+  const [rows] = await db.query(sql);
+  return rows;
+}
+
 // DELETE PRODUCT
 export const deleteProduct = async (id) => {
   const [result] = await db.query("DELETE FROM products WHERE id = ?", [id]);

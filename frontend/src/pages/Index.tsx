@@ -20,9 +20,11 @@ const features = [
 
 const Index = () => {
   const [categories, setCategories] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingFeatured, setLoadingFeatured] = useState(true); 
 
-  // 🔥 attach product count
+  // attach product count
   const fetchProductCounts = async (categories) => {
     return Promise.all(
       categories.map(async (cat) => {
@@ -49,7 +51,7 @@ const Index = () => {
     );
   };
 
-  // 🔥 Fetch categories + count
+  // Fetch categories + count
   const fetchCategories = async () => {
     try {
       setLoading(true);
@@ -68,8 +70,22 @@ const Index = () => {
     }
   };
 
+  // Fetch featured products
+  const fetchFeaturedProducts = async() => {
+    try{
+      setLoadingFeatured(true);
+      const res = await axios.get(`${API_URL}/api/products?featured=true`);
+      setFeaturedProducts(res.data);
+    }catch(err){
+      console.log("Error fetching featured products:", err);
+    }finally{
+      setLoadingFeatured(false);
+    }
+  }
+
   useEffect(() => {
     fetchCategories();
+    fetchFeaturedProducts();
   }, []);
 
   return (
@@ -174,6 +190,7 @@ const Index = () => {
       </section>
 
       {/* Featured Products */}
+      {/* Featured Products Section */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <motion.div
@@ -189,11 +206,24 @@ const Index = () => {
               FEATURED MERCH
             </h2>
           </motion.div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {products.slice(0, 4).map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+
+          {/* Dynamic Content Yahan Ayega */}
+          {loadingFeatured ? (
+            <div className="text-center py-10">Loading Featured Merch...</div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {featuredProducts.length > 0 ? (
+                featuredProducts.slice(0, 4).map((product, i) => (
+                  <ProductCard key={product.id} product={product} index={i} />
+                ))
+              ) : (
+                <p className="col-span-full text-center text-muted-foreground">
+                  No featured products at the moment.
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="mt-10 text-center">
             <Link to="/shop">
               <motion.button

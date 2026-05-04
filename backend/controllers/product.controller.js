@@ -2,9 +2,12 @@ import {
   createProduct,
   getAllProducts,
   getProductById,
+  getFeatured,
   deleteProduct,
 } from "../models/product.model.js";
 
+
+// Add product
 export const addProduct = async (req, res) => {
   try {
     const {
@@ -49,7 +52,7 @@ export const addProduct = async (req, res) => {
   }
 };
 
-// ✅ FETCH ALL PRODUCTS
+// Fetch all products
 export const fetchProducts = async (req, res) => {
   try {
     const data = await getAllProducts(req.query);
@@ -59,21 +62,7 @@ export const fetchProducts = async (req, res) => {
   }
 };
 
-// ✅ FETCH SINGLE PRODUCT
-// export const fetchProduct = async (req, res) => {
-//   try {
-//     const data = await getProductById(req.params.id);
-
-//     if (data.length === 0) {
-//       return res.status(404).json({ message: "Product not found" });
-//     }
-
-//     res.json(data[0]);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
-
+// Fetch single product
 export const fetchProduct = async (req, res) => {
   try {
     const data = await getProductById(req.params.id);
@@ -112,8 +101,23 @@ export const fetchProduct = async (req, res) => {
   }
 };
 
+// Fetch Featured products
+export const fetchFeaturedProducts = async (req, res) => {
+  try {
+    const data = await getFeatured(); // Parameter ki zaroorat nahi agar query static hai
+    
+    if (data.length === 0) {
+      return res.status(404).json({ message: "No featured products found" });
+    }
 
-// ✅ REMOVE PRODUCT
+    res.status(200).json(data);
+  } catch (err) {
+    console.error("Error in fetchFeaturedProducts:", err); // Server logs ke liye
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+// Remove products
 export const removeProduct = async (req, res) => {
   try {
     await deleteProduct(req.params.id);
