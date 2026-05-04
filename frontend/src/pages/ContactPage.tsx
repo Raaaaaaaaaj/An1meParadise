@@ -23,7 +23,7 @@ const ContactPage = () => {
   
   const handleSubmit = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/contact", formData);
+      const res = await axios.post(`${API_URL}/api/contact`, formData);
       // const res = await axios.post(`${API_URL}/api/contact`, formData);
       alert(res.data.message);
       // reset form

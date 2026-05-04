@@ -15,7 +15,7 @@ const tabs: { id: TabType; label: string }[] = [
 const Sidebar = ({ activeTab, setActiveTab }: Props) => {
   return (
     <div className="bg-gradient-card p-4 rounded-2xl border border-border">
-      <h2 className="text-xl font-semibold mb-4 text-glow-blue">
+      <h2 className="text-xl font-semibold mb-4 text-primary">
         My Account
       </h2>
 

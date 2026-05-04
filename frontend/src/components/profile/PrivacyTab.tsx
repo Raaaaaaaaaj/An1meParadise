@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const PrivacyTab = () => {
   const [form, setForm] = useState({
@@ -36,7 +38,7 @@ const PrivacyTab = () => {
       setMessage(null);
 
       const res = await axios.put(
-        "http://localhost:5000/api/user/change-password",
+        `${API_URL}/api/user/change-password`,
         {
           user_id: userId,
           currentPassword: form.currentPassword,

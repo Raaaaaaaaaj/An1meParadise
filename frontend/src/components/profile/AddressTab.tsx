@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 interface Address {
   id: number;
@@ -48,7 +50,7 @@ useEffect(() => {
   
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/address/${userId}`
+        `${API_URL}/api/address/${userId}`
       );
   
       setAddresses(res.data);
@@ -84,7 +86,7 @@ useEffect(() => {
     }
   
     try {
-      await axios.post("http://localhost:5000/api/address", {
+      await axios.post(`${API_URL}/api/address`, {
         user_id: userId,   // ✅ FIXED
         ...formData,
       });
@@ -110,7 +112,7 @@ useEffect(() => {
   const handleSelect = async (id: number) => {
     setSelectedId(id);
 
-    await axios.put("http://localhost:5000/api/address/default", {
+    await axios.put(`${API_URL}/api/address/default`, {
       userId,
       address_id: id,
     });
@@ -120,7 +122,7 @@ useEffect(() => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4 text-glow-purple">
+      <h2 className="text-2xl font-semibold mb-4 text-primary">
         Your Addresses
       </h2>
 
@@ -139,7 +141,7 @@ useEffect(() => {
               />
 
               <div>
-                <p className="font-medium">
+                <p className="font-medium text-primary">
                   {addr.name} ({addr.phNum})
                 </p>
                 <p className="text-sm text-muted-foreground">
@@ -158,7 +160,7 @@ useEffect(() => {
       </div>
 
       {/* 🔥 Add New Address */}
-      <h3 className="text-xl mb-3">Add New Address</h3>
+      <h3 className="text-xl mb-3 text-primary font-semibold">Add New Address</h3>
 
       <form
         onSubmit={handleSubmit}
@@ -169,7 +171,7 @@ useEffect(() => {
           value={formData.name}
           onChange={handleChange}
           placeholder="Full Name"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <input
@@ -177,7 +179,7 @@ useEffect(() => {
           value={formData.phNum}
           onChange={handleChange}
           placeholder="Phone Number"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <input
@@ -185,7 +187,7 @@ useEffect(() => {
           value={formData.house_no}
           onChange={handleChange}
           placeholder="House No"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <input
@@ -193,7 +195,7 @@ useEffect(() => {
           value={formData.strt_add}
           onChange={handleChange}
           placeholder="Street Address"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <input
@@ -201,7 +203,7 @@ useEffect(() => {
           value={formData.landmark}
           onChange={handleChange}
           placeholder="Landmark"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <input
@@ -209,7 +211,7 @@ useEffect(() => {
           value={formData.state}
           onChange={handleChange}
           placeholder="State"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <input
@@ -217,7 +219,7 @@ useEffect(() => {
           value={formData.pincode}
           onChange={handleChange}
           placeholder="Pincode"
-          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+          className="input w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
         />
 
         <div className="md:col-span-2">

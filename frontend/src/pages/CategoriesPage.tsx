@@ -15,7 +15,7 @@ const CategoriesPage = () => {
       categories.map(async (cat) => {
         try {
           const res = await axios.get(
-            `http://localhost:5000/api/products?category=${cat.category_name}`
+            `${API_URL}/api/products?category=${cat.category_name}`
           );
 
           const products = res.data.data || res.data || [];
@@ -39,7 +39,7 @@ const CategoriesPage = () => {
     try {
       setLoading(true);
 
-      // const res = await axios.get("http://localhost:5000/api/categories");
+      // const res = await axios.get("${API_URL}/api/categories");
       const res = await axios.get(`${API_URL}/api/categories`);
 
       const data = res.data;

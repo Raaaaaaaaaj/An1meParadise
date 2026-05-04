@@ -27,7 +27,7 @@ const ShopPage = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/categories`);
-        // const res = await axios.get(`http://localhost:5000/api/categories`);
+        // const res = await axios.get(`${API_URL}/api/categories`);
         const data = res.data.data || res.data || [];
         setCategories(data);
       } catch (err) {

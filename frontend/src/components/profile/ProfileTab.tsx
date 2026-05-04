@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const ProfileTab = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +28,7 @@ const ProfileTab = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/user/profile/${userId}`
+        `${API_URL}/api/user/profile/${userId}`
       );
 
       console.log("✅ FETCHED USER DATA:", res.data); // 🔥 DEBUG
@@ -85,7 +87,7 @@ const ProfileTab = () => {
       console.log("🚀 UPDATE PAYLOAD:", payload); // 🔥 DEBUG
 
       const res = await axios.put(
-        "http://localhost:5000/api/user/profile",
+        `${API_URL}/api/user/profile`,
         payload
       );
 
@@ -117,7 +119,7 @@ const ProfileTab = () => {
             value={formData.userName}
             onChange={handleChange}
             placeholder="Enter your name"
-            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
           />
         </div>
 
@@ -128,7 +130,7 @@ const ProfileTab = () => {
             value={formData.userMail}
             readOnly
             placeholder="Enter your email"
-            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
           />
         </div>
 
@@ -140,7 +142,7 @@ const ProfileTab = () => {
             value={formData.userMobile}
             onChange={handleChange}
             placeholder="Enter your phone"
-            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
           />
         </div>
 
@@ -152,7 +154,7 @@ const ProfileTab = () => {
             value={formData.userCity}
             onChange={handleChange}
             placeholder="Enter your city"
-            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring"
+            className="w-full mt-1 p-2 rounded-lg bg-input border border-border focus:outline-none focus:ring-2 focus:ring-ring text-primary"
           />
         </div>
 
