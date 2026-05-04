@@ -1,16 +1,5 @@
 import { db } from "../config/db.js";
 
-// CREATE PRODUCT
-// export const createProduct = async (data) => {
-//   const sql = `
-//     INSERT INTO products
-//     (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_image, prod_badgeName)
-//     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-//   `;
-//   const [result] = await db.query(sql, data);
-//   return result;
-// };
-
 // CREATE PRODUCT (Updated)
 export const createProduct = async (data) => {
   const sql = `
@@ -30,7 +19,8 @@ export const addProductImage = async (productId, filename) => {
 
 // GET ALL PRODUCTS (JOIN + FILTER + SORT)
 export const getAllProducts = async (query) => {
-  let { category, sort, search } = query;
+  // ✅ Extract featured from query
+  let { category, sort, search, featured } = query;
 
   let sql = `
     SELECT 
@@ -39,6 +29,7 @@ export const getAllProducts = async (query) => {
       p.prod_description,
       p.prod_actualPrice,
       p.prod_badgeName,
+      p.is_featured,
       c.category_name,
       MIN(pi.thumbnail_image) AS image
     FROM products p
@@ -50,6 +41,11 @@ export const getAllProducts = async (query) => {
   `;
 
   const params = [];
+
+  // ✅ FEATURED FILTER (New addition)
+  if (featured === "true") {
+    sql += " AND p.is_featured = 1";
+  }
 
   // ✅ CATEGORY FILTER
   if (category && category !== "All") {
@@ -101,17 +97,6 @@ WHERE p.id = ?
   const [rows] = await db.query(sql, [id]);
   return rows;
 };
-
-// Get featured products
-export const getFeatured = async () => {
-  const sql = `
-    SELECT * FROM products 
-    WHERE is_featured = 1 
-    ORDER BY id DESC
-  `; 
-  const [rows] = await db.query(sql);
-  return rows;
-}
 
 // DELETE PRODUCT
 export const deleteProduct = async (id) => {

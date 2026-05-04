@@ -2,7 +2,6 @@ import {
   createProduct,
   getAllProducts,
   getProductById,
-  getFeatured,
   deleteProduct,
 } from "../models/product.model.js";
 
@@ -100,22 +99,6 @@ export const fetchProduct = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-
-// Fetch Featured products
-export const fetchFeaturedProducts = async (req, res) => {
-  try {
-    const data = await getFeatured(); // Parameter ki zaroorat nahi agar query static hai
-    
-    if (data.length === 0) {
-      return res.status(404).json({ message: "No featured products found" });
-    }
-
-    res.status(200).json(data);
-  } catch (err) {
-    console.error("Error in fetchFeaturedProducts:", err); // Server logs ke liye
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-}
 
 // Remove products
 export const removeProduct = async (req, res) => {

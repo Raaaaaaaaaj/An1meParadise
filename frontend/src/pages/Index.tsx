@@ -76,6 +76,7 @@ const Index = () => {
       setLoadingFeatured(true);
       const res = await axios.get(`${API_URL}/api/products?featured=true`);
       setFeaturedProducts(res.data);
+      console.log("Featured products fetched:", res.data);
     }catch(err){
       console.log("Error fetching featured products:", err);
     }finally{
