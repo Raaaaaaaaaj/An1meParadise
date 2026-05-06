@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useCart } from "@/contexts/CartContext";
+import AddressTab from "@/components/profile/AddressTab";
 
 const CheckoutPage = () => {
   const { items, totalPrice } = useCart();
@@ -13,28 +14,16 @@ const CheckoutPage = () => {
 
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
-            {/* Billing */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-xl border border-border bg-card p-6">
-              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-wider text-primary">Billing Details</h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input placeholder="First Name" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-                <input placeholder="Last Name" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-                <input placeholder="Email" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:col-span-2" />
-                <input placeholder="Phone" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:col-span-2" />
-              </div>
-            </motion.div>
+            {/* Billing address */}
 
-            {/* Shipping */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-xl border border-border bg-card p-6">
-              <h2 className="mb-4 font-display text-sm font-bold uppercase tracking-wider text-primary">Shipping Address</h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input placeholder="Address Line 1" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:col-span-2" />
-                <input placeholder="City" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-                <input placeholder="State" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-                <input placeholder="PIN Code" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-                <input placeholder="Country" defaultValue="India" className="rounded-lg border border-border bg-background px-4 py-3 text-sm text-primary placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
-              </div>
-            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-xl border border-border bg-card p-6">
+
+              <AddressTab/>
+
+              </motion.div>
+            
+            
+            
 
             {/* Payment Placeholder */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-xl border border-border bg-card p-6">
