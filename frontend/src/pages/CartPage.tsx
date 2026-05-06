@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Minus, Plus, X, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity, totalPrice } = useCart();
@@ -35,7 +37,8 @@ const CartPage = () => {
                 exit={{ opacity: 0, x: -100 }}
                 className="flex gap-4 rounded-xl border border-border bg-card p-4"
               >
-                <img src={item.product.image} alt={item.product.prod_title} className="h-24 w-24 rounded-lg object-cover lg:h-32 lg:w-32" />
+                  <img src= {`${API_URL}/uploads/${item.product.image}`} 
+                alt={item.product.prod_title} className="h-24 w-24 rounded-lg object-cover lg:h-32 lg:w-32" />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-primary">{item.product.animeSeries}</p>
@@ -70,7 +73,7 @@ const CartPage = () => {
                 <span>Subtotal</span><span>₹{totalPrice}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>Shipping</span><span>{totalPrice >= 999 ? "FREE" : "₹99"}</span>
+                <span>Shipping</span><span>{totalPrice >= 999 ? "FREE" : "₹149"}</span>
               </div>
               <div className="border-t border-border pt-3">
                 <div className="flex justify-between font-heading text-lg font-bold">

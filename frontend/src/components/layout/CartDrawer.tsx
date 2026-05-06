@@ -3,6 +3,8 @@ import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalPrice } = useCart();
   console.log("CART ITEMS:", items);
@@ -48,7 +50,8 @@ const CartDrawer = () => {
             <div className="flex-1 overflow-y-auto p-4">
               {items.map((item) => (
                 <div key={item.product.id} className="mb-4 flex gap-4 rounded-lg border border-border bg-card p-3 bg-primary">
-                  <img src={item.product.image} alt={item.product.prod_title} className="h-20 w-20 rounded-md object-cover" />
+                  <img src= {`${API_URL}/uploads/${item.product.image}`} 
+                  alt={item.product.prod_title} className="h-20 w-20 rounded-md object-cover" />
                   <div className="flex flex-1 flex-col justify-between">
                     <div>
                       {/* <p className="font-heading text-sm font-semibold">{item.product.name}</p> */}
@@ -81,7 +84,7 @@ const CartDrawer = () => {
             </div>
             <div className="border-t border-border p-4 space-y-3">
               <div className="flex justify-between font-heading text-lg font-bold">
-                <span>Total</span>
+                <span className="text-primary">Total</span>
                 <span className="text-primary">₹{totalPrice}</span>
               </div>
               <Link
