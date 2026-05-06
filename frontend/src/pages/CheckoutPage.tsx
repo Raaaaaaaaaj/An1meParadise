@@ -48,20 +48,24 @@ const CheckoutPage = () => {
 
           {/* Summary */}
           <div className="h-fit rounded-xl border border-border bg-card p-6">
-            <h3 className="mb-4 font-display text-sm font-bold uppercase tracking-wider text-primary">Order Summary</h3>
+            <h3 className="mb-4 font-display text-xl font-bold uppercase tracking-wider text-primary">Order Summary</h3>
             <div className="space-y-3">
               {items.map((item) => (
+                <div>
                 <div key={item.product.id} className="flex justify-between text-sm">
+                  <span className="text-primary truncate w-48">{item.product.prod_title}</span>
                   <span className="text-muted-foreground">{item.product.name} × {item.quantity}</span>
-                  <span>₹{item.product.price * item.quantity}</span>
+                  <span className="text-primary">₹{item.product.prod_actualPrice * item.quantity}</span>
+                  </div>
+                  <hr className="mt-2" />
                 </div>
               ))}
-              <div className="border-t border-border pt-3">
+              <div className="pt-3">
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>Shipping</span><span>{totalPrice >= 999 ? "FREE" : "₹99"}</span>
+                  <span>Shipping</span><span>{totalPrice >= 999 ? "FREE" : "₹149"}</span>
                 </div>
                 <div className="mt-2 flex justify-between font-heading text-lg font-bold">
-                  <span>Total</span><span className="text-primary">₹{totalPrice + (totalPrice >= 999 ? 0 : 99)}</span>
+                  <span className="text-primary">Total</span><span className="text-primary">₹{totalPrice + (totalPrice >= 999 ? 0 : 99)}</span>
                 </div>
               </div>
             </div>

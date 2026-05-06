@@ -10,7 +10,7 @@ const footerlinks = [
 const footermorelinks = [
   { href: "/termsConditions", label: "Terms & Conditions" },
   { href: "/privacyPolicy", label: "Privacy Policy" },
-  // { href: "/returnPolicy", label: "Return Policy" },
+  { href: "/returnPolicy", label: "Return Policy" },
   // { href: "/faqs", label: "FAQs" },
   // { href: "/faqs", label: "Shipping Info" },
 ];
