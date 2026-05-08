@@ -69,13 +69,13 @@ const CheckoutPage = () => {
                 </div>
               </div>
             </div>
-            <RazorpayCheckout
+            {/* <RazorpayCheckout
               amountInPaise={Math.round((totalPrice + (totalPrice >= 499 ? 0 : 149)) * 100)}
               description={`An1meParadise Order - ₹${totalPrice + (totalPrice >= 499 ? 0 : 149)}`}
-              className="mt-6 w-full rounded-xl bg-gradient-neon py-4 font-heading text-sm font-bold uppercase tracking-wider text-primary-foreground"
+              className="mt-6 w-full rounded-xl bg-gradient-neon py-4 font-heading text-sm font-bold uppercase tracking-wider text-primary-foreground disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Place Order
-            </RazorpayCheckout>
+            </RazorpayCheckout> */}
           </div>
         </div>
       </div>

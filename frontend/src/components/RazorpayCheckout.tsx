@@ -1,5 +1,6 @@
 import React from "react";
-const API_URL = import.meta.env.VITE_API_URL;
+import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 
 function loadScript(src: string) {
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export default function RazorpayCheckout({ amountInPaise, description, className, children }: Props) {
+  const navigate = useNavigate();
   const handlePayment = async () => {
     if (!amountInPaise || amountInPaise < 100) {
       alert("Minimum amount is 100 paise");
@@ -64,8 +66,8 @@ export default function RazorpayCheckout({ amountInPaise, description, className
 
           const verifyData = await verifyRes.json();
           if (verifyRes.ok && verifyData.success) {
-            alert("Payment successful and verified");
-            // TODO: call order success flow (create order record, redirect, etc.)
+            // navigate to order success page with minimal info
+            navigate(`/order-success?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}`);
           } else {
             alert(verifyData.message || "Payment verification failed");
           }

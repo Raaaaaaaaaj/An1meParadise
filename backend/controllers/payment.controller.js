@@ -1,11 +1,13 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import { savePayment } from "../models/payment.model.js";
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+// Create Order
 export async function createOrder(req, res) {
   try {
     const { amount, currency = "INR", receipt } = req.body;
@@ -36,6 +38,7 @@ export async function createOrder(req, res) {
   }
 }
 
+// Verify Payment
 export async function verifyPayment(req, res) {
   try {
     const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
@@ -50,6 +53,18 @@ export async function verifyPayment(req, res) {
       .digest("hex");
 
     if (generated_signature === razorpay_signature) {
+      // persist payment record (best-effort)
+      try {
+        await savePayment({
+          razorpay_order_id,
+          razorpay_payment_id,
+          razorpay_signature,
+          status: "paid",
+        });
+      } catch (dbErr) {
+        console.error("Failed to save payment:", dbErr.message || dbErr);
+      }
+
       return res.json({ success: true, message: "Payment verified" });
     }
 

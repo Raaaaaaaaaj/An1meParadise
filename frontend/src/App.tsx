@@ -15,6 +15,7 @@ import ShopPage from "./pages/ShopPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import OrderSuccess from "./pages/OrderSuccess";
 import CategoriesPage from "./pages/CategoriesPage";
 import WishListPage from "./pages/WishList";
 import AboutPage from "./pages/AboutPage";
@@ -55,6 +56,7 @@ const App = () => {
                 {/* User Flow */}
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
