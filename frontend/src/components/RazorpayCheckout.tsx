@@ -1,0 +1,100 @@
+import React from "react";
+const API_URL = import.meta.env.VITE_API_URL;
+
+
+function loadScript(src: string) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+}
+
+type Props = {
+  amountInPaise: number; // amount in paise
+  description?: string;
+  className?: string;
+  children?: React.ReactNode;
+};
+
+export default function RazorpayCheckout({ amountInPaise, description, className, children }: Props) {
+  const handlePayment = async () => {
+    if (!amountInPaise || amountInPaise < 100) {
+      alert("Minimum amount is 100 paise");
+      return;
+    }
+
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    if (!res) {
+      alert("Failed to load Razorpay SDK");
+      return;
+    }
+
+    try {
+      const createRes = await fetch(`${API_URL}/api/create-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: amountInPaise }),
+      });
+
+      if (!createRes.ok) {
+        const err = await createRes.json();
+        alert(err.message || "Failed to create order");
+        return;
+      }
+
+      const order = await createRes.json();
+
+      const options: any = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.order_id,
+        name: "An1meParadise",
+        description: description || "Order Payment",
+        handler: async function (response: any) {
+          // send details to backend for verification
+          const verifyRes = await fetch(`${API_URL}/api/verify-payment`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(response),
+          });
+
+          const verifyData = await verifyRes.json();
+          if (verifyRes.ok && verifyData.success) {
+            alert("Payment successful and verified");
+            // TODO: call order success flow (create order record, redirect, etc.)
+          } else {
+            alert(verifyData.message || "Payment verification failed");
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            alert("Payment popup closed. You can try again.");
+          },
+        },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+
+      rzp.on("payment.failed", function (response: any) {
+        alert("Payment failed: " + (response.error && response.error.description));
+      });
+
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      alert("Payment failed. Check console for details.");
+    }
+  };
+
+  const rupees = (amountInPaise / 100).toFixed(2);
+
+  return (
+    <button onClick={handlePayment} className={className || "btn"}>
+      {children ? children : `Pay ₹${rupees}`}
+    </button>
+  );
+}

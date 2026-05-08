@@ -1,4 +1,6 @@
 import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -11,6 +13,7 @@ import cartRoutes from "./routes/cart.routes.js";
 import addressRoutes from "./routes/address.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 
 import { db } from "./config/db.js";
 
@@ -35,6 +38,7 @@ app.use(
       "https://an1meparadise.com",
       "https://www.an1meparadise.com",
       "http://localhost:8080",
+      "http://localhost:5173"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
@@ -56,6 +60,7 @@ app.use("/api", cartRoutes);
 app.use("/api", addressRoutes);
 app.use("/api", contactRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api", paymentRoutes);
 
 // ✅ Static folder
 app.use("/uploads", express.static("uploads"));

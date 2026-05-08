@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { useCart } from "@/contexts/CartContext";
 import AddressTab from "@/components/profile/AddressTab";
+import RazorpayCheckout from "@/components/RazorpayCheckout";
+
 
 const CheckoutPage = () => {
   const { items, totalPrice } = useCart();
@@ -32,6 +34,15 @@ const CheckoutPage = () => {
                 <p className="text-sm text-muted-foreground">Payment gateway integration ready</p>
                 <p className="mt-1 text-xs text-muted-foreground/60">Razorpay / Stripe structure prepared</p>
               </div>
+
+              <div className="mt-6 text-center">
+                {typeof totalPrice === "number" && (
+                  <RazorpayCheckout
+                    amountInPaise={Math.round((totalPrice + (totalPrice >= 499 ? 0 : 149)) * 100)}
+                    description={`An1meParadise Order - ₹${totalPrice + (totalPrice >= 499 ? 0 : 149)}`}
+                  />
+                )}
+              </div>
             </motion.div>
           </div>
 
@@ -54,17 +65,17 @@ const CheckoutPage = () => {
                   <span>Shipping</span><span>{totalPrice >= 999 ? "FREE" : "₹149"}</span>
                 </div>
                 <div className="mt-2 flex justify-between font-heading text-lg font-bold">
-                  <span className="text-primary">Total</span><span className="text-primary">₹{totalPrice + (totalPrice >= 999 ? 0 : 99)}</span>
+                  <span className="text-primary">Total</span><span className="text-primary">₹{totalPrice + (totalPrice >= 999 ? 0 : 149)}</span>
                 </div>
               </div>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <RazorpayCheckout
+              amountInPaise={Math.round((totalPrice + (totalPrice >= 499 ? 0 : 149)) * 100)}
+              description={`An1meParadise Order - ₹${totalPrice + (totalPrice >= 499 ? 0 : 149)}`}
               className="mt-6 w-full rounded-xl bg-gradient-neon py-4 font-heading text-sm font-bold uppercase tracking-wider text-primary-foreground"
             >
               Place Order
-            </motion.button>
+            </RazorpayCheckout>
           </div>
         </div>
       </div>
