@@ -354,12 +354,27 @@ const Index = () => {
               <p className="mx-auto mb-8 max-w-md text-sm text-muted-foreground">
                 Get exclusive drops, early access to limited editions, and 10% off your first order.
               </p>
-              <div className="mx-auto flex max-w-md gap-3">
+              {/* <div className="mx-auto flex max-w-md gap-3">
                 <input
                   type="email"
                   placeholder="your@email.com"
                   className="flex-1 rounded-xl border border-border bg-background/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
                 />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="rounded-xl bg-gradient-neon px-6 py-3 font-heading text-sm font-bold uppercase tracking-wider text-primary-foreground"
+                >
+                  Subscribe
+                </motion.button>
+              </div> */}
+              <div className="mx-auto flex max-w-md flex-col gap-3 sm:flex-row">
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  className="flex-1 rounded-xl border border-border bg-background/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                />
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
