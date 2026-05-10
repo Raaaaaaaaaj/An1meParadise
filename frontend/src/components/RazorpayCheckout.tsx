@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-const API_URL = import.meta.env.VITE_API_URL || '';
+import { useCart } from "@/contexts/CartContext";
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 
 function loadScript(src: string) {
@@ -22,6 +23,8 @@ type Props = {
 
 export default function RazorpayCheckout({ amountInPaise, description, className, children }: Props) {
   const navigate = useNavigate();
+  const { items, totalPrice } = useCart();
+
   const handlePayment = async () => {
     if (!amountInPaise || amountInPaise < 100) {
       alert("Minimum amount is 100 paise");
@@ -58,11 +61,43 @@ export default function RazorpayCheckout({ amountInPaise, description, className
         description: description || "Order Payment",
         handler: async function (response: any) {
           // send details to backend for verification
-          const verifyRes = await fetch(`${API_URL}/api/verify-payment`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(response),
-          });
+              // prepare metadata: cart items, total, buyer and address
+              const userData = localStorage.getItem("user");
+              const buyer = userData ? JSON.parse(userData) : null;
+
+              // fetch active address for user if available
+              let address = null;
+              try {
+                if (buyer && buyer.id) {
+                  const addrRes = await fetch(`${API_URL}/api/address/${buyer.id}`);
+                  if (addrRes.ok) {
+                    const addrs = await addrRes.json();
+                    address = addrs.find((a: any) => a.status === "Active" ) || null;
+                  }
+                }
+              } catch (e) {
+                console.warn("Could not fetch address", e);
+              }
+
+              const payload = {
+                ...response,
+                metadata: {
+                  items: items.map((it: any) => ({
+                    title: it.product.prod_title || it.product.name,
+                    quantity: it.quantity,
+                    price: (it.product.prod_actualPrice || 0) * 100,
+                  })),
+                  total: Math.round((totalPrice + (totalPrice >= 999 ? 0 : 99)) * 100),
+                  buyer: { name: buyer?.name || buyer?.fullName || buyer?.email, email: buyer?.email },
+                  address,
+                },
+              };
+
+              const verifyRes = await fetch(`${API_URL}/api/verify-payment`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              });
 
           const verifyData = await verifyRes.json();
           if (verifyRes.ok && verifyData.success) {

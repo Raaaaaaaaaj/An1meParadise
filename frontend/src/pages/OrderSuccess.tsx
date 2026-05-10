@@ -69,6 +69,14 @@ export default function OrderSuccess() {
               <p className="mt-2 break-all font-mono text-sm text-primary">
                 {order_id}
               </p>
+            <div className="mt-4">
+              <a
+                className="inline-block rounded bg-gradient-neon px-4 py-2 text-sm font-semibold text-black"
+                href={`http://localhost:5000/api/invoice/${order_id}?download=1`}
+              >
+                Download Invoice
+              </a>
+            </div>
             </div>
 
             {/* Action Buttons */}
