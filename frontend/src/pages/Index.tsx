@@ -135,9 +135,9 @@ const Index = () => {
                 Premium figures. Clean vibes. Affordable drip.
               </span>
             </h1>
-            <p className="mb-8 max-w-lg font-body text-primary lg:text-lg">
+            {/* <p className="mb-8 max-w-lg font-body text-primary lg:text-lg">
               Discover India's most exclusive anime merch collection. From premium hoodies to limited edition collectibles — gear up like a true weeb.
-            </p>
+            </p> */}
             <div className="flex flex-wrap gap-4">
               <Link to="/shop">
                 <motion.button

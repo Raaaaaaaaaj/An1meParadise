@@ -6,6 +6,8 @@ import categoryDragonball from "@/assets/category-dragonball.jpg";
 import categoryJjk from "@/assets/category-jjk.jpg";
 
 export interface Product {
+  prod_title: ReactNode;
+  prod_actualPrice: number;
   id: string;
   name: string;
   slug: string;
