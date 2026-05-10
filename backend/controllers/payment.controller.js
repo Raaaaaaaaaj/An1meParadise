@@ -2,7 +2,7 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 import { savePayment, getPaymentByOrderId } from "../models/payment.model.js";
 import nodemailer from "nodemailer";
-import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit"; 
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,

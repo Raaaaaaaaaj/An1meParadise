@@ -1,2 +1,6 @@
 node_modules
-.env
+.# Ignore all env files
+.env*
+
+# But keep production env
+!.env.production
