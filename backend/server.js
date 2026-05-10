@@ -1,3 +1,10 @@
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED REJECTION:", err);
+});
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
@@ -46,8 +53,8 @@ app.use(
   })
 );
 
-// app.options("*", cors());
-app.options("/*path", cors());
+app.options("*", cors());
+// app.options("/*path", cors());
 
 // ✅ 4. Logger
 app.use(morgan("dev"));
@@ -98,6 +105,18 @@ const PORT = process.env.PORT || 5000;
 //     console.error("❌ DB connection failed:", err.message);
 //   }
 // });
+app.get("/test-db", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT 1");
+    res.json(rows);
+  } catch (err) {
+    console.error("DB ERROR:", err);
+    res.status(500).json({
+      error: err.message,
+      code: err.code,
+    });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
