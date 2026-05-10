@@ -46,7 +46,8 @@ app.use(
   })
 );
 
-app.options("*", cors());
+// app.options("*", cors());
+app.options("/*path", cors());
 
 // ✅ 4. Logger
 app.use(morgan("dev"));
