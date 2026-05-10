@@ -29,12 +29,4 @@ router.delete("/address/:id", removeAddress);
 // ✅ SET DEFAULT ADDRESS (manual select / checkout)
 router.put("/address/default", makeDefaultAddress);
 
-
-
-
-
-
-
-
-
 export default router;

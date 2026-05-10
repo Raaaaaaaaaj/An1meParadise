@@ -54,19 +54,19 @@ export const deleteAddress = async (id) => {
 };
 
 
-// ✅ SET DEFAULT ADDRESS (status = Active)
-export const setDefaultAddress = async (userId, addressId) => {
-  // Step 1: sabko inactive karo
-  await db.query(
-    `UPDATE useraddress SET status = 'Inactive' WHERE user_id = ?`,
-    [userId]
-  );
+// // ✅ SET DEFAULT ADDRESS (status = Active)
+// export const setDefaultAddress = async (userId, addressId) => {
+//   // Step 1: sabko inactive karo
+//   await db.query(
+//     `UPDATE useraddress SET status = 'Inactive' WHERE user_id = ?`,
+//     [userId]
+//   );
 
-  // Step 2: ek ko active karo
-  const [result] = await db.query(
-    `UPDATE useraddress SET status = 'Active' WHERE id = ? AND user_id = ?`,
-    [addressId, userId]
-  );
+//   // Step 2: ek ko active karo
+//   const [result] = await db.query(
+//     `UPDATE useraddress SET status = 'Active' WHERE id = ? AND user_id = ?`,
+//     [addressId, userId]
+//   );
 
-  return result;
-};
+//   return result;
+// };

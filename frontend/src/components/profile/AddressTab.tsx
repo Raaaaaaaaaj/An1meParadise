@@ -15,6 +15,7 @@ interface Address {
   pincode: string;
   type: string;
   status: "Active" | "Inactive";
+  // status: number;
 }
 
 const AddressTab = () => {
@@ -56,6 +57,7 @@ useEffect(() => {
       setAddresses(res.data);
   
       const active = res.data.find((a: Address) => a.status === "Active");
+      // const active = res.data.find((a: Address) => a.status === 1);
       if (active) setSelectedId(active.id);
     } catch (err) {
       console.error(err);
@@ -109,16 +111,41 @@ useEffect(() => {
   };
 
   // ✅ Set Default Address
+  // const handleSelect = async (id: number) => {
+  //   setSelectedId(id);
+
+  //   await axios.put(`${API_URL}/api/address/default`, {
+  //     user_id: userId,
+  //     address_id: id,
+  //   });
+
+  //   fetchAddresses();
+  // };
+
+
   const handleSelect = async (id: number) => {
-    setSelectedId(id);
-
-    await axios.put(`${API_URL}/api/address/default`, {
-      userId,
-      address_id: id,
-    });
-
-    fetchAddresses();
+    try {
+      await axios.put(`${API_URL}/api/address/default`, {
+        user_id: userId,
+        address_id: id,
+      });
+  
+      // ✅ directly update UI
+      setSelectedId(id);
+  
+      // ✅ update local state also
+      setAddresses((prev) =>
+        prev.map((addr) => ({
+          ...addr,
+          status: addr.id === id ? "Active" : "Inactive",
+          // status: addr.id === id ? 1 : 0,        
+        }))
+      );
+    } catch (err) {
+      console.error(err);
+    }
   };
+
 
   return (
     <div>

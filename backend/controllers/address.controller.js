@@ -123,7 +123,7 @@ export const removeAddress = async (req, res) => {
 };
 
 
-// ✅ SET DEFAULT ADDRESS (CHECKOUT USE)
+//✅ SET DEFAULT ADDRESS (CHECKOUT USE)
 export const makeDefaultAddress = async (req, res) => {
   try {
     const { user_id, address_id } = req.body;
