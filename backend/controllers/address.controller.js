@@ -124,26 +124,53 @@ export const removeAddress = async (req, res) => {
 
 
 //✅ SET DEFAULT ADDRESS (CHECKOUT USE)
+// export const makeDefaultAddress = async (req, res) => {
+//   try {
+//     const { user_id, address_id } = req.body;
+
+//     // 🔥 Step 1: Sabko inactive
+//     await db.query(
+//       `UPDATE useraddress SET status = 'Inactive' WHERE user_id = ?`,
+//       [user_id]
+//     );
+
+//     // 🔥 Step 2: Selected ko active
+//     await db.query(
+//       `UPDATE useraddress SET status = 'Active' WHERE id = ? AND user_id = ?`,
+//       [address_id, user_id]
+//     );
+
+//     res.json({
+//       message: "Default address updated",
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
 export const makeDefaultAddress = async (req, res) => {
   try {
     const { user_id, address_id } = req.body;
 
-    // 🔥 Step 1: Sabko inactive
+    console.log(req.body);
+
     await db.query(
       `UPDATE useraddress SET status = 'Inactive' WHERE user_id = ?`,
       [user_id]
     );
 
-    // 🔥 Step 2: Selected ko active
-    await db.query(
+    const [activeResult] = await db.query(
       `UPDATE useraddress SET status = 'Active' WHERE id = ? AND user_id = ?`,
       [address_id, user_id]
     );
+
+    console.log(activeResult);
 
     res.json({
       message: "Default address updated",
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 };

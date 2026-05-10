@@ -123,22 +123,49 @@ useEffect(() => {
   // };
 
 
+  // const handleSelect = async (id: number) => {
+  //   try {
+  //     await axios.put(`${API_URL}/api/address/default`, {
+  //       user_id: userId,
+  //       address_id: id,
+  //     });
+  
+  //     // ✅ directly update UI
+  //     setSelectedId(id);
+  
+  //     // ✅ update local state also
+  //     setAddresses((prev) =>
+  //       prev.map((addr) => ({
+  //         ...addr,
+  //         status: addr.id === id ? "Active" : "Inactive",
+  //         // status: addr.id === id ? 1 : 0,        
+  //       }))
+  //     );
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
   const handleSelect = async (id: number) => {
     try {
-      await axios.put(`${API_URL}/api/address/default`, {
+      console.log("sending:", {
         user_id: userId,
         address_id: id,
       });
   
-      // ✅ directly update UI
+      const res = await axios.put(`${API_URL}/api/address/default`, {
+        user_id: userId,
+        address_id: id,
+      });
+  
+      console.log(res.data);
+  
       setSelectedId(id);
   
-      // ✅ update local state also
       setAddresses((prev) =>
         prev.map((addr) => ({
           ...addr,
           status: addr.id === id ? "Active" : "Inactive",
-          // status: addr.id === id ? 1 : 0,        
         }))
       );
     } catch (err) {
