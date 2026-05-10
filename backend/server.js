@@ -42,7 +42,7 @@ app.use(
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
-    allowedHeaders: ["C ontent-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -88,13 +88,23 @@ app.use((err, req, res, next) => {
 // ✅ 10. Start Server (NO initDB needed)
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, async () => {
-  try {
-    // optional: test DB connection once
-    await db.query("SELECT 1");
-    console.log("✅ DB Pool Connected");
-    console.log(`🚀 Server running on port ${PORT}`);
-  } catch (err) {
-    console.error("❌ DB connection failed:", err.message);
-  }
+// app.listen(PORT, async () => {
+//   try {
+//     // optional: test DB connection once
+//     await db.query("SELECT 1");
+//     console.log("✅ DB Pool Connected");
+//     console.log(`🚀 Server running on port ${PORT}`);
+//   } catch (err) {
+//     console.error("❌ DB connection failed:", err.message);
+//   }
+// });
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+
+  db.query("SELECT 1")
+    .then(() => console.log("✅ DB Pool Connected"))
+    .catch((err) =>
+      console.error("❌ DB connection failed:", err.message)
+    );
 });
