@@ -1,10 +1,3 @@
-process.on("uncaughtException", (err) => {
-  console.error("UNCAUGHT EXCEPTION:", err);
-});
-
-process.on("unhandledRejection", (err) => {
-  console.error("UNHANDLED REJECTION:", err);
-});
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
@@ -53,8 +46,8 @@ app.use(
   })
 );
 
-app.options("*", cors());
-// app.options("/*path", cors());
+// app.options("*", cors());
+app.options("/*path", cors());
 
 // ✅ 4. Logger
 app.use(morgan("dev"));
@@ -95,35 +88,13 @@ app.use((err, req, res, next) => {
 // ✅ 10. Start Server (NO initDB needed)
 const PORT = process.env.PORT || 5000;
 
-// app.listen(PORT, async () => {
-//   try {
-//     // optional: test DB connection once
-//     await db.query("SELECT 1");
-//     console.log("✅ DB Pool Connected");
-//     console.log(`🚀 Server running on port ${PORT}`);
-//   } catch (err) {
-//     console.error("❌ DB connection failed:", err.message);
-//   }
-// });
-app.get("/test-db", async (req, res) => {
+app.listen(PORT, async () => {
   try {
-    const [rows] = await db.query("SELECT 1");
-    res.json(rows);
+    // optional: test DB connection once
+    await db.query("SELECT 1");
+    console.log("✅ DB Pool Connected");
+    console.log(`🚀 Server running on port ${PORT}`);
   } catch (err) {
-    console.error("DB ERROR:", err);
-    res.status(500).json({
-      error: err.message,
-      code: err.code,
-    });
+    console.error("❌ DB connection failed:", err.message);
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-
-  db.query("SELECT 1")
-    .then(() => console.log("✅ DB Pool Connected"))
-    .catch((err) =>
-      console.error("❌ DB connection failed:", err.message)
-    );
 });
