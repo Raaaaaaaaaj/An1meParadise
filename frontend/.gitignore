@@ -7,7 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-.env
+.# Ignore all env files
+.env*
+
+# But keep production env
+!.env.production
+
 node_modules
 dist
 dist-ssr
