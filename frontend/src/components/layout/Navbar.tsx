@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Search, User, Menu, X, Heart } from "lucide-react";
@@ -21,7 +21,6 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [initials, setInitials] = useState("");
   const [user, setUser] = useState(null);
-
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -89,6 +88,25 @@ const Navbar = () => {
     }
   }, []);
 
+const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:h-20">
@@ -131,53 +149,82 @@ const Navbar = () => {
           </Link> */}
 
 
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
 
             {/* ICON / INITIALS */}
-
-
             <button
               onClick={() => setOpen(!open)}
-              className="hidden sm:flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-foreground"
+              className="hidden sm:flex items-center justify-center rounded-full p-[2px] bg-gradient-to-r from-gray-300 to-gray-500 hover:scale-105 transition-all duration-300"
             >
-              {isLoggedIn ? (
-                <div className="h-8 w-8 flex items-center justify-center rounded-full bg-gray-200 text-sm font-semibold">
-                  {initials}
-                </div>
-              ) : (
-                <User className="h-5 w-5" />
-              )}
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-white text-gray-800 shadow-md">
+                {isLoggedIn ? (
+                  <span className="text-sm font-bold uppercase tracking-wide">
+                    {initials}
+                  </span>
+                ) : (
+                  <User className="h-5 w-5" />
+                )}
+              </div>
             </button>
 
             {/* DROPDOWN */}
             {open && (
-              <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg bg-white border z-50">
+              <div className="absolute right-0 mt-3 w-56 overflow-hidden rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-md shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
 
                 {!isLoggedIn ? (
-                  <Link
-                    to="/login"
-                    className="block px-4 py-2 text-sm hover:bg-gray-100"
-                    onClick={() => setOpen(false)}
-                  >
-                    Sign-up / Log-in
-                  </Link>
-                ) : (
-                  <>
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100"
-                      onClick={() => setOpen(false)}
-                    >
-                      Profile
-                    </Link>
-
+                  <div className="p-2">
                     <Link
                       to="/login"
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-sm hover:bg-gray-100"
+                      className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-black hover:text-white transition-all duration-200"
+                      onClick={() => setOpen(false)}
                     >
-                      Log-out
+                      <span className="text-base">🔐</span>
+                      Sign-up / Log-in
                     </Link>
+                  </div>
+                ) : (
+                  <>
+                    {/* TOP SECTION */}
+                    <div className="px-4 py-4 border-b bg-gradient-to-r from-gray-50 to-gray-100">
+                      <div className="flex items-center gap-3">
+
+                        <div className="h-11 w-11 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm uppercase shadow-md">
+                          {initials}
+                        </div>
+
+                        <div>
+                          <p className="text-sm font-semibold text-gray-800">
+                            Welcome 👋
+                          </p>
+
+                          <p className="text-xs text-gray-500">
+                            Manage your account
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* MENU ITEMS */}
+                    <div className="p-2">
+
+                      <Link
+                        to="/profile"
+                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-black hover:text-white transition-all duration-200"
+                        onClick={() => setOpen(false)}
+                      >
+                        <span className="text-base">👤</span>
+                        Profile
+                      </Link>
+
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-500 hover:text-white transition-all duration-200"
+                      >
+                        <span className="text-base">🚪</span>
+                        Log-out
+                      </button>
+
+                    </div>
                   </>
                 )}
               </div>
