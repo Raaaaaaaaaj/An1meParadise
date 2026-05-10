@@ -38,12 +38,15 @@ app.use(
       "https://an1meparadise.com",
       "https://www.an1meparadise.com",
       "http://localhost:8080",
-      "http://localhost:5173"
+      "http://localhost:5173",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors());
 
 // ✅ 4. Logger
 app.use(morgan("dev"));
