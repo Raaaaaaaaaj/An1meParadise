@@ -110,11 +110,9 @@ export async function verifyPayment(req, res) {
               },
             ];
 
-        const ownerEmail = process.env.OWNER_EMAIL || process.env.MAIL_USER;
-        console.log(`Sending owner email to ${ownerEmail} for order ${razorpay_order_id}`);
-        const ownerResult = await transporter.sendMail({
+        await transporter.sendMail({
           from: process.env.MAIL_USER,
-          to: ownerEmail,
+          to: process.env.MAIL_USER,
           subject: `New Order Received — ${razorpay_order_id}`,
           html: buildOrderEmailHtml({
             role: "owner",
@@ -124,7 +122,6 @@ export async function verifyPayment(req, res) {
           }),
           attachments: ownerAttachments,
         });
-        console.log("Owner email send result:", ownerResult && (ownerResult.accepted || ownerResult));
 
         // Buyer email (if provided in metadata.buyer_email)
         const buyerEmail = metadata && (metadata.buyer_email || metadata.email || (metadata.buyer && metadata.buyer.email));
