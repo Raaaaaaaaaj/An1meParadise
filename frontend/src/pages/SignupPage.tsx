@@ -49,84 +49,79 @@ const SignupPage = () => {
   };
 
   // ✅ submit
-  const handleSubmit = async () => {
-    setAlert(null);
+  // ✅ handleSubmit function inside SignupPage (Updated)
+const handleSubmit = async () => {
+  setAlert(null);
 
-    if (!form.userName || !form.userMail || !form.userMobile || !form.userPass) {
-      return setAlert({ type: "error", message: "Please fill all required fields" });
+  // Validation Logic (Same as before)
+  if (!form.userName || !form.userMail || !form.userMobile || !form.userPass) {
+    return setAlert({ type: "error", message: "Please fill all required fields" });
+  }
+  if (!isValidEmail(form.userMail)) {
+    return setAlert({ type: "error", message: "Invalid email format" });
+  }
+  if (!validatePassword(form.userPass)) {
+    return setAlert({
+      type: "error",
+      message: "Password must include uppercase, lowercase, number, special character and be at least 6 characters",
+    });
+  }
+  if (form.userPass !== form.confirmPass) {
+    return setAlert({ type: "error", message: "Passwords do not match" });
+  }
+
+  try {
+    setLoading(true);
+
+    const res = await fetch(`${API_URL}/api/auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: form.userName,
+        userMail: form.userMail,
+        userMobile: form.userMobile,
+        userCity: form.userCity,
+        userPass: form.userPass,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Something went wrong");
     }
 
-    if (!isValidEmail(form.userMail)) {
-      return setAlert({ type: "error", message: "Invalid email format" });
+    // ✅ Success Block
+    // Signup par aksar token nahi milta (sirf login par), 
+    // isliye optional chaining (?.) use kar rahe hain crash se bachne ke liye
+    if (data.user) {
+      localStorage.setItem("name", data.user.name);
+      console.log("Saved Name:", data.user.name);
     }
 
-    if (!validatePassword(form.userPass)) {
-      return setAlert({
-        type: "error",
-        message:
-          "Password must include uppercase, lowercase, number, special character and be at least 6 characters",
-      });
-    }
+    setAlert({ type: "success", message: data.message || "Account created successfully ✅" });
 
-    if (form.userPass !== form.confirmPass) {
-      return setAlert({ type: "error", message: "Passwords do not match" });
-    }
+    // Clear form
+    setForm({
+      userName: "",
+      userMail: "",
+      userMobile: "",
+      userCity: "",
+      userPass: "",
+      confirmPass: "",
+    });
 
-    try {
-      setLoading(true);
+    // Optional: Redirect to login after success
+    // setTimeout(() => navigate("/login"), 2000);
 
-      const res = await fetch(`${API_URL}/api/auth/signup`, {
-      // const res = await fetch("${API_URL}/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: form.userName,
-          userMail: form.userMail,
-          userMobile: form.userMobile,
-          userCity: form.userCity,
-          userPass: form.userPass,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message);
-
-      if (res.ok) {
-        // ✅ SAVE HERE (MAIN PART)
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("name", data.user.name);
-    
-        console.log("Saved Name:", data.user.name);
-    
-        // redirect
-        // navigate("/");
-      } else {
-        console.log(data.message);
-      }
-
-      setAlert({ type: "success", message: "Account created successfully ✅" });
-
-      console.log(data);
-
-      setForm({
-        userName: "",
-        userMail: "",
-        userMobile: "",
-        userCity: "",
-        userPass: "",
-        confirmPass: "",
-      });
-
-    } catch (error: any) {
-      setAlert({ type: "error", message: error.message });
-    } finally {
-      setLoading(false);
-    }
-
-  };
+  } catch (error: any) {
+    setAlert({ type: "error", message: error.message });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen pt-10 lg:pt-14">

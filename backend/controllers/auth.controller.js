@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
 // ✅ SIGNUP
+// ✅ SIGNUP CONTROLLER (Updated)
 export const signup = async (req, res) => {
   try {
     const { userName, userMail, userMobile, userCity, userPass } = req.body;
@@ -46,14 +47,18 @@ export const signup = async (req, res) => {
       userCode,
     ]);
 
+    // ✅ Sending user data back so frontend doesn't crash
     res.status(201).json({
       message: "User registered successfully ✅",
+      user: {
+        name: userName,
+        email: userMail
+      }
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 // ✅ LOGIN
 export const login = async (req, res) => {
   try {

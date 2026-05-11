@@ -378,16 +378,16 @@ export function buildOrderEmailHtml({ role, order_id, payment_id, metadata }) {
     : `Hi <strong style="color: #0f172a;">${escapeHtml(buyer.name || "there")}</strong>, your order is being prepared.`;
 
   // 3. Conditional Action Buttons (Only for Buyer)
-  const actionButtons = role === 'buyer' ? `
-    <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 20px;">
-      <div style="flex: 1;">
-        <a href="https://www.an1meparadise.com/shop" class="btn" style="display: block; text-align: center;">Shop More</a>
-      </div>
-      <div style="flex: 1;">
-        <a href="https://www.an1meparadise.com/contact" class="btn-outline" style="display: block; text-align: center;">Contact Us</a>
-      </div>
-    </div>
-  ` : '';
+  // const actionButtons = role === 'buyer' ? `
+  //   <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 20px;">
+  //     <div style="flex: 1;">
+  //       <a href="https://www.an1meparadise.com/shop" class="btn" style="display: block; text-align: center;">Shop More</a>
+  //     </div>
+  //     <div style="flex: 1;">
+  //       <a href="https://www.an1meparadise.com/contact" class="btn-outline" style="display: block; text-align: center;">Contact Us</a>
+  //     </div>
+  //   </div>
+  // ` : '';
 
   return `
     <!DOCTYPE html>
@@ -436,7 +436,7 @@ export function buildOrderEmailHtml({ role, order_id, payment_id, metadata }) {
                    <div>${escapeHtml(buyer.email || buyer.email_id || '-')}</div>
                    <div>${escapeHtml(buyer.phone || buyer.mobile || buyer.phone_number || metadata?.phone || '-')}</div>
                  </div>
-                 <div style="text-align:right">${actionButtons}</div>
+                 
                </div>
             </div>
           </div>
