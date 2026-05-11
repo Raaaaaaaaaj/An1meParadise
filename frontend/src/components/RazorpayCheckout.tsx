@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import Loader from "@/components/ui/loader";
 const API_URL = import.meta.env.VITE_API_URL || "";
 
 
@@ -24,6 +25,7 @@ type Props = {
 export default function RazorpayCheckout({ amountInPaise, description, className, children }: Props) {
   const navigate = useNavigate();
   const { items, totalPrice } = useCart();
+  const [loading, setLoading] = useState(false);
 
   const handlePayment = async () => {
     if (!amountInPaise || amountInPaise < 100) {
@@ -60,6 +62,7 @@ export default function RazorpayCheckout({ amountInPaise, description, className
         name: "An1meParadise",
         description: description || "Order Payment",
         handler: async function (response: any) {
+          setLoading(true);
           // send details to backend for verification
               // prepare metadata: cart items, total, buyer and address
               const userData = localStorage.getItem("user");
@@ -104,6 +107,7 @@ export default function RazorpayCheckout({ amountInPaise, description, className
             // navigate to order success page with minimal info
             navigate(`/order-success?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}`);
           } else {
+            setLoading(false);
             alert(verifyData.message || "Payment verification failed");
           }
         },
@@ -117,6 +121,7 @@ export default function RazorpayCheckout({ amountInPaise, description, className
       const rzp = new (window as any).Razorpay(options);
 
       rzp.on("payment.failed", function (response: any) {
+        setLoading(false);
         alert("Payment failed: " + (response.error && response.error.description));
       });
 
@@ -130,8 +135,11 @@ export default function RazorpayCheckout({ amountInPaise, description, className
   const rupees = (amountInPaise / 100).toFixed(2);
 
   return (
-    <button onClick={handlePayment} className={className || "btn"}>
-      {children ? children : `Pay ₹${rupees}`}
-    </button>
+    <>
+      <button onClick={handlePayment} disabled={loading} className={className || "btn"}>
+        {children ? children : `Pay ₹${rupees}`}
+      </button>
+      {loading && <Loader message="Finalizing payment..." />}
+    </>
   );
 }

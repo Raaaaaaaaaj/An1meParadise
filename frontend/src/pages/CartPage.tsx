@@ -2,11 +2,19 @@ import { motion } from "framer-motion";
 import { Minus, Plus, X, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 
 const CartPage = () => {
   const { items, removeItem, updateQuantity, totalPrice } = useCart();
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const getUser = () => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  };
+  const isDisabled = !getUser();
+
 
   if (items.length === 0) {
     return (
@@ -81,19 +89,51 @@ const CartPage = () => {
                 </div>
               </div>
             </div>
-            <Link to="/checkout">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-neon py-4 font-heading text-sm font-bold uppercase tracking-wider text-primary-foreground"
+            <Link
+                to="/checkout"
+                onClick={(e) => {
+                  if (isDisabled) {
+                    e.preventDefault();
+                    setShowLoginPopup(true);
+                    return;
+                  }
+                }}
+                aria-disabled={isDisabled}
+                tabIndex={isDisabled ? -1 : 0}
+                className={`block w-full rounded-lg border border-primary py-3 text-center font-heading text-sm font-semibold text-primary transition-all ${
+                  isDisabled ? "opacity-50" : "hover:bg-primary hover:text-primary-foreground"
+                }`}
               >
-                Proceed to Checkout <ArrowRight className="h-4 w-4" />
-              </motion.button>
-            </Link>
+                Checkout
+              </Link>
+              {showLoginPopup && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                  <div className="bg-white rounded-xl p-6 text-center w-80">
+                    <h2 className="text-lg font-semibold mb-2">Login Required</h2>
+                    <p className="text-sm text-gray-600 mb-4">Please login first to checkout</p>
+
+                    <div className="flex justify-center gap-3">
+                      <button onClick={() => setShowLoginPopup(false)} className="px-4 py-2 border rounded-lg">
+                        Cancel
+                      </button>
+
+                      <Link
+                        to="/login"
+                        onClick={() => setShowLoginPopup(false)}
+                        className="px-4 py-2 bg-black text-white rounded-lg"
+                      >
+                        Login
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </div>
+      
     </div>
+    
   );
 };
 
