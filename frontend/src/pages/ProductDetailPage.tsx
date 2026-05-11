@@ -170,13 +170,13 @@ const ProductDetailPage = () => {
               >
                 <ShoppingCart className="h-4 w-4" /> Add to Cart
               </motion.button>
-              <motion.button
+              {/* <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-accent bg-accent/10 py-4 font-heading text-sm font-bold uppercase tracking-wider text-accent"
               >
                 <Zap className="h-4 w-4" /> Buy Now
-              </motion.button>
+              </motion.button> */}
               <button className="rounded-xl border border-border p-4 text-muted-foreground transition-all hover:border-accent hover:text-accent">
                 <Heart className="h-5 w-5" />
               </button>
