@@ -201,9 +201,14 @@ export async function generatePdfBufferFromHtml({ order_id, payment_id, metadata
   doc.moveDown(3);
 
   // Billing Info
+  // Billing Info
+  const buyerPhone = buyer.phone || buyer.mobile || buyer.phone_number || buyer.contact || metadata?.phone || "";
   doc.fontSize(10).fillColor("#94a3b8").font("Helvetica").text("BILL TO");
   doc.fontSize(12).fillColor("#000000").font("Helvetica-Bold").text(buyer.name || buyer.fullName || "Valued Customer");
-  doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(buyer.email || "");
+  if (buyer.email) doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(buyer.email);
+  if (buyerPhone) doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(buyerPhone);
+  if (metadata && metadata.address) doc.moveDown(0.3);
+  if (metadata && metadata.address) doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(formatAddress(metadata.address));
   doc.moveDown(2);
 
   // Table Header
@@ -259,11 +264,11 @@ export function buildInvoiceHtml({ order_id, payment_id, metadata }) {
   const itemsRows = items.map((it) => `
     <tr>
       <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9;">
-        <div style="font-weight: 600; font-size: 15px;">${escapeHtml(it.title || it.name || "Item")}</div>
-        <div style="font-size: 12px; color: #94a3b8;">Ref: ${escapeHtml(payment_id.slice(-6))}</div>
+        <div style="font-weight: 600; font-size: 15px;">${escapeHtml(it.title || it.product?.prod_title || it.name || "Item")}</div>
+        <div style="font-size: 12px; color: #94a3b8;">SKU: ${escapeHtml((it.sku || it.product?.sku || '').toString() || payment_id.slice(-6))}</div>
       </td>
       <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9; text-align: center;">${it.quantity || 1}</td>
-      <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 600;">₹${((it.price || 0) / 100).toFixed(2)}</td>
+      <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 600;">₹${((it.price || it.product?.prod_actualPrice || 0) / 100).toFixed(2)}</td>
     </tr>
   `).join("");
 
@@ -300,8 +305,9 @@ export function buildInvoiceHtml({ order_id, payment_id, metadata }) {
           <div>
             <div class="meta-label">Billed To</div>
             <div style="font-size: 18px; font-weight: 600;">${escapeHtml(buyer.name || buyer.fullName || "Customer")}</div>
-            <div style="color: #64748b; font-size: 14px;">${escapeHtml(buyer.email || "-")}</div>
-            <div style="color: #64748b; font-size: 14px; margin-top: 4px; max-width: 250px;">${escapeHtml(formatAddress(metadata?.address))}</div>
+              <div style="color: #64748b; font-size: 14px;">${escapeHtml(buyer.email || buyer.email_id || "-")}</div>
+              <div style="color: #64748b; font-size: 14px;">${escapeHtml(buyer.phone || buyer.mobile || buyer.phone_number || metadata?.phone || "-")}</div>
+              <div style="color: #64748b; font-size: 14px; margin-top: 4px; max-width: 250px;">${escapeHtml(formatAddress(metadata?.address))}</div>
           </div>
           <div style="text-align: right;">
             <div class="meta-label">Invoice Details</div>
@@ -354,62 +360,90 @@ export function buildOrderEmailHtml({ role, order_id, payment_id, metadata }) {
   const buyer = (metadata && metadata.buyer) || {};
   const items = (metadata && metadata.items) || [];
   
-  const itemsSummary = items.slice(0, 3).map((it) => `
-    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
-      <span style="font-weight: 500; color: #1e293b;">${escapeHtml(it.title || it.product?.prod_title || it.name || "Item")} <small style="color: #64748b; font-weight: 400;">x${it.quantity || 1}</small></span>
-      <span style="font-weight: 600; color: #0f172a;">₹${((it.price || 0) / 100).toFixed(2)}</span>
+  // 1. Generate Item List
+  const itemsSummary = items.map((it) => `
+    <div style="padding: 14px 0; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between !important; align-items: center !important;">
+      <div style="text-align: left;">
+        <div style="font-weight: 600; color: #1e293b; font-size: 14px;">${escapeHtml(it.title || it.product?.prod_title || it.name || "Item")}</div>
+        <div style="color: #64748b; font-size: 12px; font-weight: 400;">Quantity: ${it.quantity || 1}</div>
+      </div>
+      <div style="font-weight: 600; color: #0f172a; font-size: 14px;">₹${(((it.price || it.product?.prod_actualPrice) || 0) / 100).toFixed(2)}</div>
     </div>
   `).join("");
 
+  // 2. Role-based Titles and Bold Names
   const title = role === "owner" ? "New Order Received" : "Order Confirmed";
   const subtitle = role === "owner" 
-    ? `A new transaction has been processed for ${escapeHtml(buyer.name || "a customer")}.` 
-    : `Hi ${escapeHtml(buyer.name || "there")}, your order is being prepared.`;
+    ? `A new transaction has been processed for <strong style="color: #0f172a;">${escapeHtml(buyer.name || "a customer")}</strong>.` 
+    : `Hi <strong style="color: #0f172a;">${escapeHtml(buyer.name || "there")}</strong>, your order is being prepared.`;
+
+  // 3. Conditional Action Buttons (Only for Buyer)
+  const actionButtons = role === 'buyer' ? `
+    <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 20px;">
+      <div style="flex: 1;">
+        <a href="https://www.an1meparadise.com/shop" class="btn" style="display: block; text-align: center;">Shop More</a>
+      </div>
+      <div style="flex: 1;">
+        <a href="https://www.an1meparadise.com/contact" class="btn-outline" style="display: block; text-align: center;">Contact Us</a>
+      </div>
+    </div>
+  ` : '';
 
   return `
     <!DOCTYPE html>
     <html>
     <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
       <style>
-        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background-color: #f8fafc; }
+        body { font-family: 'Poppins', -apple-system, sans-serif; margin: 0; padding: 0; background-color: #f8fafc; -webkit-font-smoothing: antialiased; }
         .wrapper { width: 100%; padding: 40px 0; }
-        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        .header-gradient { background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%); padding: 40px 30px; text-align: center; }
-        .pill { background: #ffffff; border: 1px solid #bae6fd; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 16px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .header-gradient { background: linear-gradient(180deg, #e0f2fe 0%, #ffffff 100%); padding: 45px 30px; text-align: center; }
+        .pill { background: #ffffff; border: 1px solid #bae6fd; color: #0284c7; padding: 5px 14px; border-radius: 99px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px; }
         .content { padding: 0 40px 40px 40px; }
-        .order-card { background: #f1f5f9; border-radius: 12px; padding: 20px; margin-top: 24px; }
-        .btn { display: inline-block; background: #0f172a; color: #ffffff !important; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 14px; margin-top: 20px; }
-        .footer { padding: 30px; text-align: center; color: #94a3b8; font-size: 12px; border-top: 1px solid #f1f5f9; }
+        .order-card { background: #f8fafc; border-radius: 16px; padding: 24px; margin-top: 24px; border: 1px solid #f1f5f9; }
+        .btn { background: #0f172a; color: #ffffff !important; padding: 12px 10px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid #0f172a; }
+        .btn-outline { background: #ffffff; color: #0f172a !important; padding: 12px 10px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 13px; border: 1px solid #e2e8f0; }
+        .footer { padding: 35px; text-align: center; color: #94a3b8; font-size: 12px; border-top: 1px solid #f1f5f9; background-color: #fafafa; }
       </style>
     </head>
     <body>
       <div class="wrapper">
         <div class="container">
           <div class="header-gradient">
-            <span class="pill">${role === 'owner' ? 'Merchant Alert' : 'Order Success'}</span>
-            <h1 style="margin: 0; color: #0f172a; font-size: 28px; font-weight: 700;">${title}</h1>
-            <p style="color: #64748b; font-size: 15px; margin-top: 8px;">${subtitle}</p>
+            <span class="pill">${role === 'owner' ? 'Internal Notification' : 'Purchase Successful'}</span>
+            <h1 style="margin: 0; color: #0f172a; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">${title}</h1>
+            <p style="color: #64748b; font-size: 15px; margin-top: 10px; line-height: 1.6;">${subtitle}</p>
           </div>
           
           <div class="content">
-            <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; margin-bottom: 12px;">Order Summary</h3>
-            ${itemsSummary}
+            <h3 style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #94a3b8; margin-bottom: 12px; font-weight: 700;">Purchase Details</h3>
+            <div style="border-top: 2px solid #0f172a;">
+              ${itemsSummary || '<div style="padding: 20px; text-align: center; color: #94a3b8; display:flex; justify-content: space-between;">Custom Order</div>'}
+            </div>
             
             <div class="order-card">
-               <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;">
-                  <span style="color: #64748b;">Order ID</span>
-                  <span style="color: #0f172a; font-weight: 600;">#${order_id.split('_')[1] || order_id}</span>
+               <div style="display: flex !important; justify-content: space-between !important; font-size: 13px; align-items: center;">
+                  <span style="color: #64748b; font-weight: 500;">Order Reference: </span>
+                  <span style="color: #0f172a; font-weight: 700; font-family: monospace; font-size: 14px;">#${order_id.split('_')[1] || order_id}</span>
                </div>
-               <div style="text-align: center; margin-top: 15px;">
-                  <a href="https://www.an1meparadise.com" class="btn">View Full Details</a>
+               
+               <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:#64748b;">
+                 <div>
+                   <div style="font-weight:600; color:#0f172a;">${escapeHtml(buyer.name || buyer.fullName || '-')}</div>
+                   <div>${escapeHtml(buyer.email || buyer.email_id || '-')}</div>
+                   <div>${escapeHtml(buyer.phone || buyer.mobile || buyer.phone_number || metadata?.phone || '-')}</div>
+                 </div>
+                 <div style="text-align:right">${actionButtons}</div>
                </div>
             </div>
           </div>
 
           <div class="footer">
-            <div style="font-weight: 700; color: #1e293b; margin-bottom: 4px;">An1meParadise</div>
-            <div>Modern Collectibles • Premium Quality</div>
+            <div style="font-weight: 700; color: #1e293b; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.05em;">AN1MEPARADISE</div>
+            <div style="line-height: 1.5;">Modern Collectibles & Premium Goods<br/>Kolkata, India</div>
           </div>
         </div>
       </div>
