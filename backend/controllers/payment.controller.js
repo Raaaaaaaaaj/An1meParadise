@@ -205,8 +205,8 @@ export async function generatePdfBufferFromHtml({ order_id, payment_id, metadata
   const buyerPhone = buyer.phone || buyer.mobile || buyer.phone_number || buyer.contact || metadata?.phone || "";
   doc.fontSize(10).fillColor("#94a3b8").font("Helvetica").text("BILL TO");
   doc.fontSize(12).fillColor("#000000").font("Helvetica-Bold").text(buyer.name || buyer.fullName || "Valued Customer");
-  if (buyer.email) doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(buyer.email);
-  if (buyerPhone) doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(buyerPhone);
+  doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(`Email: ${buyer.email || metadata?.email || '-'}`);
+  doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(`Phone: ${buyerPhone || '-'}`);
   if (metadata && metadata.address) doc.moveDown(0.3);
   if (metadata && metadata.address) doc.fontSize(10).font("Helvetica").fillColor("#64748b").text(formatAddress(metadata.address));
   doc.moveDown(2);
@@ -305,8 +305,8 @@ export function buildInvoiceHtml({ order_id, payment_id, metadata }) {
           <div>
             <div class="meta-label">Billed To</div>
             <div style="font-size: 18px; font-weight: 600;">${escapeHtml(buyer.name || buyer.fullName || "Customer")}</div>
-              <div style="color: #64748b; font-size: 14px;">${escapeHtml(buyer.email || buyer.email_id || "-")}</div>
-              <div style="color: #64748b; font-size: 14px;">${escapeHtml(buyer.phone || buyer.mobile || buyer.phone_number || metadata?.phone || "-")}</div>
+              <div style="color: #64748b; font-size: 14px;">Email: ${escapeHtml(buyer.email || buyer.email_id || "-")}</div>
+              <div style="color: #64748b; font-size: 14px;">Phone: ${escapeHtml(buyer.phone || buyer.mobile || buyer.phone_number || metadata?.phone || "-")}</div>
               <div style="color: #64748b; font-size: 14px; margin-top: 4px; max-width: 250px;">${escapeHtml(formatAddress(metadata?.address))}</div>
           </div>
           <div style="text-align: right;">

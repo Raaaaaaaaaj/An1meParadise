@@ -1,0 +1,90 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <style>
+        body { font-family: 'Poppins', sans-serif; background: #ffffff; color: #0f172a; margin: 0; padding: 40px; }
+        .invoice-box { max-width: 850px; margin: auto; border: 1px solid #f1f5f9; padding: 50px; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.02); }
+        .header { display: flex; justify-content: space-between; border-bottom: 2px solid #0f172a; padding-bottom: 30px; margin-bottom: 40px; }
+        .brand { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .invoice-label { font-size: 40px; font-weight: 700; margin: 0; line-height: 1; }
+        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .meta-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.1em; margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; font-size: 11px; text-transform: uppercase; color: #94a3b8; padding-bottom: 15px; border-bottom: 1px solid #0f172a; }
+        .total-row { display: flex; justify-content: flex-end; margin-top: 30px; }
+        .total-card { background: #0f172a; color: #ffffff; padding: 30px; border-radius: 16px; width: 250px; }
+      </style>
+    </head>
+    <body>
+      <div class="invoice-box">
+        <div class="header">
+          <div>
+            <div class="brand">An1meParadise</div>
+            <div style="font-size: 13px; color: #64748b;">Official Purchase Document</div>
+          </div>
+          <h1 class="invoice-label">INVOICE</h1>
+        </div>
+
+        <div class="grid" style="display: flex; justify-content: space-between;">
+          <div>
+            <div class="meta-label">Billed To</div>
+            <div style="font-size: 18px; font-weight: 600;">Test Buyer</div>
+              <div style="color: #64748b; font-size: 14px;">Email: test@example.com</div>
+              <div style="color: #64748b; font-size: 14px;">Phone: 9876543210</div>
+              <div style="color: #64748b; font-size: 14px; margin-top: 4px; max-width: 250px;"></div>
+          </div>
+          <div style="text-align: right;">
+            <div class="meta-label">Invoice Details</div>
+            <div style="font-size: 14px; font-weight: 600;">Order: #65599301</div>
+            <div style="font-size: 14px; color: #64748b;">Date: 5/12/2026</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Item Description</th>
+              <th style="text-align: center;">Qty</th>
+              <th style="text-align: right;">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+    <tr>
+      <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9;">
+        <div style="font-weight: 600; font-size: 15px;">Sample Figure</div>
+        <div style="font-size: 12px; color: #94a3b8;">SKU: FIG-001</div>
+      </td>
+      <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9; text-align: center;">1</td>
+      <td style="padding: 20px 0; border-bottom: 1px solid #f1f5f9; text-align: right; font-weight: 600;">₹199.00</td>
+    </tr>
+  
+          </tbody>
+        </table>
+
+        <div class="total-row">
+          <div class="total-card">
+            <div style="display: flex; justify-content: space-between; font-size: 12px; opacity: 0.8; margin-bottom: 10px;">
+              <span>Subtotal</span>
+              <span>₹199.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; opacity: 0.8; margin-bottom: 15px;">
+              <span>Shipping</span>
+              <span>₹99.00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+              <span>Total</span>
+              <span>₹298.00</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 40px; font-size: 12px; color: #94a3b8; text-align: center;">
+          This is a computer generated document. No signature required.
+        </div>
+      </div>
+    </body>
+    </html>
+  
