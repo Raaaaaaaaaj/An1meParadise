@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -26,8 +26,21 @@ import TermsPage from "./pages/TermsPage";
 import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
 import ScrollToTop from "@/components/ScrollToTop";
+import AdminShell from "@/admin/components/AdminShell";
+import AdminLoginPage from "@/admin/pages/AdminLoginPage";
+import AdminProtectedRoute from "@/admin/routes/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
+
+const StorefrontFrame = () => (
+  <Layout>
+    <Navbar />
+    <CartDrawer />
+    <Outlet />
+    <Footer />
+  </Layout>
+);
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -43,10 +56,20 @@ const App = () => {
             }}
           >
             <ScrollToTop />
-            <Layout>
-              <Navbar />
-              <CartDrawer />
-              <Routes>
+            <Routes>
+              {/* Admin CRM */}
+              <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route
+                path="/admin/*"
+                element={
+                  <AdminProtectedRoute>
+                    <AdminShell />
+                  </AdminProtectedRoute>
+                }
+              />
+
+              {/* Storefront */}
+              <Route element={<StorefrontFrame />}>
                 {/* Main Routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/shop" element={<ShopPage />} />
@@ -68,9 +91,8 @@ const App = () => {
                 <Route path="/returnPolicy" element={<TermsPage />} />
                 {/* 404 Catch-all */}
                 <Route path="*" element={<NotFound />} />
-              </Routes>
-              <Footer />
-            </Layout>
+              </Route>
+            </Routes>
           </BrowserRouter>
         </CartProvider>
       </TooltipProvider>

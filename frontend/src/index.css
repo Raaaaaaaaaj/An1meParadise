@@ -97,6 +97,10 @@
 }
 
 @layer utilities {
+  .admin-crm {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 96%;
+  }
 
   .text-glow-purple {
     text-shadow: 0 0 10px hsl(0 0% 85% / 0.7),
