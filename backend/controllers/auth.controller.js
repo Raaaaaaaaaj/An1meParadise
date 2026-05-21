@@ -111,7 +111,6 @@ export const login = async (req, res) => {
     );
   }
 };
-
 // ✅ LOGOUT
 export const logout = async (req, res) => {
   try {

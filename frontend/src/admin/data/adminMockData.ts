@@ -27,7 +27,7 @@ export const adminOwner: AdminOwner = {
   owner_name: "AN1ME Paradise Owner",
   owner_mail: "owner@an1meparadise.in",
   owner_mobile: "+91 98765 43210",
-  role: "Store Owner",
+  role: "Owner",
   joined_at: "2026-01-01",
 };
 
