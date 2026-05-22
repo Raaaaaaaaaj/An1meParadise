@@ -24,11 +24,11 @@ const names = [
 
 export const adminOwner: AdminOwner = {
   id: 1,
-  owner_name: "AN1ME Paradise Owner",
-  owner_mail: "owner@an1meparadise.in",
-  owner_mobile: "+91 98765 43210",
-  role: "Owner",
-  joined_at: "2026-01-01",
+  owner_name: "Sreejit Saha",
+  owner_mail: "workwithan1me.paradise@gmail.com",
+  owner_mobile: "+91 62894 24388",
+  role: "Owner & Manager",
+  joined_at: "2026-01-05",
 };
 
 export const adminUsers: AdminUser[] = Array.from({ length: 64 }, (_, index) => {
@@ -41,7 +41,8 @@ export const adminUsers: AdminUser[] = Array.from({ length: 64 }, (_, index) => 
     userMail: `customer${id}@example.com`,
     userMobile: `+91 90000 ${String(10000 + id).slice(-5)}`,
     userCity: cities[index % cities.length],
-    status: id % 11 === 0 ? "Blocked" : id % 4 === 0 ? "Inactive" : "Active",
+    // status: id % 11 === 0 ? "Blocked" : id % 4 === 0 ? "Inactive" : "Active",
+    userCode: `${name} ${id}`,
     created_at: `2026-04-${String((index % 28) + 1).padStart(2, "0")}`,
   };
 });

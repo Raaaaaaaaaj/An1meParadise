@@ -11,7 +11,7 @@ export const createProduct = async (data) => {
   return result; // Isme insertId hota hai
 };
 
-// NAYA: Image insert karne ke liye function
+// Function for entering new images
 export const addProductImage = async (productId, filename) => {
   const sql = `INSERT INTO productimage (product_id, thumbnail_image) VALUES (?, ?)`;
   await db.query(sql, [productId, filename]);
@@ -103,3 +103,12 @@ export const deleteProduct = async (id) => {
   const [result] = await db.query("DELETE FROM products WHERE id = ?", [id]);
   return result;
 };
+
+// Get Products Count for - CRM
+export const getProductCount = async() => {
+  const sql = `
+    SELECT COUNT(*) AS productCount FROM products
+  `
+  const [rows] = await db.query(sql);
+  return rows[0].productCount;
+}

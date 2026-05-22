@@ -4,6 +4,7 @@ import {
     fetchProducts,
     fetchProduct,
     removeProduct,
+    productCount
 } from "../controllers/product.controller.js"
 import multer from "multer"
 
@@ -17,10 +18,19 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
-//routes
+// Upload product
 router.post("/admin/product", upload.single("image"), addProduct);
+
+// Fetch all products
 router.get("/products", fetchProducts);
+
+// Fetch product By ID
 router.get("/product/:id", fetchProduct);
+
+// Remove Product
 router.delete("/admin/product/:id", removeProduct);
+
+// Get Product Count
+router.get("/productCountForCRM", productCount)
 
 export default router;

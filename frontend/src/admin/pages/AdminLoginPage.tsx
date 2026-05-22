@@ -34,7 +34,7 @@ const AdminLoginPage = () => {
       return;
     }
 
-    // 👇 YE ADD KARO
+    // Static credentials for demonstration purposes
     const ADMIN_EMAIL = "workwithan1me.paradise@gmail.com";
     const ADMIN_PASSWORD = "An1meParadise@2026@gmail.com";
 

@@ -225,9 +225,6 @@ const AdminEditableTable = <T extends { id: number | string }>({
                           </>
                         ) : (
                           <>
-                            <Button type="button" size="icon" variant="outline" onClick={() => startEdit(row)} title="Edit row">
-                              <Pencil className="h-4 w-4" />
-                            </Button>
                             <Button
                               type="button"
                               size="icon"

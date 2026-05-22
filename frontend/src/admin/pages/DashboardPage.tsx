@@ -26,7 +26,7 @@ const DashboardPage = () => {
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <AdminStatCard title="Active Users" value={activeUsers} detail={`${adminUsers.length} total users`} icon={Users} />
-        <AdminStatCard title="Products" value={adminProducts.length} detail={`${adminCategories.length} categories`} icon={Package} />
+        <AdminStatCard title="Active Product Categories" value={adminProducts.length} detail={`${adminCategories.length} categories`} icon={Package} />
         <AdminStatCard title="Paid Orders" value={paidOrders} detail={`Revenue Rs. ${totalRevenue.toLocaleString("en-IN")}`} icon={ShoppingBag} />
         <AdminStatCard title="Contacts" value={adminContacts.length} detail="Open customer messages" icon={MessageSquare} />
       </section>

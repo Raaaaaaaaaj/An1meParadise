@@ -28,7 +28,8 @@ export interface AdminUser {
   userMail: string;
   userMobile: string;
   userCity: string;
-  status: RecordStatus;
+  // status: RecordStatus;
+  userCode: string;
   created_at: string;
 }
 

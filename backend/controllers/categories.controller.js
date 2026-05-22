@@ -1,4 +1,5 @@
 import { db } from "../config/db.js";
+import { getCategoryCount } from "../models/categories.model.js";
 
 // ADD CATEGORY
 export const addCategory = async (req, res) => {
@@ -29,7 +30,6 @@ export const addCategory = async (req, res) => {
 };
 
 //UPDATE CATEGORY
-
 export const updateCategory = async (req, res) => {
   try {
     const categoryId = req.params.id;
@@ -72,7 +72,6 @@ export const updateCategory = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 // GET ALL CATEGORIES
 export const getCategories = async (req, res) => {
@@ -122,3 +121,14 @@ export const removeCategory = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Get Categories Count for - CRM
+export const categoryCount = async (req, res) =>{
+  try{
+    const totalCategories = await getCategoryCount();
+      res.json({totalCategories})
+  }
+  catch(err){
+    re.status.json({message: err.message})
+  }
+}

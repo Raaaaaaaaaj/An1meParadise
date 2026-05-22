@@ -10,18 +10,19 @@ const userColumns: Array<AdminTableColumn<AdminUser>> = [
   { key: "userMail", header: "Mail", editable: true, inputType: "email" },
   { key: "userMobile", header: "Mobile", editable: true },
   { key: "userCity", header: "City", editable: true },
-  {
-    key: "status",
-    header: "Status",
-    editable: true,
-    inputType: "select",
-    options: [
-      { label: "Active", value: "Active" },
-      { label: "Inactive", value: "Inactive" },
-      { label: "Blocked", value: "Blocked" },
-    ],
-    render: (row) => <AdminStatusBadge value={row.status} />,
-  },
+  { key: "userCode", header: "User Code", editable: true },
+  // {
+  //   key: "status",
+  //   header: "Status",
+  //   editable: true,
+  //   inputType: "select",
+  //   options: [
+  //     { label: "Active", value: "Active" },
+  //     { label: "Inactive", value: "Inactive" },
+  //     { label: "Blocked", value: "Blocked" },
+  //   ],
+  //   render: (row) => <AdminStatusBadge value={row.status} />,
+  // },
   { key: "created_at", header: "Created At" },
 ];
 
@@ -37,7 +38,7 @@ const UsersPage = () => {
         rows={adminUsers}
         columns={userColumns}
         emptyLabel="No users found"
-        searchKeys={["userName", "userMail", "userMobile", "userCity", "status"]}
+        searchKeys={["userName", "userMail", "userMobile", "userCity", "userCode"]}
       />
     </div>
   );

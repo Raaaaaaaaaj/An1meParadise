@@ -3,6 +3,7 @@ import {
   getAllProducts,
   getProductById,
   deleteProduct,
+  getProductCount
 } from "../models/product.model.js";
 
 
@@ -112,3 +113,14 @@ export const removeProduct = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Get Pdoruct Count for - CRM
+export const productCount = async (req, res) => {
+  try{
+    const totalProducts = await getProductCount()
+    res.json({totalProducts})
+  }
+  catch(err){
+    res.status(500).json({message: err.message})
+  }
+}
