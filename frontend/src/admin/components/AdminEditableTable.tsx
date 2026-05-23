@@ -32,8 +32,11 @@ interface AdminEditableTableProps<T extends { id: number | string }> {
   columns: Array<AdminTableColumn<T>>;
   emptyLabel: string;
   searchKeys?: Array<keyof T & string>;
-  onSave?: (row: T) => void;
-  onDelete?: (row: T) => void;
+  onSave?: (row: T) => void | Promise<void>;
+  onDelete?: (row: T) => void | Promise<void>;
+  onEditRow?: (row: T) => void;
+  confirmDeleteMessage?: (row: T) => string;
+  hideEdit?: boolean;
 }
 
 const pageSizes = [25, 50, 100];
@@ -45,6 +48,9 @@ const AdminEditableTable = <T extends { id: number | string }>({
   searchKeys = [],
   onSave,
   onDelete,
+  onEditRow,
+  confirmDeleteMessage,
+  hideEdit = false,
 }: AdminEditableTableProps<T>) => {
   const [tableRows, setTableRows] = useState<T[]>(rows);
   const [editingId, setEditingId] = useState<T["id"] | null>(null);
@@ -90,18 +96,36 @@ const AdminEditableTable = <T extends { id: number | string }>({
     setDraft((current) => ({ ...current, [key]: value }));
   };
 
-  const saveEdit = () => {
+  const saveEdit = async () => {
     if (editingId === null) return;
 
+    const originalRows = tableRows;
     const updatedRow = { ...(tableRows.find((row) => row.id === editingId) as T), ...draft } as T;
     setTableRows((current) => current.map((row) => (row.id === editingId ? updatedRow : row)));
-    onSave?.(updatedRow);
-    cancelEdit();
+
+    try {
+      await onSave?.(updatedRow);
+      cancelEdit();
+    } catch (error) {
+      console.error(error);
+      setTableRows(originalRows);
+    }
   };
 
-  const deleteRow = (row: T) => {
+  const deleteRow = async (row: T) => {
+    if (confirmDeleteMessage && !window.confirm(confirmDeleteMessage(row))) {
+      return;
+    }
+
+    const originalRows = tableRows;
     setTableRows((current) => current.filter((item) => item.id !== row.id));
-    onDelete?.(row);
+
+    try {
+      await onDelete?.(row);
+    } catch (error) {
+      console.error(error);
+      setTableRows(originalRows);
+    }
   };
 
   const renderEditor = (row: T, column: AdminTableColumn<T>) => {
@@ -225,6 +249,17 @@ const AdminEditableTable = <T extends { id: number | string }>({
                           </>
                         ) : (
                           <>
+                          {!hideEdit &&(
+                            <Button
+                              type="button"
+                              size="icon"
+                              variant="outline"
+                              onClick={() => (onEditRow ? onEditRow(row) : startEdit(row))}
+                              title="Edit row"
+                            >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          )}
                             <Button
                               type="button"
                               size="icon"

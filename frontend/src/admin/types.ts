@@ -36,32 +36,39 @@ export interface AdminUser {
 export interface AdminCategory {
   id: number;
   category_name: string;
-  category_image: string;
+  category_image: string | null;
   created_at: string;
 }
 
 export interface AdminProductImage {
   id: number;
   product_id: number;
-  thumbnail_image: string;
-  image1: string;
-  image2: string;
-  image3: string;
-  image4: string;
-  image5: string;
+  thumbnail_image: string | null;
+  image_2: string | null;
+  image_3: string | null;
+  image_4: string | null;
+  image_5: string | null;
 }
 
 export interface AdminProduct {
   id: number;
   prod_title: string;
   prod_description: string;
-  prod_mainPrice: number;
+  prod_minPrice: number | null;
   prod_actualPrice: number;
-  prod_quantity: number;
+  prod_maxPrice: number | null;
+  prod_qty: number | null;
   prod_createdAt: string;
-  prod_categoryId: number;
+  prod_category_ID: number;
   prod_badgeName: string;
   is_featured: 0 | 1;
+  category_name?: string;
+  image?: string | null;
+  thumbnail_image?: string | null;
+  image_2?: string | null;
+  image_3?: string | null;
+  image_4?: string | null;
+  image_5?: string | null;
 }
 
 export interface AdminTag {

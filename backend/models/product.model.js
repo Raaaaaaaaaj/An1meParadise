@@ -4,8 +4,8 @@ import { db } from "../config/db.js";
 export const createProduct = async (data) => {
   const sql = `
     INSERT INTO products 
-    (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_badgeName)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    (prod_title, prod_description, prod_minPrice, prod_actualPrice, prod_maxPrice, prod_category_ID, prod_qty, prod_badgeName, is_featured)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
   const [result] = await db.query(sql, data);
   return result; // Isme insertId hota hai
@@ -27,16 +27,35 @@ export const getAllProducts = async (query) => {
       p.id,
       p.prod_title,
       p.prod_description,
+      p.prod_minPrice,
       p.prod_actualPrice,
+      p.prod_maxPrice,
+      p.prod_qty,
+      p.prod_createdAt,
+      p.prod_category_ID,
       p.prod_badgeName,
       p.is_featured,
       c.category_name,
-      MIN(pi.thumbnail_image) AS image
+      pi.thumbnail_image AS image,
+      pi.thumbnail_image,
+      pi.image_2,
+      pi.image_3,
+      pi.image_4,
+      pi.image_5
     FROM products p
     LEFT JOIN productcategories c 
       ON p.prod_category_ID = c.id
-    LEFT JOIN productimage pi 
-      ON p.id = pi.product_id
+    LEFT JOIN (
+      SELECT
+        product_id,
+        MIN(thumbnail_image) AS thumbnail_image,
+        MIN(image_2) AS image_2,
+        MIN(image_3) AS image_3,
+        MIN(image_4) AS image_4,
+        MIN(image_5) AS image_5
+      FROM productimage
+      GROUP BY product_id
+    ) pi ON p.id = pi.product_id
     WHERE 1=1
   `;
 
@@ -59,8 +78,6 @@ export const getAllProducts = async (query) => {
     params.push(`%${search}%`);
   }
 
-  sql += " GROUP BY p.id";
-
   // ✅ SORTING
   if (sort === "low") {
     sql += " ORDER BY p.prod_actualPrice ASC";
@@ -72,6 +89,46 @@ export const getAllProducts = async (query) => {
 
   const [rows] = await db.query(sql, params);
   return rows;
+};
+
+// UPDATE PRODUCT
+export const updateProduct = async (id, data) => {
+  const fields = [];
+  const values = [];
+
+  const columnMap = {
+    prod_title: "prod_title",
+    prod_description: "prod_description",
+    prod_minPrice: "prod_minPrice",
+    prod_actualPrice: "prod_actualPrice",
+    prod_maxPrice: "prod_maxPrice",
+    prod_category_ID: "prod_category_ID",
+    prod_qty: "prod_qty",
+    prod_badgeName: "prod_badgeName",
+    is_featured: "is_featured",
+  };
+
+  Object.entries(columnMap).forEach(([key, column]) => {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      fields.push(`${column} = ?`);
+      values.push(data[key]);
+    }
+  });
+
+  if (fields.length === 0) {
+    return { affectedRows: 0 };
+  }
+
+  values.push(id);
+
+  const sql = `
+    UPDATE products
+    SET ${fields.join(", ")}
+    WHERE id = ?
+  `;
+
+  const [result] = await db.query(sql, values);
+  return result;
 };
 
 // GET PRODUCT BY ID (WITH JOIN)

@@ -39,6 +39,7 @@ const UsersPage = () => {
         columns={userColumns}
         emptyLabel="No users found"
         searchKeys={["userName", "userMail", "userMobile", "userCity", "userCode"]}
+        hideEdit={true}
       />
     </div>
   );

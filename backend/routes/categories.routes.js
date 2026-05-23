@@ -1,9 +1,9 @@
 import express from "express";
-import {addCategory, getCategories, getCategoriesWithCount ,removeCategory, updateCategory, categoryCount} from "../controllers/categories.controller.js"
+import {addCategory, getCategories, getCategoriesWithCount ,removeCategory, updateCategory, categoryCount, uploadCategoryImage} from "../controllers/categories.controller.js"
 const router = express.Router();
 
 // Add Category
-router.post("/add", addCategory);
+router.post("/add",uploadCategoryImage, addCategory);
 
 // Get All Categories
 router.get("/", getCategories);
@@ -12,7 +12,7 @@ router.get("/", getCategories);
 router.get("/categoryCountForCRM", categoryCount)
 
 // Update Category
-router.put("/update/:id", updateCategory);
+router.put("/update/:id", uploadCategoryImage, updateCategory);
 
 // GetCategories with Product Count for Client
 router.get("/with-count", getCategoriesWithCount);
