@@ -11,10 +11,89 @@ import {
   adminUsers,
 } from "@/admin/data/adminMockData";
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
+
 const DashboardPage = () => {
-  const activeUsers = adminUsers.filter((user) => user.status === "Active").length;
-  const paidOrders = adminOrders.filter((order) => order.payment_status === "Paid").length;
-  const totalRevenue = adminOrders.reduce((sum, order) => sum + order.final_amount, 0);
+  // const activeUsers = adminUsers.filter((user) => user.status === "Active").length;
+  // const paidOrders = adminOrders.filter((order) => order.payment_status === "Paid").length;
+  // const totalRevenue = adminOrders.reduce((sum, order) => sum + order.final_amount, 0);
+
+   console.log("API_URL:", API_URL);
+
+  const [usersCount, setUsersCount] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(0);
+  const [contactCount, setContactCount] = useState(0);
+
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [loadingContacts, setLoadingContacts] = useState(true);
+
+
+  // users
+useEffect(() => {
+  const fetchUsersCount = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/admin/count`);
+
+      console.log("Users API Response:", res.data);
+
+      setUsersCount(res.data.totalUsers || 0);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  fetchUsersCount();
+}, []);
+
+  // categories
+  useEffect(() => {
+    const fetchCategoryCount = async () => {
+      try {
+        const res = await axios.get(
+          `${API_URL}/api/categories/categoryCountForCRM`
+        );
+
+        console.log("Category API:", res.data);
+
+        // const count = res.data.count || res.data.total || 0;
+        setCategoryCount(res.data.totalCategories || 0);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategoryCount();
+  }, []);
+
+  // contacts
+  useEffect(() => {
+    const fetchContactCount = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/contact`);
+
+        console.log("Contact API:", res.data);
+
+        const data = res.data.data || res.data.messages || res.data || [];
+        setContactCount(data.length);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingContacts(false);
+      }
+    };
+
+    fetchContactCount();
+  }, []);
+
+
 
   return (
     <div className="space-y-6">
@@ -25,10 +104,27 @@ const DashboardPage = () => {
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <AdminStatCard title="Active Users" value={activeUsers} detail={`${adminUsers.length} total users`} icon={Users} />
-        <AdminStatCard title="Active Product Categories" value={adminProducts.length} detail={`${adminCategories.length} categories`} icon={Package} />
-        <AdminStatCard title="Paid Orders" value={paidOrders} detail={`Revenue Rs. ${totalRevenue.toLocaleString("en-IN")}`} icon={ShoppingBag} />
-        <AdminStatCard title="Contacts" value={adminContacts.length} detail="Open customer messages" icon={MessageSquare} />
+        <AdminStatCard
+          title="Active Users"
+          value={loadingUsers ? "..." : usersCount}
+          detail="Registered users"
+          icon={Users}
+        />
+
+        <AdminStatCard
+          title="Active Product Categories"
+          value={loadingCategories ? "..." : categoryCount}
+          detail="Product categories"
+          icon={Package}
+        />
+
+        <AdminStatCard
+          title="Contacts"
+          value={loadingContacts ? "..." : contactCount}
+          detail="Open customer messages"
+          icon={MessageSquare}
+        />
+        {/* <AdminStatCard title="Paid Orders" value={paidOrders} detail={`Revenue Rs. ${totalRevenue.toLocaleString("en-IN")}`} icon={ShoppingBag} /> */}
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">

@@ -3,7 +3,7 @@ import type { LucideIcon } from "lucide-react";
 interface AdminStatCardProps {
   title: string;
   value: string | number;
-  detail: string;
+  detail?: string;
   icon: LucideIcon;
 }
 
@@ -16,7 +16,7 @@ const AdminStatCard = ({ title, value, detail, icon: Icon }: AdminStatCardProps)
             {title}
           </p>
           <p className="mt-3 font-display text-2xl font-bold text-foreground">{value}</p>
-          <p className="mt-1 text-xs text-muted-foreground">{detail}</p>
+          {/* <p className="mt-1 text-xs text-muted-foreground">{detail}</p> */}
         </div>
         <div className="rounded-lg border border-border bg-background p-2 text-primary">
           <Icon className="h-5 w-5" />
