@@ -33,8 +33,8 @@ const navItems = [
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/categories", label: "Categories", icon: Layers3 },
   { to: "/admin/products", label: "Products", icon: Package },
-  { to: "/admin/tags", label: "Tags", icon: Tags },
-  { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
+  // { to: "/admin/tags", label: "Tags", icon: Tags },
+  // { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
   { to: "/admin/orders", label: "Orders", icon: ShoppingBag },
   { to: "/admin/contacts", label: "Contacts", icon: Contact },
 ];

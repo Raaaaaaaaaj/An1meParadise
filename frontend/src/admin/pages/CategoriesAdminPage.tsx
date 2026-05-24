@@ -150,10 +150,10 @@ const CategoriesAdminPage = () => {
       />
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-w-xl bg-primary">
           <form onSubmit={saveCategory} className="space-y-5">
             <DialogHeader>
-              <DialogTitle>{editingCategory ? "Update Category" : "Add Category"}</DialogTitle>
+              <DialogTitle className="text-muted">{editingCategory ? "Update Category" : "Add Category"}</DialogTitle>
             </DialogHeader>
 
             <div className="grid gap-5">
@@ -196,7 +196,7 @@ const CategoriesAdminPage = () => {
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={saving}>
+              <Button type="submit" disabled={saving} variant="outline" >
                 {saving ? "Saving..." : editingCategory ? "Update Category" : "Create Category"}
               </Button>
             </DialogFooter>
