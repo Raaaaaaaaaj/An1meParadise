@@ -109,11 +109,9 @@ export interface AdminOrder {
 
 export interface AdminContact {
   id: number;
-  contact_name: string;
-  contact_mail: string;
-  contact_mobile: string;
-  subject: string;
+  name: string;
+  email: string;
+  number: string;
   message: string;
-  status: "New" | "In Review" | "Closed";
   created_at: string;
 }
