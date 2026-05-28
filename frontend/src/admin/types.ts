@@ -10,8 +10,7 @@ export type AdminSection =
   | "contacts";
 
 export type RecordStatus = "Active" | "Inactive" | "Blocked";
-export type OrderStatus = "Pending" | "Processing" | "Shipped" | "Delivered" | "Cancelled";
-export type PaymentStatus = "Pending" | "Paid" | "Failed" | "Refunded";
+export type OrderStatus = "pending" | "confirmed" | "shipped" | "delivered";
 
 export interface AdminOwner {
   id: number;
@@ -92,19 +91,24 @@ export interface AdminCoupon {
 export interface AdminOrder {
   id: number;
   user_id: number;
+  userName?: string;
+  userMail?: string;
   order_status: OrderStatus;
-  payment_status: PaymentStatus;
   total_amount: number;
   shipping_charge: number;
-  discount_amount: number;
   final_amount: number;
-  payment_method: "COD" | "Razorpay" | "UPI" | "Card";
-  shipping_address: string;
   billing_address: string;
   razorpay_order_id: string;
   razorpay_payment_id: string;
   created_at: string;
-  updated_at: string;
+  items?: Array<{
+    id: number;
+    product_id: number;
+    product_name: string;
+    quantity: number;
+    price_at_time: number;
+    total_price: number;
+  }>;
 }
 
 export interface AdminContact {
