@@ -295,7 +295,7 @@ const ProductsAdminPage = () => {
       />
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-h-[92vh] max-w-5xl overflow-y-auto">
+        <DialogContent className="max-h-[92vh] max-w-5xl overflow-y-auto bg-primary">
           <form onSubmit={saveProduct} className="space-y-6">
             <DialogHeader>
               <DialogTitle>{editingProduct ? "Update Product" : "Add Product"}</DialogTitle>
@@ -398,7 +398,7 @@ const ProductsAdminPage = () => {
                 />
               </div>
 
-              <div className="flex items-center justify-between rounded-md border border-border bg-card px-4 py-3">
+              <div className="flex items-center justify-between rounded-md border border-border bg-primary px-4 py-3">
                 <Label htmlFor="is_featured">Featured</Label>
                 <Switch
                   id="is_featured"
@@ -442,7 +442,7 @@ const ProductsAdminPage = () => {
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={saving}>
+              <Button type="submit" disabled={saving} variant="outline">
                 {saving ? "Saving..." : editingProduct ? "Update Product" : "Create Product"}
               </Button>
             </DialogFooter>

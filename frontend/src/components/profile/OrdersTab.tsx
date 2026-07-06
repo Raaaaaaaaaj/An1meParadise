@@ -1,67 +1,61 @@
-import { useState } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
+import { useEffect, useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 interface Product {
-  name: string;
-  price: number;
-  qty: number;
-  status: string;
-  paymentStatus: string;
-  deliveredDate?: string;
+  id: number;
+  product_name: string;
+  price_at_time: number;
+  quantity: number;
+  total_price: number;
 }
 
 interface Order {
   id: number;
-  date: string;
-  status: "Pending" | "Delivered" | "Cancelled";
-  total: number;
-  products: Product[];
+  created_at: string;
+  order_status: "pending" | "confirmed" | "shipped" | "delivered";
+  final_amount: number;
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  items: Product[];
 }
 
-const dummyOrders: Order[] = [
-  {
-    id: 101,
-    date: "2026-04-28",
-    status: "Delivered",
-    total: 1200,
-    products: [
-      {
-        name: "Anime Hoodie",
-        price: 800,
-        qty: 1,
-        status: "Delivered",
-        paymentStatus: "Paid",
-        deliveredDate: "2026-04-30",
-      },
-      {
-        name: "Sticker Pack",
-        price: 400,
-        qty: 2,
-        status: "Delivered",
-        paymentStatus: "Paid",
-      },
-    ],
-  },
-  {
-    id: 102,
-    date: "2026-04-25",
-    status: "Pending",
-    total: 600,
-    products: [
-      {
-        name: "Naruto T-shirt",
-        price: 600,
-        qty: 1,
-        status: "Pending",
-        paymentStatus: "COD",
-      },
-    ],
-  },
-];
+const formatDate = (value: string) =>
+  value ? new Date(value).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : "-";
+
+const formatStatus = (value: string) => (value ? value.charAt(0).toUpperCase() + value.slice(1) : "Pending");
 
 const OrdersTab = () => {
   const [openId, setOpenId] = useState<number | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const userData = localStorage.getItem("user");
+        const user = userData ? JSON.parse(userData) : null;
+
+        if (!user?.id) {
+          setOrders([]);
+          return;
+        }
+
+        const response = await fetch(`${API_URL}/api/user/orders/${user.id}`);
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.message || "Failed to load orders");
+        setOrders(data.orders || []);
+      } catch (err: any) {
+        setError(err.message || "Failed to load orders");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   const toggle = (id: number) => {
     setOpenId(openId === id ? null : id);
@@ -69,96 +63,94 @@ const OrdersTab = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6 text-primary">
-        Your Orders
-      </h2>
+      <h2 className="mb-6 text-2xl font-semibold text-primary">Your Orders</h2>
 
       <div className="space-y-3">
-        {dummyOrders.map((order) => (
-          <div
-            key={order.id}
-            className="border border-border rounded-xl bg-gradient-card overflow-hidden"
-          >
-            {/* 🔷 Accordion Header */}
-            <button
-              onClick={() => toggle(order.id)}
-              className="w-full flex justify-between items-center p-4 text-left hover:bg-muted transition"
-            >
-              <div>
-                <p className="font-semibold text-primary">Order #{order.id}</p>
-                <p className="text-sm text-muted-foreground">
-                  {order.date}
-                </p>
-              </div>
+        {loading && (
+          <div className="rounded-xl border border-border bg-gradient-card p-4 text-sm text-muted-foreground">
+            Loading your orders...
+          </div>
+        )}
 
-              <div className="flex items-center gap-4">
-                <span className="font-medium text-primary">₹{order.total}</span>
+        {!loading && error && (
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+            {error}
+          </div>
+        )}
 
-                <span
-                  className={`px-3 py-1 rounded-full text-xs ${
-                    order.status === "Delivered"
-                      ? "bg-green-500/20 text-green-400"
-                      : order.status === "Pending"
-                      ? "bg-yellow-500/20 text-yellow-400"
-                      : "bg-red-500/20 text-red-400"
-                  }`}
-                >
-                  {order.status}
-                </span>
+        {!loading && !error && orders.length === 0 && (
+          <div className="rounded-xl border border-border bg-gradient-card p-4 text-sm text-muted-foreground">
+            No orders found yet.
+          </div>
+        )}
 
-                {/* Arrow */}
-                <span
-                  className={`transition-transform text-primary ${
-                    openId === order.id ? "rotate-180" : ""
-                  }`}
-                >
-                  ⌄
-                </span>
-              </div>
-            </button>
+        {!loading &&
+          !error &&
+          orders.map((order) => (
+            <div key={order.id} className="overflow-hidden rounded-xl border border-border bg-gradient-card">
+              <button
+                onClick={() => toggle(order.id)}
+                className="flex w-full items-center justify-between p-4 text-left transition hover:bg-muted"
+              >
+                <div>
+                  <p className="font-semibold text-primary">Order #{order.id}</p>
+                  <p className="text-sm text-muted-foreground">{formatDate(order.created_at)}</p>
+                </div>
 
-            {/* 🔽 Accordion Content */}
-            <div
-              className={`transition-all duration-300 ease-in-out ${
-                openId === order.id
-                  ? "max-h-[500px] opacity-100 p-4"
-                  : "max-h-0 opacity-0"
-              } overflow-hidden`}
-            >
-              <div className="space-y-4 border-t border-border pt-4">
-                {order.products.map((p, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between text-sm"
+                <div className="flex items-center gap-4">
+                  <span className="font-medium text-primary">Rs. {order.final_amount}</span>
+
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs ${
+                      order.order_status === "delivered"
+                        ? "bg-green-500/20 text-green-400"
+                        : order.order_status === "pending" || order.order_status === "confirmed"
+                          ? "bg-yellow-500/20 text-yellow-400"
+                          : "bg-blue-500/20 text-blue-400"
+                    }`}
                   >
-                    <div>
-                      <p className="font-medium text-primary">{p.name}</p>
-                      <p className="text-muted-foreground">
-                        Qty: {p.qty}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {p.status}
-                      </p>
-                    </div>
+                    {formatStatus(order.order_status)}
+                  </span>
 
-                    <div className="text-right">
-                      <p>₹{p.price}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {p.paymentStatus}
-                      </p>
+                  <span className={`text-primary transition-transform ${openId === order.id ? "rotate-180" : ""}`}>
+                    ^
+                  </span>
+                </div>
+              </button>
+
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  openId === order.id ? "max-h-[520px] p-4 opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="space-y-4 border-t border-border pt-4">
+                  {order.items.map((product) => (
+                    <div key={product.id} className="flex justify-between text-sm">
+                      <div>
+                        <p className="font-medium text-primary">{product.product_name}</p>
+                        <p className="text-muted-foreground">Qty: {product.quantity}</p>
+                        <p className="text-xs text-muted-foreground">{formatStatus(order.order_status)}</p>
+                      </div>
+
+                      <div className="text-right">
+                        <p className="text-primary">Rs. {product.total_price}</p>
+                        <p className="text-xs text-muted-foreground">Paid</p>
+                      </div>
                     </div>
+                  ))}
+
+                  <div className="break-all text-xs text-muted-foreground">
+                    Payment: {order.razorpay_payment_id || "-"}
                   </div>
-                ))}
 
-                {/* Total */}
-                <div className="border-t border-border pt-3 flex justify-between font-semibold">
-                  <span className="text-primary">Total</span>
-                  <span>₹{order.total}</span>
+                  <div className="flex justify-between border-t border-border pt-3 font-semibold">
+                    <span className="text-primary">Total</span>
+                    <span className="text-primary">Rs. {order.final_amount}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

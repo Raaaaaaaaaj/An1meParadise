@@ -37,6 +37,7 @@ interface AdminEditableTableProps<T extends { id: number | string }> {
   onEditRow?: (row: T) => void;
   confirmDeleteMessage?: (row: T) => string;
   hideEdit?: boolean;
+  hideDelete?: boolean;
 }
 
 const pageSizes = [25, 50, 100];
@@ -51,6 +52,7 @@ const AdminEditableTable = <T extends { id: number | string }>({
   onEditRow,
   confirmDeleteMessage,
   hideEdit = false,
+  hideDelete = false,
 }: AdminEditableTableProps<T>) => {
   const [tableRows, setTableRows] = useState<T[]>(rows);
   const [editingId, setEditingId] = useState<T["id"] | null>(null);
@@ -260,15 +262,17 @@ const AdminEditableTable = <T extends { id: number | string }>({
                             <Pencil className="h-4 w-4" />
                           </Button>
                           )}
-                            <Button
-                              type="button"
-                              size="icon"
-                              variant="destructive"
-                              onClick={() => deleteRow(row)}
-                              title="Delete row"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
+                            {!hideDelete && (
+                              <Button
+                                type="button"
+                                size="icon"
+                                variant="destructive"
+                                onClick={() => deleteRow(row)}
+                                title="Delete row"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            )}
                           </>
                         )}
                       </div>

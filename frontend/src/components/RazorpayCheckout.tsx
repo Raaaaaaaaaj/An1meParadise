@@ -67,6 +67,11 @@ export default function RazorpayCheckout({ amountInPaise, description, className
               // prepare metadata: cart items, total, buyer and address
               const userData = localStorage.getItem("user");
               const buyer = userData ? JSON.parse(userData) : null;
+              if (!buyer?.id) {
+                setLoading(false);
+                alert("Please login before placing an order");
+                return;
+              }
 
               // fetch active address for user if available
               let address = null;
@@ -85,13 +90,20 @@ export default function RazorpayCheckout({ amountInPaise, description, className
               const payload = {
                 ...response,
                 metadata: {
+                  user_id: buyer.id,
                   items: items.map((it: any) => ({
+                    product_id: Number(it.product.id),
                     title: it.product.prod_title || it.product.name,
                     quantity: it.quantity,
-                    price: (it.product.prod_actualPrice || 0) * 100,
+                    price: Number(it.product.prod_actualPrice || 0),
+                    price_at_time: Number(it.product.prod_actualPrice || 0),
+                    total_price: Number(it.product.prod_actualPrice || 0) * it.quantity,
                   })),
-                  total: Math.round((totalPrice + (totalPrice >= 999 ? 0 : 99)) * 100),
-                  buyer: { name: buyer?.name || buyer?.fullName || buyer?.email, email: buyer?.email },
+                  total_amount: totalPrice,
+                  shipping_charge: amountInPaise / 100 - totalPrice,
+                  final_amount: amountInPaise / 100,
+                  total: amountInPaise,
+                  buyer: { id: buyer.id, name: buyer?.name || buyer?.fullName || buyer?.email, email: buyer?.email },
                   address,
                 },
               };

@@ -5,6 +5,8 @@ import { CheckCircle2, Package, ShoppingBag } from "lucide-react";
 import { useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 export default function OrderSuccess() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
@@ -72,7 +74,7 @@ export default function OrderSuccess() {
             <div className="mt-4">
               <a
                 className="inline-block rounded bg-gradient-neon px-4 py-2 text-sm font-semibold text-black"
-                href={`http://localhost:5000/api/invoice/${order_id}?download=1`}
+                href={`${API_URL}/api/invoice/${order_id}?download=1`}
               >
                 Download Invoice
               </a>

@@ -1,6 +1,7 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import { savePayment, getPaymentByOrderId } from "../models/payment.model.js";
+import { buildOrderDataFromMetadata, createOrderFromPayment } from "../models/order.model.js";
 import nodemailer from "nodemailer";
 import PDFDocument from "pdfkit"; 
 
@@ -66,6 +67,18 @@ export async function verifyPayment(req, res) {
         });
       } catch (dbErr) {
         console.error("Failed to save payment:", dbErr.message || dbErr);
+      }
+
+      try {
+        const orderData = buildOrderDataFromMetadata({
+          razorpay_payment_id,
+          razorpay_order_id,
+          metadata: metadata || {},
+        });
+        await createOrderFromPayment(orderData);
+      } catch (orderErr) {
+        console.error("Failed to save order:", orderErr.message || orderErr);
+        return res.status(500).json({ message: "Payment verified but order could not be saved" });
       }
 
       // send emails (owner + buyer) with invoice (best-effort)

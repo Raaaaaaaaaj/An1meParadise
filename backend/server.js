@@ -15,6 +15,7 @@
   import userRoutes from "./routes/clientUser.routes.js";
   import paymentRoutes from "./routes/payment.routes.js";
   import adminRoutes from "./routes/adminUser.routes.js";
+  import orderRoutes from "./routes/order.routes.js";
 
   import { db } from "./config/db.js";
 
@@ -67,6 +68,7 @@
   app.use("/api/user", userRoutes); //Client user route
   app.use("/api/admin", adminRoutes); // Admin user route
   app.use("/api", paymentRoutes);
+  app.use("/api", orderRoutes);
 
 
 
