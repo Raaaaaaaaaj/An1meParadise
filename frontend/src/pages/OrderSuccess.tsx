@@ -83,7 +83,7 @@ export default function OrderSuccess() {
             <div className="grid gap-4 pt-4 sm:grid-cols-2">
               <Link
                 to="/profile"
-                className="group flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-bold uppercase tracking-wider text-primary-foreground transition-all duration-300 hover:scale-[1.02]"
+                className="group flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-bold uppercase tracking-wider text-primary-foreground hover:scale-[1.02]"
               >
                 <Package className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 My Orders
@@ -91,7 +91,7 @@ export default function OrderSuccess() {
 
               <Link
                 to="/shop"
-                className="group flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-6 py-4 text-sm font-bold uppercase tracking-wider text-primary transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:scale-[1.02]"
+                className="group flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-6 py-4 text-sm font-bold uppercase tracking-wider text-primary hover:border-primary hover:bg-primary/5 hover:scale-[1.02]"
               >
                 <ShoppingBag className="h-5 w-5 transition-transform duration-300 group-hover:rotate-6" />
                 Shop More

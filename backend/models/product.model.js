@@ -18,9 +18,41 @@ export const addProductImage = async (productId, filename) => {
 };
 
 // GET ALL PRODUCTS (JOIN + FILTER + SORT)
-export const getAllProducts = async (query) => {
-  // ✅ Extract featured from query
-  let { category, sort, search, featured } = query;
+export const getAllProducts = async (query = {}) => {
+  const { category, sort, search, featured, page, limit } = query;
+
+  const baseWhere = [];
+  const params = [];
+
+  if (featured === "true") {
+    baseWhere.push("p.is_featured = 1");
+  }
+
+  if (category && category !== "All") {
+    baseWhere.push("c.category_name = ?");
+    params.push(category);
+  }
+
+  if (search) {
+    baseWhere.push("p.prod_title LIKE ?");
+    params.push(`%${search}%`);
+  }
+
+  const whereClause = baseWhere.length > 0 ? `WHERE ${baseWhere.join(" AND ")}` : "WHERE 1=1";
+
+  const countSql = `
+    SELECT COUNT(*) AS total
+    FROM products p
+    LEFT JOIN productcategories c ON p.prod_category_ID = c.id
+    ${whereClause}
+  `;
+
+  const [countRows] = await db.query(countSql, params);
+  const total = Number(countRows?.[0]?.total || 0);
+
+  const pageNumber = Math.max(1, Number(page) || 1);
+  const pageSize = Math.max(1, Number(limit) || 20);
+  const offset = (pageNumber - 1) * pageSize;
 
   let sql = `
     SELECT 
@@ -56,29 +88,9 @@ export const getAllProducts = async (query) => {
       FROM productimage
       GROUP BY product_id
     ) pi ON p.id = pi.product_id
-    WHERE 1=1
+    ${whereClause}
   `;
 
-  const params = [];
-
-  // ✅ FEATURED FILTER (New addition)
-  if (featured === "true") {
-    sql += " AND p.is_featured = 1";
-  }
-
-  // ✅ CATEGORY FILTER
-  if (category && category !== "All") {
-    sql += " AND c.category_name = ?";
-    params.push(category);
-  }
-
-  // ✅ SEARCH FILTER
-  if (search) {
-    sql += " AND p.prod_title LIKE ?";
-    params.push(`%${search}%`);
-  }
-
-  // ✅ SORTING
   if (sort === "low") {
     sql += " ORDER BY p.prod_actualPrice ASC";
   } else if (sort === "high") {
@@ -87,7 +99,21 @@ export const getAllProducts = async (query) => {
     sql += " ORDER BY p.id DESC";
   }
 
+  if (page || limit) {
+    sql += " LIMIT ? OFFSET ?";
+    params.push(pageSize, offset);
+  }
+
   const [rows] = await db.query(sql, params);
+
+  if (page || limit) {
+    return {
+      data: rows,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / pageSize)),
+    };
+  }
+
   return rows;
 };
 

@@ -25,7 +25,7 @@ const CategoryCard = ({ category, index = 0 }: CategoryCardProps) => {
     >
       <Link
         to={`/shop?anime=${slug}`}
-        className="group relative block aspect-square overflow-hidden rounded-2xl border border-border/50 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10"
+        className="group relative block aspect-square overflow-hidden rounded-2xl border border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10"
       >
         <img
           // src={category.category_image}
@@ -47,7 +47,7 @@ const CategoryCard = ({ category, index = 0 }: CategoryCardProps) => {
           </p>
         </div>
 
-        <div className="absolute inset-0 border-2 border-primary/0 rounded-2xl transition-all duration-300 group-hover:border-primary/40" />
+        <div className="absolute inset-0 border-2 border-primary/0 rounded-2xl group-hover:border-primary/40" />
       </Link>
     </motion.div>
   );

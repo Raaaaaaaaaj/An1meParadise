@@ -144,6 +144,15 @@ export const addProduct = async (req, res) => {
       return res.status(400).json({ message: "Product title is required" });
     }
 
+    // Check product limit (max 120 products)
+    const totalProducts = await getProductCount();
+    if (totalProducts >= 120) {
+      removeUploadedFiles(req.files);
+      return res.status(400).json({ 
+        message: "Product limit reached. Maximum 120 products allowed."
+      });
+    }
+
     const uploadedImages = getUploadedProductImages(req.files);
 
     // 1. Product insert karein (images separate table mein save hoti hain)

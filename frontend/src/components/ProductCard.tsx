@@ -90,8 +90,8 @@ const ProductCard = ({ product, index = 0, onRemove }: ProductCardProps) => {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: index * 0.1, duration: 0.5 }}
-        className="group relative overflow-hidden rounded-xl border border-border/50 bg-card transition-all duration-300 hover:shadow-lg"
+        transition={{ delay: index * 0.01, duration: 0.5 }}
+        className="group relative overflow-hidden rounded-xl border border-border/50 bg-card hover:shadow-lg"
       >
         {/* Badge */}
         {product.prod_badgeName && (
